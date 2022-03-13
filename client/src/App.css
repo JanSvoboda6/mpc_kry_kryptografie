@@ -548,7 +548,7 @@ input[type="file"]
 }
 /* #endregion REGISTER */
 
-/* #region DATASET */
+/* #region FILES */
 .file-editor-wrapper
 {
   width: 67%;
@@ -571,5 +571,5 @@ input[type="file"]
 .dataset-loading-animation{
   width: 250px;
 }
-/* #endregion DATASET */
+/* #endregion FILES */
 

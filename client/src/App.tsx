@@ -5,7 +5,7 @@ import Login from "./components/pages/LoginPage";
 import Register from "./components/pages/RegisterPage";
 import { history } from "./helpers/History";
 import { User } from "./types";
-import DatasetPage from "./components/pages/DatasetPage";
+import FileHandlerPage from "./components/pages/FileHandlerPage";
 import PrivateRoute from "./helpers/PrivateRoute";
 
 interface AppProps
@@ -29,7 +29,7 @@ class App extends Component<AppProps, User>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Login} />
-              <PrivateRoute exact path="/datasets" component={DatasetPage} />
+              <PrivateRoute exact path="/files" component={FileHandlerPage} />
             </Switch>
           </div>
         </Router>

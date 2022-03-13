@@ -21,8 +21,8 @@ function Navbar(props: any)
     return (
         <div className="wrapper">
             <nav className="upper-navbar">
-                <a className="logo-container" href="/datasets"><img className='logo-simple' src={logo} alt="logo_but" /></a>
-                <Link to="/datasets" className="upper-navbar-item">Datasets</Link>
+                <a className="logo-container" href="/files"><img className='logo-simple' src={logo} alt="logo_but" /></a>
+                <Link to="/files" className="upper-navbar-item">Storage</Link>
                 <a className="upper-navbar-item-logout"><button className="upper-navbar-logout-button" onClick={handleLogout}><Link to="/logout">Logout</Link></button></a>
             </nav>
         </div >)

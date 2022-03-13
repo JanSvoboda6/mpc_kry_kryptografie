@@ -1,0 +1,49 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'application'
+}
+
+group = 'com.web'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
+application {
+	mainClass = 'com.web.WebApplication'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.session:spring-session-core'
+	implementation 'junit:junit:4.13.1'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'com.fasterxml:jackson-module-json-org:0.9.1'
+	implementation group: 'com.github.docker-java', name: 'docker-java', version: '3.2.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2',
+				'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly("com.h2database:h2")
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.mockito:mockito-core:2.1.0'
+	implementation 'org.apache.httpcomponents:httpcore:4.4.3'
+	implementation 'org.apache.httpcomponents:httpmime:4.5.1'
+
+}
+
+test {
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+	useJUnitPlatform()
+}

@@ -91,7 +91,7 @@ function Login()
 
     if (isLoggedIn)
     {
-        return <Redirect to="/datasets" />;
+        return <Redirect to="/files" />;
     }
 
     return (
