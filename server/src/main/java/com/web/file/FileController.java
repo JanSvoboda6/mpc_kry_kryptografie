@@ -1,5 +1,6 @@
 package com.web.file;
 
+import com.google.common.primitives.Bytes;
 import com.web.security.user.User;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dataset")
@@ -42,7 +44,7 @@ public class FileController
         return Collections.emptyList();
     }
 
-    @PostMapping(value = "createdirectory") //TODO Jan: rename to directory
+    @PostMapping(value = "createdirectory") //TODO Jan: rename to folder
     public ResponseEntity<?> createDirectory(@RequestHeader(name="Authorization") String token, @RequestBody Key directoryKey) //TODO Jan: is Key needed?
     {
         //TODO Jan: Filter keys with parent directory symbols . / ..
@@ -56,16 +58,13 @@ public class FileController
         return ResponseEntity.badRequest().body("User was not found!");
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadFiles(
-            @RequestHeader(name="Authorization") String token,
-            @RequestPart("keys") Keys keys, //TODO Jan: Are Keys needed?
-            @RequestPart("files") List<MultipartFile> files)
+    @PostMapping(value = "/upload")
+    public ResponseEntity<?> uploadFiles(@RequestHeader(name="Authorization") String token, @RequestBody FileRequest request)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
-            fileService.uploadFiles(keys, files, user.get().getId());
+            fileService.uploadFiles(request.getKeys(), request.getFiles().stream().map(String::getBytes).collect(Collectors.toList()), user.get().getId());
             return ResponseEntity.ok("OK.");
         }
         return ResponseEntity.badRequest().body("User was not found!");
@@ -120,25 +119,26 @@ public class FileController
 
     }
 
-    @PostMapping(value = "/download", produces="application/zip")
-    public ResponseEntity<Resource> download(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
+    @PostMapping(value = "/download")
+    public ResponseEntity<?> download(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
             File file = fileService.download(keys, user.get().getId());
-            ByteArrayResource resource = new ByteArrayResource(Objects.requireNonNull(file.getFileContent()));
-            MediaType mediaType = MediaTypeFactory
-                    .getMediaType(resource)
-                    .orElse(MediaType.APPLICATION_OCTET_STREAM);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(mediaType);
-            ContentDisposition disposition = ContentDisposition
-                    .attachment()
-                    .build();
-            headers.setContentDisposition(disposition);
+//            ByteArrayResource resource = new ByteArrayResource(Objects.requireNonNull(file.getFileContent()));
+//            MediaType mediaType = MediaTypeFactory
+//                    .getMediaType(resource)
+//                    .orElse(MediaType.APPLICATION_JSON);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(mediaType);
+//            ContentDisposition disposition = ContentDisposition
+//                    .attachment()
+//                    .build();
+//            headers.setContentDisposition(disposition);
 
-            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            String data = new String(file.getFileContent());
+            return ResponseEntity.ok().body(new FileResponse(data));
         }
         return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
     }

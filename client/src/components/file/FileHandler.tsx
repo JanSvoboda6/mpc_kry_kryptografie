@@ -9,6 +9,19 @@ import FileService from './FileService';
 import loadingAnimation from "../../styles/loading_graphics.gif";
 import FadeIn from 'react-fade-in';
 import FileUtility from "./FileUtility";
+import CryptoService from "./CryptoService";
+import aesjs from "aes-js";
+import HelperBox from "../navigation/HelperBox";
+
+function hexToAscii(hexadecimal)
+{
+    const hex = hexadecimal.toString();
+    let str = '';
+    for (let n = 0; n < hex.length; n += 2) {
+        str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
+}
 
 function FileHandler(props)
 {
@@ -27,11 +40,14 @@ function FileHandler(props)
                     {
                         res.data.forEach(file =>
                         {
-                            if (file.key.endsWith('/'))
+                            const fileName = hexToAscii(CryptoService.decrypt(aesjs.utils.hex.toBytes(file.key)));
+                            console.log(fileName);
+                            if (fileName.endsWith('/'))
                             {
-                                files.push({key: file.key});
+                                files.push({key: fileName});
                                 return;
                             }
+                            file.key = fileName
                             files.push(file);
                         });
                     }
@@ -51,14 +67,33 @@ function FileHandler(props)
         setLoaded(false);
         const folder: FileInformation = {key: key};
         setFiles(folders => [...folders, folder]);
-        FileService.createDirectory(folder).then(() => setLoaded(true));
-        setLoaded(true);
+        const folderEncrypted: FileInformation = {key: CryptoService.encrypt(aesjs.utils.utf8.toBytes(key))};
+        FileService.createDirectory(folderEncrypted).then(() => setLoaded(true));
     }
 
     const handleCreateFiles = (addedFiles: File[], prefix: string) =>
     {
-        const uniqueAddedFiles: FileInformation[] = FileUtility.getUniqueAddedFiles(files, addedFiles, prefix);
-        FileService.uploadFiles(uniqueAddedFiles).then(() => setFiles(existingFiles => [...existingFiles, ...uniqueAddedFiles]));
+        setLoaded(false);
+        let uniqueAddedFiles: FileInformation[] = FileUtility.getUniqueAddedFiles(files, addedFiles, prefix);
+        let uniqueAddedFileEncrypted: FileInformation = {key: ""};
+
+        uniqueAddedFiles.forEach(async file => {
+            CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key));
+            // @ts-ignore
+            await file.data?.arrayBuffer().then(buffer =>{
+                const encryptedData = CryptoService.encrypt(new Uint8Array(buffer));
+                uniqueAddedFileEncrypted = {
+                    'key':  CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key)),
+                    'data': encryptedData
+                };
+
+                FileService.uploadFiles(uniqueAddedFileEncrypted).then(() => {
+                    setFiles(existingFiles => [...existingFiles, ...uniqueAddedFiles])
+                    setLoaded(true);
+                });
+            });
+
+        });
     }
 
     const handleDeleteFolders = (folderKeys: string[]) =>
@@ -98,12 +133,15 @@ function FileHandler(props)
     }
 
     const download = (keys: string[]) => {
-        FileService.download(keys).then(response => {
-            const type = response.headers['content-type']
-            const blob = new Blob([response.data], {type: type})
+        let encryptedKeys: string[] = []
+        keys.forEach(key => {
+            encryptedKeys.push(CryptoService.encrypt(aesjs.utils.utf8.toBytes(key)));
+        })
+        FileService.download(encryptedKeys).then(response => {
+            let bytes = new Uint8Array(aesjs.utils.hex.toBytes(CryptoService.decrypt(aesjs.utils.hex.toBytes(response.data.file))));
+            const blob = new Blob([bytes], )
             const link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
-            console.log(keys)
             link.download = keys[0]
             link.click()
         });

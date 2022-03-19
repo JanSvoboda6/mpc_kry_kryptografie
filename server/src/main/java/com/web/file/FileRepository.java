@@ -11,4 +11,12 @@ public interface FileRepository extends JpaRepository<File, Long>
 {
     List<File> findAllByUserId(Long userId);
     Optional<File> findByNameAndUserId(String name, Long userId);
+    List<NameAndSizeAndModified> findAllNameSizeModifiedByUserId(Long userId);
+
+    interface NameAndSizeAndModified
+    {
+        String getName();
+        long getSize();
+        long getModified();
+    }
 }

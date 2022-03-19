@@ -1,7 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { User } from "../types";
+import aesjs from "aes-js";
 
 const API_URL = "http://localhost:8080/api/auth";
+
+function generateKey() {
+  const bytes = new Uint8Array(32);
+  window.crypto.getRandomValues(bytes);
+  console.log(aesjs.utils.hex.fromBytes(bytes));
+  return aesjs.utils.hex.fromBytes(bytes);
+}
 
 class AuthenticationService
 {
@@ -12,6 +20,7 @@ class AuthenticationService
     if (response.data.accessToken)
     {
       localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("crypto_key", generateKey());
     }
     return response.data;
   }
@@ -19,6 +28,7 @@ class AuthenticationService
   logout()
   {
     localStorage.removeItem("user");
+    localStorage.removeItem("key");
   }
 
   register(username: string, password: string)

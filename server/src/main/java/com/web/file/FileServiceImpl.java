@@ -1,5 +1,6 @@
 package com.web.file;
 
+import com.google.common.primitives.Bytes;
 import com.web.security.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,12 @@ public class FileServiceImpl implements FileService
     @Override
     public List<FileInformation> getAllFiles(long userId)
     {
-        return fileRepository.findAllByUserId(userId).stream().map(file -> new FileInformation(file.getName(), file.getSize(), file.getModified())).collect(Collectors.toList());
+//        return fileRepository.findAllByUserId(userId).stream().map(file -> new FileInformation(file.getName(), file.getSize(), file.getModified())).collect(Collectors.toList());
+        return fileRepository.findAllNameSizeModifiedByUserId(userId).stream().map(file -> new FileInformation(file.getName(), file.getSize(), file.getModified())).collect(Collectors.toList());
     }
 
     @Override
-    public void uploadFiles(Keys keys, List<MultipartFile> files, long userId)
+    public void uploadFiles(List<String> keys, List<byte[]> files, long userId)
     {
         for (int i = 0; i < files.size(); i++)
         {
@@ -39,10 +41,10 @@ public class FileServiceImpl implements FileService
             {
                 File file = new File();
                 file.setUser(userRepository.getById(userId));
-                file.setName(keys.getKeys().get(i));
+                file.setName(keys.get(i));
                 file.setModified(Instant.now().getEpochSecond());
-                file.setSize(files.get(i).getSize());
-                file.setFileContent(files.get(i).getBytes());
+                file.setSize(files.get(i).length);
+                file.setFileContent(files.get(i));
                 fileRepository.save(file);
             } catch (Exception exception)
             {

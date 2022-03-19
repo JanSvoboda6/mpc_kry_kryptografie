@@ -23,35 +23,14 @@ const createDirectory = (directory: FileInformation) =>
     );
 };
 
-const uploadFiles = (files: any) => 
+const uploadFiles = (file: FileInformation) =>
 {
-    let formData = new FormData();
-    let keys: any = [];
-
-    files.forEach(file =>
-    {
-        keys.push(file.key);
-    });
-
-    let jsonLabelData = {
-        'keys': keys
-    };
-
-    formData.append(
-        'keys',
-        new Blob([JSON.stringify(jsonLabelData)], {
-            type: 'application/json'
-        }));
-
-    for (let key of Object.keys(files))
-    {
-        if (key !== 'length')
-        {
-            formData.append('files', files[key].data);
-        }
+    const data = {
+        "keys": [file.key],
+        "files": [file.data]
     }
-    console.log('here');
-    return axios.post(API_URL + '/upload', formData, { headers: authorizationHeader() }, );
+    
+    return axios.post(API_URL + '/upload', data, { headers: authorizationHeader() }, );
 }
 
 const deleteFolders = (keys: string[]) => {
@@ -119,8 +98,7 @@ const download = (keys: string[]) => {
                 {
                     'Authorization': authorizationHeader()['Authorization'],
                     'Content-type': 'application/json; charset=utf-8'
-                },
-            responseType: 'blob'
+                }
         }
     );
 }

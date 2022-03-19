@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jan.web.runner.RequestValidatorImplTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2022-03-12T23:51:33" hostname="jan-mac" time="0.047">
+  <properties/>
+  <testcase name="whenRunnerIsValid_thenRunnerIsReturned()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.039"/>
+  <testcase name="whenContainerEntityDoesNotExist_thenExceptionIsThrown()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.002"/>
+  <testcase name="whenProjectDoesNotExist_thenExceptionIsThrown()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.001"/>
+  <testcase name="whenProjectIsValid_thenProjectIsReturned()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.0"/>
+  <testcase name="whenContainerEntityIsValid_thenContainerEntityIsReturned()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.001"/>
+  <testcase name="whenRunnerDoesNotExist_thenExceptionIsThrown()" classname="com.jan.web.runner.RequestValidatorImplTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

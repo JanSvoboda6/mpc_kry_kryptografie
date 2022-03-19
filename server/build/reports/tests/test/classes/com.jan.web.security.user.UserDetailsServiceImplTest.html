@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - UserDetailsServiceImplTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>UserDetailsServiceImplTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.jan.web.security.user.html">com.jan.web.security.user</a> &gt; UserDetailsServiceImplTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.207s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">whenUserIsFound_thenUserIsReturned()</td>
+<td class="success">0.057s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">whenUserIsNotFound_thenExceptionIsThrown()</td>
+<td class="success">0.150s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-03-13 00:51:32.913  INFO 44828 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.jan.web.security.user.UserDetailsServiceImplTest], using SpringBootContextLoader
+2022-03-13 00:51:32.914  INFO 44828 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.jan.web.security.user.UserDetailsServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-03-13 00:51:32.914  INFO 44828 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.jan.web.security.user.UserDetailsServiceImplTest]: UserDetailsServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-03-13 00:51:32.920  INFO 44828 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.jan.web.WebApplication for test class com.jan.web.security.user.UserDetailsServiceImplTest
+2022-03-13 00:51:32.922  INFO 44828 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-03-13 00:51:32.922  INFO 44828 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@69e67993, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@435e857c, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@f11fe28, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@4f1502d7, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1565c047, org.springframework.test.context.support.DirtiesContextTestExecutionListener@22a7d2f2, org.springframework.test.context.transaction.TransactionalTestExecutionListener@22479830, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@45a33515, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@7effa21e, org.springframework.test.context.event.EventPublishingTestExecutionListener@6253df71, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@7c4b5d13, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@201cc412, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@23707d5d, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5fa49615, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@7921eb37, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@3fdb9c55, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@1f619466]
+Hibernate: 
+    /* select
+        generatedAlias0 
+    from
+        User as generatedAlias0 
+    where
+        generatedAlias0.username=:param0 */ select
+            user0_.id as id1_6_,
+            user0_.password as password2_6_,
+            user0_.username as username3_6_ 
+        from
+            users user0_ 
+        where
+            user0_.username=?
+2022-03-13 00:51:33.067 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [NonExistingUsername]
+Hibernate: 
+    /* insert com.jan.web.security.user.User
+        */ insert 
+        into
+            users
+            (id, password, username) 
+        values
+            (null, ?, ?)
+2022-03-13 00:51:33.102 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [password]
+2022-03-13 00:51:33.102 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [VARCHAR] - [user@email.com]
+Hibernate: 
+    /* select
+        generatedAlias0 
+    from
+        User as generatedAlias0 
+    where
+        generatedAlias0.username=:param0 */ select
+            user0_.id as id1_6_,
+            user0_.password as password2_6_,
+            user0_.username as username3_6_ 
+        from
+            users user0_ 
+        where
+            user0_.username=?
+2022-03-13 00:51:33.115 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [user@email.com]
+2022-03-13 00:51:33.117 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicExtractor   : extracted value ([id1_6_] : [BIGINT]) - [1]
+2022-03-13 00:51:33.119 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicExtractor   : extracted value ([password2_6_] : [VARCHAR]) - [password]
+2022-03-13 00:51:33.119 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicExtractor   : extracted value ([username3_6_] : [VARCHAR]) - [user@email.com]
+2022-03-13 00:51:33.123 TRACE 44828 --- [    Test worker] org.hibernate.type.CollectionType        : Created collection wrapper: [com.jan.web.security.user.User.roles#1]
+Hibernate: 
+    select
+        roles0_.user_id as user_id1_5_0_,
+        roles0_.role_id as role_id2_5_0_,
+        role1_.id as id1_3_1_,
+        role1_.name as name2_3_1_ 
+    from
+        user_roles roles0_ 
+    inner join
+        role role1_ 
+            on roles0_.role_id=role1_.id 
+    where
+        roles0_.user_id=?
+2022-03-13 00:51:33.127 TRACE 44828 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [1]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.2</a> at Mar 13, 2022, 12:51:37 AM</p>
+</div>
+</div>
+</body>
+</html>
