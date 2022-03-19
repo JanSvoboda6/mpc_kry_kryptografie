@@ -7,6 +7,7 @@ import { history } from "./helpers/History";
 import { User } from "./types";
 import FileHandlerPage from "./components/pages/FileHandlerPage";
 import PrivateRoute from "./helpers/PrivateRoute";
+import Crypto from "./components/crypto/CryptoPage";
 
 interface AppProps
 {
@@ -29,6 +30,7 @@ class App extends Component<AppProps, User>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Login} />
+              <Route exact path="/crypto" component={Crypto} />
               <PrivateRoute exact path="/files" component={FileHandlerPage} />
             </Switch>
           </div>

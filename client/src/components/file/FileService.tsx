@@ -29,7 +29,7 @@ const uploadFiles = (file: FileInformation) =>
         "keys": [file.key],
         "files": [file.data]
     }
-    
+
     return axios.post(API_URL + '/upload', data, { headers: authorizationHeader() }, );
 }
 

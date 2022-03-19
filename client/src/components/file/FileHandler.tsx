@@ -9,7 +9,7 @@ import FileService from './FileService';
 import loadingAnimation from "../../styles/loading_graphics.gif";
 import FadeIn from 'react-fade-in';
 import FileUtility from "./FileUtility";
-import CryptoService from "./CryptoService";
+import CryptoService from "../crypto/CryptoService";
 import aesjs from "aes-js";
 import HelperBox from "../navigation/HelperBox";
 

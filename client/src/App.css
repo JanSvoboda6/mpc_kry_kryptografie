@@ -573,3 +573,59 @@ input[type="file"]
 }
 /* #endregion FILES */
 
+.crypto-wrapper{
+  margin: 10vh auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  width: 45rem;
+  padding-top: 5px;
+}
+
+.green{
+  color: var(--confirm-color);
+}
+
+.submit-button:disabled{
+  opacity: 30%;
+  cursor: default;
+  border: 0.16em solid transparent;
+}
+
+.input-text-wide{
+  margin: 0.5vh;
+  border-radius: 7px;
+  border-color: var(--border-color);
+  border-width: 2px;
+  height: 3vh;
+  border-style: solid;
+  font-size: 19px;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  width: 39rem;
+}
+
+.crypto-item{
+  margin: 15px;
+}
+
+.warning-test{
+  color: orange;
+  font-size: 17px;
+}
+
+.copy-button{
+  background-color: transparent;
+  text-decoration: none;
+  border: 10px;
+  position: relative;
+  top: 5px;
+}
+
+.copy-button:hover{
+  cursor: pointer;
+}
+.copy-icon{
+  background-color: transparent;
+  width: 25px;
+}
