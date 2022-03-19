@@ -3,6 +3,7 @@ import aesjs from "aes-js";
 import { useHistory } from 'react-router-dom';
 import HelperBox from "../navigation/HelperBox";
 import copyIcon from '../../styles/copy_icon.svg';
+import Navbar from "../navigation/Navbar";
 
 const Crypto = () =>{
     const history = useHistory();
@@ -47,7 +48,7 @@ const Crypto = () =>{
                         type="text"
                         className="input-text-wide crypto-item"
                         name="cryptoKey"
-                        placeholder="Paste your key here or generate new one"
+                        placeholder="Paste your key here or generate a new one"
                         value={cryptoKey}
                         onChange={onChangeCryptoKey}/>
                     {cryptoKey &&

@@ -14,7 +14,6 @@ function Navbar(props: any)
         e.preventDefault();
 
         LogoutService(dispatch);
-
         history.push("/login");
         window.location.reload();
     }

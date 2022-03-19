@@ -91,7 +91,7 @@ function Login()
 
     if (isLoggedIn)
     {
-        return <Redirect to="/files" />;
+        return <Redirect to="/crypto" />;
     }
 
     return (
