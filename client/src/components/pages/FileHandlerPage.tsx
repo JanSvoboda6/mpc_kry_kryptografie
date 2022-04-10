@@ -12,8 +12,8 @@ function FileHandlerPage()
     return (
         <div>
             <div className="wrapper">
-                <HelperBox content={'Your secret key is: ' + localStorage.getItem('crypto_key')} onClose={() => null}/>
-                {warning && <HelperBox content={warning} warning={true} onClose={onWarningClose}/>}
+            <HelperBox content={'Your secret key is: ' + localStorage.getItem('crypto_key')} onClose={() => null}/>
+            {warning && <HelperBox content={warning} warning={true} onClose={onWarningClose}/>}
             <Navbar/>
             </div>
             <FileHandler onWarning={warningMessage => setWarning(warningMessage)} />

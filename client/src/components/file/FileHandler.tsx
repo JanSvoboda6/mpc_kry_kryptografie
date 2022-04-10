@@ -39,7 +39,6 @@ function FileHandler(props)
                         res.data.forEach(file =>
                         {
                             const fileName = hexToAscii(CryptoService.decrypt(aesjs.utils.hex.toBytes(file.key)));
-                            console.log(fileName);
                             if (fileName.endsWith('/'))
                             {
                                 files.push({key: fileName});

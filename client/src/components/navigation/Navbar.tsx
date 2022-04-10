@@ -18,7 +18,7 @@ function Navbar(props: any)
         window.location.reload();
     }
     return (
-        <div className="wrapper">
+        <div>
             <nav className="upper-navbar">
                 <a className="logo-container" href="/files"><img className='logo-simple' src={logo} alt="logo_but" /></a>
                 <Link to="/files" className="upper-navbar-item">Storage</Link>

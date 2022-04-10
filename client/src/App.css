@@ -75,7 +75,9 @@ ul {
 }
 
 .wrapper{
-  height: 5px;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .input-text{
@@ -231,7 +233,8 @@ ul {
 
 /* #region NAVBAR */
 .upper-navbar{
-  position: fixed;
+  position: sticky;
+  top: 0;
   height: 3.1rem;
   width: 100%;
   padding: 0;
@@ -345,6 +348,14 @@ nav a:nth-child(5):hover~.upper-navbar-animation
 .helper-box-button-container
 {
   flex: 1;
+}
+
+.helper-box-text-confirm{
+  color: var(--confirm-color);
+}
+
+.helper-box-text-warning{
+  color: var(--alert-color);
 }
 /* #endregion HELPER_BOX */
 
@@ -628,12 +639,4 @@ input[type="file"]
 .copy-icon{
   background-color: transparent;
   width: 25px;
-}
-
-.helper-box-text-confirm{
-  color: var(--confirm-color);
-}
-
-.helper-box-text-warning{
-  color: var(--alert-color);
 }
