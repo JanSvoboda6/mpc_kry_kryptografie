@@ -7,7 +7,7 @@
   --bg-secondary: #0e0d0d;
   --bg-third: #070707;
   --accent: rgb(15, 81, 224);
-  --alert-color: #d33636;
+  --alert-color: #f36d91;
   --confirm-color: rgb(82, 190, 136);
   --navbar-color: #221c1c;
   --border-color: #221c1c;
@@ -610,7 +610,7 @@ input[type="file"]
 }
 
 .warning-test{
-  color: orange;
+  color: mediumpurple;
   font-size: 17px;
 }
 
@@ -628,4 +628,12 @@ input[type="file"]
 .copy-icon{
   background-color: transparent;
   width: 25px;
+}
+
+.helper-box-text-confirm{
+  color: var(--confirm-color);
+}
+
+.helper-box-text-warning{
+  color: var(--alert-color);
 }

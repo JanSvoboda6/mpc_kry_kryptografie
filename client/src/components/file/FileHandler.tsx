@@ -11,7 +11,6 @@ import FadeIn from 'react-fade-in';
 import FileUtility from "./FileUtility";
 import CryptoService from "../crypto/CryptoService";
 import aesjs from "aes-js";
-import HelperBox from "../navigation/HelperBox";
 
 function hexToAscii(hexadecimal)
 {
@@ -28,7 +27,6 @@ function FileHandler(props)
     const [isLoaded, setLoaded] = useState(false);
     const [files, setFiles] = useState<FileInformation[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
-
     useEffect(() =>
     {
         FileService.getFiles()
@@ -64,15 +62,19 @@ function FileHandler(props)
 
     const handleCreateFolder = (key: string) =>
     {
-        setLoaded(false);
         const folder: FileInformation = {key: key};
         setFiles(folders => [...folders, folder]);
         const folderEncrypted: FileInformation = {key: CryptoService.encrypt(aesjs.utils.utf8.toBytes(key))};
-        FileService.createDirectory(folderEncrypted).then(() => setLoaded(true));
+        FileService.createDirectory(folderEncrypted);
     }
 
     const handleCreateFiles = (addedFiles: File[], prefix: string) =>
     {
+        if(addedFiles[0].type === "")
+        {
+            props.onWarning("Dear user, please drag & drop files only. You can create a folder by clicking on 'Add Folder' button.");
+            return;
+        }
         setLoaded(false);
         let uniqueAddedFiles: FileInformation[] = FileUtility.getUniqueAddedFiles(files, addedFiles, prefix);
         let uniqueAddedFileEncrypted: FileInformation = {key: ""};
@@ -86,14 +88,11 @@ function FileHandler(props)
                     'key':  CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key)),
                     'data': encryptedData
                 };
-
-                FileService.uploadFiles(uniqueAddedFileEncrypted).then(() => {
-                    setFiles(existingFiles => [...existingFiles, ...uniqueAddedFiles])
-                    setLoaded(true);
+                FileService.uploadFiles(uniqueAddedFileEncrypted);
                 });
             });
-
-        });
+        setFiles(existingFiles => [...existingFiles, ...uniqueAddedFiles])
+        setLoaded(true);
     }
 
     const handleDeleteFolders = (folderKeys: string[]) =>
@@ -147,14 +146,6 @@ function FileHandler(props)
         });
     }
 
-    const handleFolderSelection = (folder) =>
-    {
-        if (props.handleFolderSelection)
-        {
-            props.handleFolderSelection(folder)
-        }
-    }
-
     if (!isLoaded)
     {
         return <FadeIn>
@@ -185,10 +176,9 @@ function FileHandler(props)
                             })
                         })}
                         icons={Icons.FontAwesome(4)}
-
+                        detailRenderer={() => null}
                         onCreateFolder={handleCreateFolder}
                         onCreateFiles={handleCreateFiles}
-                        onSelectFolder={(folder) => handleFolderSelection(folder)}
                         //onMoveFolder={(oldKey, newKey) => handleMoveFolder(oldKey, newKey)}
                         //onMoveFile={(oldKey, newKey) => handleMoveFile(oldKey, newKey)}
                         //onRenameFolder={(oldKey, newKey) => handleMoveFolder(oldKey, newKey)}
