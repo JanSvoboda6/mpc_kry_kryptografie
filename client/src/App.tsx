@@ -35,9 +35,6 @@ class App extends Component<AppProps, User>
             </Switch>
           </div>
         </Router>
-        <footer>
-          <p>made by jan</p>
-        </footer>
       </div>
     );
   }

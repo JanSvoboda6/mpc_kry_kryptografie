@@ -13,7 +13,7 @@
   --border-color: #221c1c;
   --form-input-color: rgb(20,25,25);
   --font: 'Roboto Mono', monospace;
-  --opacity: 90%;
+  --opacity: 0.9;
 }
 
 input:focus{
@@ -120,7 +120,7 @@ ul {
 .loading-icon{
   margin-top: 50px;
   width: 80px;
-  opacity: 100%;
+  opacity: 1;
 }
 
 .alert-text{
@@ -146,7 +146,7 @@ ul {
   margin-right: 3.7rem;
   -webkit-filter: invert(1);
   filter: invert(1);
-  opacity: 90%;
+  opacity: 0.9;
 }
 
 .logo-dots-bigger{
@@ -258,7 +258,7 @@ nav .upper-navbar-animation
 }
 
 .upper-navbar-item{
-  opacity: 100%;
+  opacity: 1;
   padding: 2rem;
   float: right;
   color: var(--text-primary);
@@ -477,7 +477,7 @@ input[type="file"]
   position: relative;
   top: -30px;
   left: -60px;
-  opacity: 90%;
+  opacity: 0.9;
   height: 260px;
   mix-blend-mode:lighten;
   image-rendering: -webkit-optimize-contrast;
@@ -588,7 +588,7 @@ input[type="file"]
 }
 
 .submit-button:disabled{
-  opacity: 30%;
+  opacity: 0.3;
   cursor: default;
   border: 0.16em solid transparent;
 }
