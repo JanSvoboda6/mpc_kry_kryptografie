@@ -27,6 +27,7 @@ function FileHandler(props)
     const [isLoaded, setLoaded] = useState(false);
     const [files, setFiles] = useState<FileInformation[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
+
     useEffect(() =>
     {
         FileService.getFiles()
@@ -132,25 +133,70 @@ function FileHandler(props)
         download(keys);
     }
 
+    const getAllFilesInFolder = (folderKey: string): string[] =>
+    {
+        let keysOfFilesToDownload: string[] = [];
+        files.forEach(file => {
+            if (file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey)
+            {
+                if(file.key.endsWith("/"))
+                {
+                    getAllFilesInFolder(file.key).forEach(fileKey => {
+                        if(!keysOfFilesToDownload.includes(fileKey))
+                        {
+                            keysOfFilesToDownload.push(fileKey);
+                        }
+                    });
+                }
+                else if (!keysOfFilesToDownload.includes(file.key))
+                {
+                    keysOfFilesToDownload.push(file.key);
+                }
+            }
+        });
+        return keysOfFilesToDownload;
+    }
+
     const download = (keys: string[]) => {
-        let encryptedKeys: string[] = []
+        let keysOfFilesToDownload: string[] = [];
+
         keys.forEach(key => {
-            encryptedKeys.push(CryptoService.encrypt(aesjs.utils.utf8.toBytes(key)));
+            if (key.endsWith("/"))
+            {
+                getAllFilesInFolder(key).forEach(fileKey => {
+                    if(!keysOfFilesToDownload.includes(fileKey))
+                    {
+                        keysOfFilesToDownload.push(fileKey);
+                    }
+                })
+            } else {
+                if (!keysOfFilesToDownload.includes(key))
+                {
+                    keysOfFilesToDownload.push(key);
+                }
+            }
+        });
+
+        let namesMap : Map<string, string> = new Map();
+
+        keysOfFilesToDownload.forEach(key => {
+            namesMap.set(key, CryptoService.encrypt(aesjs.utils.utf8.toBytes(key)));
         })
-        FileService.download(encryptedKeys).then(response => {
-            let fileReader = new FileReader();
 
-            fileReader.onload = function(event) {
-                // @ts-ignore
-                let bytes = CryptoService.decryptBytesFormat(new Uint8Array(event.target.result));
-                const blob = new Blob([bytes], )
-                const link = document.createElement('a')
-                link.href = window.URL.createObjectURL(blob)
-                link.download = keys[0]
-                link.click()
-            };
-
-            fileReader.readAsArrayBuffer(response.data);
+        namesMap.forEach((encryptedKey, key) => {
+            FileService.download(encryptedKey).then(response => {
+                let fileReader = new FileReader();
+                fileReader.onload = function(event) {
+                    // @ts-ignore
+                    let bytes = CryptoService.decryptBytesFormat(new Uint8Array(event.target.result));
+                    const blob = new Blob([bytes], );
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = key.substr(key.lastIndexOf("/") + 1, key.length);
+                    link.click();
+                };
+                fileReader.readAsArrayBuffer(response.data);
+            });
         });
     }
 

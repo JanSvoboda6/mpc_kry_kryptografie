@@ -110,10 +110,10 @@ const moveFolder = (oldKey: string, newKey: string) => {
     );
 }
 
-const download = (keys: string[]) => {
+const download = (key: string) => {
     return axios.post<any>(
         API_URL + '/download',
-        keys,
+        key,
         {
             headers:
                 {
