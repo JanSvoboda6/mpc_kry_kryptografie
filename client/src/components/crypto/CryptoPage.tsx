@@ -13,7 +13,6 @@ const Crypto = () =>{
     const doGenerateKey = () => {
         const bytes = new Uint8Array(32);
         window.crypto.getRandomValues(bytes);
-        console.log(aesjs.utils.hex.fromBytes(bytes));
         return aesjs.utils.hex.fromBytes(bytes);
     }
 
@@ -39,7 +38,7 @@ const Crypto = () =>{
     return(
         <div>
             <div className="wrapper">
-                <HelperBox content={"Dear user, please paste your secret key below or if this is your first time here, generate a new one."}/>
+                <HelperBox content={"Dear user, please paste your secret key below or if this is your first time here, generate a new one."} onClose={() => null}/>
             </div>
             <div className="crypto-wrapper">
                 {warningText && <div className="warning-test">{warningText}</div>}

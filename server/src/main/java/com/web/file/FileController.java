@@ -4,6 +4,7 @@ import com.google.common.primitives.Bytes;
 import com.web.security.user.User;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -11,10 +12,10 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,10 +62,43 @@ public class FileController
     @PostMapping(value = "/upload")
     public ResponseEntity<?> uploadFiles(@RequestHeader(name="Authorization") String token, @RequestBody FileRequest request)
     {
+
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
             fileService.uploadFiles(request.getKeys(), request.getFiles().stream().map(String::getBytes).collect(Collectors.toList()), user.get().getId());
+            return ResponseEntity.ok("OK.");
+        }
+        return ResponseEntity.badRequest().body("User was not found!");
+    }
+
+
+    @PostMapping(value = "/uploadfiles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadFilesSecond(
+            @RequestHeader(name="Authorization") String token,
+            @RequestPart("keys") Keys keys, //TODO Jan: Are Keys needed?
+            @RequestPart("files") List<MultipartFile> files)
+    {
+        Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
+        if(user.isPresent())
+        {
+            try
+            {
+                List<byte[]> list = new ArrayList<>();
+                for (MultipartFile file : files)
+                {
+                    byte[] bytes = file.getBytes();
+                    list.add(bytes);
+                }
+                fileService.uploadFiles(
+                        keys.getKeys(),
+                        list,
+                        user.get().getId());
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Exception occurred when uploading files!");
+            }
             return ResponseEntity.ok("OK.");
         }
         return ResponseEntity.badRequest().body("User was not found!");
@@ -119,26 +153,21 @@ public class FileController
 
     }
 
-    @PostMapping(value = "/download")
-    public ResponseEntity<?> download(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
+    @PostMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> download(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
             File file = fileService.download(keys, user.get().getId());
-//            ByteArrayResource resource = new ByteArrayResource(Objects.requireNonNull(file.getFileContent()));
-//            MediaType mediaType = MediaTypeFactory
-//                    .getMediaType(resource)
-//                    .orElse(MediaType.APPLICATION_JSON);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(mediaType);
-//            ContentDisposition disposition = ContentDisposition
-//                    .attachment()
-//                    .build();
-//            headers.setContentDisposition(disposition);
-
-            String data = new String(file.getFileContent());
-            return ResponseEntity.ok().body(new FileResponse(data));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentLength(file.getSize());
+            ContentDisposition disposition = ContentDisposition
+                    .inline()
+                    .build();
+            headers.setContentDisposition(disposition);
+            return new ResponseEntity<>(file.getFileContent(), headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
     }

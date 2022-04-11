@@ -69,25 +69,27 @@ function FileHandler(props)
 
     const handleCreateFiles = (addedFiles: File[], prefix: string) =>
     {
-        if(addedFiles[0].type === "")
+        for(let i = 0; i < addedFiles.length; i++)
         {
-            props.onWarning("Dear user, please drag & drop files only. You can create a folder by clicking on 'Add Folder' button.");
-            return;
+            if (!addedFiles[i].name.includes("."))
+            {
+                props.onWarning("Dear user, please drag & drop files only. You can create a folder by clicking on 'Add Folder' button.");
+                return;
+            }
         }
         setLoaded(false);
         let uniqueAddedFiles: FileInformation[] = FileUtility.getUniqueAddedFiles(files, addedFiles, prefix);
-        let uniqueAddedFileEncrypted: FileInformation = {key: ""};
+        let uniqueAddedFileEncrypted: any;
 
         uniqueAddedFiles.forEach(async file => {
-            CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key));
             // @ts-ignore
             await file.data?.arrayBuffer().then(buffer =>{
-                const encryptedData = CryptoService.encrypt(new Uint8Array(buffer));
                 uniqueAddedFileEncrypted = {
                     'key':  CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key)),
-                    'data': encryptedData
+                    'data': CryptoService.encryptBytesFormat(new Uint8Array(buffer))
                 };
-                FileService.uploadFiles(uniqueAddedFileEncrypted);
+                const createdFile = new File([uniqueAddedFileEncrypted.data], uniqueAddedFileEncrypted.key);
+                FileService.uploadFiles([createdFile]);
                 });
             });
         setFiles(existingFiles => [...existingFiles, ...uniqueAddedFiles])
@@ -136,12 +138,19 @@ function FileHandler(props)
             encryptedKeys.push(CryptoService.encrypt(aesjs.utils.utf8.toBytes(key)));
         })
         FileService.download(encryptedKeys).then(response => {
-            let bytes = new Uint8Array(aesjs.utils.hex.toBytes(CryptoService.decrypt(aesjs.utils.hex.toBytes(response.data.file))));
-            const blob = new Blob([bytes], )
-            const link = document.createElement('a')
-            link.href = window.URL.createObjectURL(blob)
-            link.download = keys[0]
-            link.click()
+            let fileReader = new FileReader();
+
+            fileReader.onload = function(event) {
+                // @ts-ignore
+                let bytes = CryptoService.decryptBytesFormat(new Uint8Array(event.target.result));
+                const blob = new Blob([bytes], )
+                const link = document.createElement('a')
+                link.href = window.URL.createObjectURL(blob)
+                link.download = keys[0]
+                link.click()
+            };
+
+            fileReader.readAsArrayBuffer(response.data);
         });
     }
 

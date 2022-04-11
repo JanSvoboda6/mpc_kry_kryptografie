@@ -76,6 +76,7 @@ ul {
 
 .wrapper{
   position: fixed;
+  z-index: 999;
   top: 0;
   width: 100%;
 }
