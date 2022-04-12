@@ -97,18 +97,32 @@ function FileHandler(props)
         setLoaded(true);
     }
 
+    const getContentOFFolder = (folderKey: string): string[] => {
+        return files.filter(file => file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey).map(file => file.key);
+    }
+
     const handleDeleteFolders = (folderKeys: string[]) =>
     {
-        FileService.deleteFolders(folderKeys).then( () => {
+        const keysOfFilesAndFoldersToBeDeleted: string[] = [];
+        folderKeys.forEach(folderKey => {
+            keysOfFilesAndFoldersToBeDeleted.push(folderKey);
+            getContentOFFolder(folderKey).forEach(fileKey => {
+                if(!keysOfFilesAndFoldersToBeDeleted.includes(fileKey))
+                {
+                    keysOfFilesAndFoldersToBeDeleted.push(fileKey);
+                }
+            })
+        })
+        FileService.deleteFiles(keysOfFilesAndFoldersToBeDeleted.map(fileKey => CryptoService.encrypt(aesjs.utils.utf8.toBytes(fileKey)))).then(() => {
             setFiles(FileUtility.deleteSelectedFolders(files, folderKeys));
-       });
+        });
     }
 
     const handleDeleteFiles = (fileKeys: string[]) =>
     {
-        //DatasetService.deleteFiles(fileKeys).then( () => {
+        FileService.deleteFiles(fileKeys.map(fileKey => CryptoService.encrypt(aesjs.utils.utf8.toBytes(fileKey)))).then(() => {
             setFiles(FileUtility.deleteSelectedFiles(files, fileKeys));
-        //});
+        });
     }
 
     const handleMoveFile = (oldKey: string, newKey: string) =>
