@@ -96,8 +96,8 @@ public class FileServiceImpl implements FileService
     }
 
     @Override
-    public File download(List<String> keys, long userId)
+    public File download(String key, long userId)
     {
-        return fileRepository.findByNameAndUserId(keys.get(0), userId).get();
+        return fileRepository.findByNameAndUserId(key, userId).get();
     }
 }

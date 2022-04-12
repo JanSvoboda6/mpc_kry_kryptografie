@@ -154,12 +154,12 @@ public class FileController
     }
 
     @PostMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<byte[]> download(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
+    public ResponseEntity<byte[]> download(@RequestHeader(name="Authorization") String token, @RequestBody String key)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
-            File file = fileService.download(keys, user.get().getId());
+            File file = fileService.download(key, user.get().getId());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentLength(file.getSize());

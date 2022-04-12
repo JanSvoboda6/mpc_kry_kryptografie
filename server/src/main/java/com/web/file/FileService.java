@@ -13,5 +13,5 @@ public interface FileService
     void deleteFiles(List<String> keys, long userId);
     void moveFile(String oldKey, String newKey, long userId);
     void moveFolder(String oldKey, String newKey, long userId);
-    File download(List<String> keys, long userId);
+    File download(String key, long userId);
 }
