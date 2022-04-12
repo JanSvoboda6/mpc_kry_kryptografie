@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.TemplateEngine;
 
 @Configuration
 @EnableWebSecurity
@@ -52,6 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public TemplateEngine templateEngine()
+    {
+        return  new TemplateEngine();
     }
 
     @Override

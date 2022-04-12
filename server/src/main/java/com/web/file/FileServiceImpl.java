@@ -1,11 +1,8 @@
 package com.web.file;
 
-import com.google.common.primitives.Bytes;
 import com.web.security.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.List;
@@ -28,7 +25,6 @@ public class FileServiceImpl implements FileService
     @Override
     public List<FileInformation> getAllFiles(long userId)
     {
-//        return fileRepository.findAllByUserId(userId).stream().map(file -> new FileInformation(file.getName(), file.getSize(), file.getModified())).collect(Collectors.toList());
         return fileRepository.findAllNameSizeModifiedByUserId(userId).stream().map(file -> new FileInformation(file.getName(), file.getSize(), file.getModified())).collect(Collectors.toList());
     }
 

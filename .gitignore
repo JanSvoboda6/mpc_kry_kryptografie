@@ -1,2 +1,5 @@
 /client/.idea
 /client/node_modules/
+/server/build
+/server/.idea
+/server/.gradle
