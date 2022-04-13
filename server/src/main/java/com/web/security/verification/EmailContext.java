@@ -1,14 +1,25 @@
 package com.web.security.verification;
 
-import java.util.Map;
+import org.thymeleaf.context.IContext;
 
 public class EmailContext
 {
+    private String from;
     private String to;
     private String subject;
     private String displayName;
     private String templateLocation;
-    private Map<String, Object> context;
+    private IContext context;
+
+    public String getFrom()
+    {
+        return from;
+    }
+
+    public void setFrom(String from)
+    {
+        this.from = from;
+    }
 
     public String getTo()
     {
@@ -50,12 +61,12 @@ public class EmailContext
         this.templateLocation = templateLocation;
     }
 
-    public Map<String, Object> getContext()
+    public IContext getContext()
     {
         return context;
     }
 
-    public void setContext(Map<String, Object> context)
+    public void setContext(IContext context)
     {
         this.context = context;
     }
