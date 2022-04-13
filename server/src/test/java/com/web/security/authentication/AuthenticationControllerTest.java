@@ -10,9 +10,12 @@ import com.web.security.user.UserCreator;
 import com.web.security.user.UserDetailsImpl;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
+import com.web.security.verification.EmailContext;
+import com.web.security.verification.EmailService;
+import com.web.security.verification.VerificationService;
+import com.web.security.verification.VerificationToken;
+import org.assertj.core.api.Assertions;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +32,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.eq;
+
 @RunWith(SpringRunner.class)
 public class AuthenticationControllerTest
 {
@@ -42,6 +47,9 @@ public class AuthenticationControllerTest
     private JsonWebTokenUtility jsonWebTokenUtility;
     private AuthenticationController authenticationController;
     private UserCreator userCreator;
+    private VerificationService verificationService;
+    private EmailService emailService;
+    private VerificationToken verificationToken;
 
     @BeforeEach
     public void before()
@@ -52,7 +60,19 @@ public class AuthenticationControllerTest
         encoder = Mockito.mock(PasswordEncoder.class);
         jsonWebTokenUtility = Mockito.mock(JsonWebTokenUtility.class);
         userCreator = Mockito.mock(UserCreator.class);
-        authenticationController = new AuthenticationController(authenticationManager, userRepository, roleRepository, encoder, jsonWebTokenUtility, userCreator);
+        verificationService = Mockito.mock(VerificationService.class);
+        emailService = Mockito.mock(EmailService.class);
+        authenticationController = new AuthenticationController(authenticationManager,
+                userRepository,
+                roleRepository,
+                encoder,
+                jsonWebTokenUtility,
+                userCreator,
+                verificationService,
+                emailService);
+
+        verificationToken = Mockito.mock(VerificationToken.class);
+        Mockito.when(verificationService.createVerificationToken(Mockito.any())).thenReturn(verificationToken);
     }
 
     @Test
@@ -63,8 +83,9 @@ public class AuthenticationControllerTest
         Mockito.when(roleRepository.findByName(Mockito.any())).thenReturn(java.util.Optional.ofNullable(role));
         SignupRequest request = createArtificialSignupRequest();
         Mockito.when(encoder.encode(request.getPassword())).thenReturn(request.getPassword());
-        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn(createArtificialUser());
-
+        User user = createArtificialUser();
+        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn(user);
+        Mockito.when(userRepository.save(user)).thenReturn(user);
         authenticationController.registerUser(request);
 
         Mockito.verify(userRepository).save(Mockito.any());
@@ -78,10 +99,11 @@ public class AuthenticationControllerTest
         Mockito.when(roleRepository.findByName(Mockito.any())).thenReturn(java.util.Optional.ofNullable(role));
         SignupRequest request = createArtificialSignupRequest();
         Mockito.when(encoder.encode(request.getPassword())).thenReturn(request.getPassword());
-        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn(createArtificialUser());
+        User user = createArtificialUser();
+        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn(user);
 
+        Mockito.when(userRepository.save(user)).thenReturn(user);
         authenticationController.registerUser(request);
-
         Mockito.verify(encoder).encode(PASSWORD);
     }
 
@@ -93,7 +115,7 @@ public class AuthenticationControllerTest
         SignupRequest request = createArtificialSignupRequest();
         ResponseEntity<?> responseEntity = authenticationController.registerUser(request);
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -109,15 +131,16 @@ public class AuthenticationControllerTest
         Mockito.when(encoder.encode(request.getPassword())).thenReturn(request.getPassword());
         User user = createArtificialUser();
         Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn(user);
+        Mockito.when(userRepository.save(user)).thenReturn(user);
 
         authenticationController.registerUser(request);
 
-        Assertions.assertEquals(1, user.getRoles().size());
+        Assertions.assertThat(user.getRoles().size()).isEqualTo(1);
 
         Set<Role> roles = user.getRoles();
         RoleType actualRoleType = roles.stream().toList().get(0).getName();
 
-        Assertions.assertEquals(RoleType.ROLE_USER, actualRoleType);
+        Assertions.assertThat(actualRoleType).isEqualTo(RoleType.ROLE_USER);
     }
 
     @Test
@@ -143,7 +166,7 @@ public class AuthenticationControllerTest
         Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
 
         authenticationController.authenticateUser(request);
-        Assertions.assertEquals(authentication, SecurityContextHolder.getContext().getAuthentication());
+        Assertions.assertThat(SecurityContextHolder.getContext().getAuthentication()).isEqualTo(authentication);
     }
 
     @Test
@@ -158,7 +181,7 @@ public class AuthenticationControllerTest
         ResponseEntity<?> response = authenticationController.authenticateUser(request);
         String body = new ObjectMapper().writeValueAsString(response.getBody());
 
-        Assertions.assertTrue(body.contains(RoleType.ROLE_USER.name()));
+        Assertions.assertThat(body).contains(RoleType.ROLE_USER.name());
     }
 
     @Test
@@ -168,14 +191,40 @@ public class AuthenticationControllerTest
         LoginRequest request = Mockito.mock(LoginRequest.class);
         ResponseEntity<?> responseEntity = authenticationController.authenticateUser(request);
         int BAD_REQUEST_CODE = 400;
-        Assertions.assertEquals(BAD_REQUEST_CODE, responseEntity.getStatusCodeValue());
+        Assertions.assertThat(responseEntity.getStatusCodeValue()).isEqualTo(BAD_REQUEST_CODE);
     }
 
     @Test
-    @Ignore
-    public void whenUserIsSuccessfullySignedInWithPrepareEnvironentFlag_thenListenerWillBeCalled()
+    public void whenNewUserTriesToRegister_thenUserIsNotVerified()
     {
-        //TODO: Jan - implement test case
+        Mockito.when(userRepository.existsByUsername(Mockito.anyString())).thenReturn(false);
+        Role role = Mockito.mock(Role.class);
+        Mockito.when(roleRepository.findByName(Mockito.any())).thenReturn(java.util.Optional.ofNullable(role));
+        SignupRequest request = createArtificialSignupRequest();
+        Mockito.when(encoder.encode(request.getPassword())).thenReturn(request.getPassword());
+        User user = createArtificialUser();
+        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn((user));
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        authenticationController.registerUser(request);
+
+        Assertions.assertThat(user.isVerified()).isFalse();
+    }
+
+    @Test
+    public void whenNewUserTriesToRegister_thenVerificationCodeIsCreatedAndVerificationEmailIsSent()
+    {
+        Mockito.when(userRepository.existsByUsername(Mockito.anyString())).thenReturn(false);
+        Role role = Mockito.mock(Role.class);
+        Mockito.when(roleRepository.findByName(Mockito.any())).thenReturn(java.util.Optional.ofNullable(role));
+        SignupRequest request = createArtificialSignupRequest();
+        Mockito.when(encoder.encode(request.getPassword())).thenReturn(request.getPassword());
+        User user = createArtificialUser();
+        Mockito.when(userCreator.createUser(request.getUsername(), request.getPassword())).thenReturn((user));
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+        authenticationController.registerUser(request);
+        Mockito.verify(verificationService).createVerificationToken(user);
+        Mockito.verify(emailService).sendEmail(Mockito.any(EmailContext.class));
     }
 
     private SignupRequest createArtificialSignupRequest()

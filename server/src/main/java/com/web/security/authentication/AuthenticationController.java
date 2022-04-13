@@ -1,12 +1,5 @@
 package com.web.security.authentication;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
 import com.web.security.request.LoginRequest;
 import com.web.security.request.SignupRequest;
 import com.web.security.response.JwtResponse;
@@ -19,7 +12,12 @@ import com.web.security.user.UserCreator;
 import com.web.security.user.UserDetailsImpl;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
+import com.web.security.verification.EmailContext;
+import com.web.security.verification.EmailService;
+import com.web.security.verification.VerificationService;
+import com.web.security.verification.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +27,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.context.IContext;
+
+import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -41,6 +47,11 @@ public class AuthenticationController
     private final PasswordEncoder encoder;
     private final JsonWebTokenUtility jsonWebTokenUtility;
     private final UserCreator userCreator;
+    private final VerificationService verificationService;
+    private final EmailService emailService;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     @Autowired
     public AuthenticationController(
@@ -49,7 +60,9 @@ public class AuthenticationController
             RoleRepository roleRepository,
             PasswordEncoder encoder,
             JsonWebTokenUtility jsonWebTokenUtility,
-            UserCreator userCreator)
+            UserCreator userCreator,
+            VerificationService verificationService,
+            EmailService emailService)
     {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
@@ -57,6 +70,8 @@ public class AuthenticationController
         this.encoder = encoder;
         this.jsonWebTokenUtility = jsonWebTokenUtility;
         this.userCreator = userCreator;
+        this.verificationService = verificationService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -69,18 +84,33 @@ public class AuthenticationController
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        //TODO Jan: validate that fields are not empty and add test cases.
         User user = userCreator.createUser(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
         Set<Role> roles = new HashSet<>();
 
         Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(userRole);
-
         user.setRoles(roles);
-        userRepository.save(user);
+        user.setVerified(false);
 
+        User savedUser = userRepository.save(user);
+
+        sendVerificationEmailToUser(savedUser);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    private void sendVerificationEmailToUser(User savedUser)
+    {
+        VerificationToken verificationToken = verificationService.createVerificationToken(savedUser);
+        EmailContext emailContext = new EmailContext();
+        emailContext.setFrom(fromEmail);
+        emailContext.setTo(savedUser.getUsername());
+        emailContext.setTemplateLocation("resources/email/templates/verification.html");
+        Context context = new Context();
+        context.setVariable("link", "http://localhost:8081/api/auth/verification?token=" + verificationToken.getToken());
+        emailContext.setContext(context);
+        emailContext.setSubject("Dear user, Please activate your account.");
+        emailService.sendEmail(emailContext);
     }
 
     @PostMapping("/login")
