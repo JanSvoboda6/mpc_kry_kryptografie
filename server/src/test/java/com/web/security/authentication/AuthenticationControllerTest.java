@@ -32,8 +32,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.mockito.ArgumentMatchers.eq;
-
 @RunWith(SpringRunner.class)
 public class AuthenticationControllerTest
 {
@@ -225,6 +223,12 @@ public class AuthenticationControllerTest
         authenticationController.registerUser(request);
         Mockito.verify(verificationService).createVerificationToken(user);
         Mockito.verify(emailService).sendEmail(Mockito.any(EmailContext.class));
+    }
+
+    @Test
+    public void whenUserTriesToVerifyAccountWithUnexpiredToken_thenAccountIsVerified()
+    {
+        //authenticationController.verifyUserAccount()
     }
 
     private SignupRequest createArtificialSignupRequest()

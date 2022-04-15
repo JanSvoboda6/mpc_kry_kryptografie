@@ -2,6 +2,7 @@ package com.web.security.user;
 
 
 import com.web.security.role.Role;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +33,7 @@ public class User
     private String password;
 
     @NotBlank
+    @ColumnDefault("false")
     private boolean isVerified;
 
     @ManyToMany(fetch = FetchType.LAZY)
