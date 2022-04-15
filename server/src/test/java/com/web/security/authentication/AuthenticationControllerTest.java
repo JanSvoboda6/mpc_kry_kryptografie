@@ -10,10 +10,7 @@ import com.web.security.user.UserCreator;
 import com.web.security.user.UserDetailsImpl;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
-import com.web.security.verification.EmailContext;
-import com.web.security.verification.EmailService;
-import com.web.security.verification.VerificationService;
-import com.web.security.verification.VerificationToken;
+import com.web.security.verification.*;
 import org.assertj.core.api.Assertions;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +27,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
+
+import static org.mockito.ArgumentMatchers.argThat;
 
 @RunWith(SpringRunner.class)
 public class AuthenticationControllerTest
@@ -46,8 +47,10 @@ public class AuthenticationControllerTest
     private AuthenticationController authenticationController;
     private UserCreator userCreator;
     private VerificationService verificationService;
+    private VerificationTokenRepository verificationTokenRepository;
     private EmailService emailService;
     private VerificationToken verificationToken;
+    private User user;
 
     @BeforeEach
     public void before()
@@ -59,6 +62,7 @@ public class AuthenticationControllerTest
         jsonWebTokenUtility = Mockito.mock(JsonWebTokenUtility.class);
         userCreator = Mockito.mock(UserCreator.class);
         verificationService = Mockito.mock(VerificationService.class);
+        verificationTokenRepository = Mockito.mock(VerificationTokenRepository.class);
         emailService = Mockito.mock(EmailService.class);
         authenticationController = new AuthenticationController(authenticationManager,
                 userRepository,
@@ -67,10 +71,14 @@ public class AuthenticationControllerTest
                 jsonWebTokenUtility,
                 userCreator,
                 verificationService,
+                verificationTokenRepository,
                 emailService);
 
         verificationToken = Mockito.mock(VerificationToken.class);
         Mockito.when(verificationService.createVerificationToken(Mockito.any())).thenReturn(verificationToken);
+
+        user = new User(USERNAME, PASSWORD);
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(Optional.of(user));
     }
 
     @Test
@@ -149,6 +157,7 @@ public class AuthenticationControllerTest
         LoginRequest request = Mockito.mock(LoginRequest.class);
         UserDetailsImpl userDetails = Mockito.mock(UserDetailsImpl.class);
         Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
+        user.setVerified(true);
         authenticationController.authenticateUser(request);
 
         Mockito.verify(jsonWebTokenUtility).generateJwtToken(authentication);
@@ -162,6 +171,7 @@ public class AuthenticationControllerTest
         LoginRequest request = Mockito.mock(LoginRequest.class);
         UserDetailsImpl userDetails = Mockito.mock(UserDetailsImpl.class);
         Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
+        user.setVerified(true);
 
         authenticationController.authenticateUser(request);
         Assertions.assertThat(SecurityContextHolder.getContext().getAuthentication()).isEqualTo(authentication);
@@ -175,10 +185,10 @@ public class AuthenticationControllerTest
         LoginRequest request = Mockito.mock(LoginRequest.class);
         UserDetailsImpl userDetails = UserDetailsImpl.build(createArtificialUser());
         Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
+        user.setVerified(true);
 
         ResponseEntity<?> response = authenticationController.authenticateUser(request);
         String body = new ObjectMapper().writeValueAsString(response.getBody());
-
         Assertions.assertThat(body).contains(RoleType.ROLE_USER.name());
     }
 
@@ -226,9 +236,60 @@ public class AuthenticationControllerTest
     }
 
     @Test
-    public void whenUserTriesToVerifyAccountWithUnexpiredToken_thenAccountIsVerified()
+    public void whenUserTriesToVerifyAccountWithValidToken_thenAccountIsVerified()
     {
-        //authenticationController.verifyUserAccount()
+        VerificationToken token = new VerificationToken("verification_token_value", LocalDateTime.now().minusHours(1), user);
+        Mockito.when(verificationService.isVerificationTokenValid(token.getToken())).thenReturn(true);
+        Mockito.when(verificationTokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
+
+        authenticationController.verifyUserAccount(token.getToken());
+
+        Mockito.verify(verificationService).isVerificationTokenValid(token.getToken());
+        Mockito.verify(userRepository).save(argThat(User::isVerified));
+    }
+
+    @Test
+    public void whenUserTriesToVerifyAccountWithInvalidToken_thenAccountIsNotVerified()
+    {
+        VerificationToken token = new VerificationToken("verification_token_value", LocalDateTime.now().minusHours(1), user);
+        Mockito.when(verificationService.isVerificationTokenValid(token.getToken())).thenReturn(false);
+
+        authenticationController.verifyUserAccount(token.getToken());
+
+        Mockito.verify(verificationService).isVerificationTokenValid(token.getToken());
+        Mockito.verify(userRepository, Mockito.times(0)).save(Mockito.any(User.class));
+    }
+
+    @Test
+    public void whenUserAccountIsVerified_thenJwtTokenForUserIsGenerated()
+    {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        Mockito.when(authenticationManager.authenticate(Mockito.any())).thenReturn(authentication);
+        user.setVerified(true);
+        Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(user));
+        LoginRequest request = Mockito.mock(LoginRequest.class);
+        UserDetailsImpl userDetails = Mockito.mock(UserDetailsImpl.class);
+        Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
+
+        authenticationController.authenticateUser(request);
+
+        Mockito.verify(jsonWebTokenUtility).generateJwtToken(authentication);
+    }
+
+    @Test
+    public void whenUserAccountIsNotVerified_thenNoJwtTokenIsGenerated()
+    {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        Mockito.when(authenticationManager.authenticate(Mockito.any())).thenReturn(authentication);
+        user.setVerified(false);
+        Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(user));
+
+        LoginRequest request = Mockito.mock(LoginRequest.class);
+        UserDetailsImpl userDetails = Mockito.mock(UserDetailsImpl.class);
+        Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
+        authenticationController.authenticateUser(request);
+
+        Mockito.verify(jsonWebTokenUtility, Mockito.times(0)).generateJwtToken(authentication);
     }
 
     private SignupRequest createArtificialSignupRequest()

@@ -12,10 +12,7 @@ import com.web.security.user.UserCreator;
 import com.web.security.user.UserDetailsImpl;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
-import com.web.security.verification.EmailContext;
-import com.web.security.verification.EmailService;
-import com.web.security.verification.VerificationService;
-import com.web.security.verification.VerificationToken;
+import com.web.security.verification.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +30,7 @@ import org.thymeleaf.context.IContext;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,6 +46,7 @@ public class AuthenticationController
     private final JsonWebTokenUtility jsonWebTokenUtility;
     private final UserCreator userCreator;
     private final VerificationService verificationService;
+    private final VerificationTokenRepository verificationTokenRepository;
     private final EmailService emailService;
 
     @Value("${spring.mail.username}")
@@ -62,6 +61,7 @@ public class AuthenticationController
             JsonWebTokenUtility jsonWebTokenUtility,
             UserCreator userCreator,
             VerificationService verificationService,
+            VerificationTokenRepository verificationTokenRepository,
             EmailService emailService)
     {
         this.authenticationManager = authenticationManager;
@@ -71,7 +71,9 @@ public class AuthenticationController
         this.jsonWebTokenUtility = jsonWebTokenUtility;
         this.userCreator = userCreator;
         this.verificationService = verificationService;
+        this.verificationTokenRepository = verificationTokenRepository;
         this.emailService = emailService;
+        this.fromEmail = fromEmail;
     }
 
     @PostMapping("/register")
@@ -127,6 +129,14 @@ public class AuthenticationController
                     .body(new MessageResponse("Bad credentials!"));
         }
 
+        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
+        if(!user.get().isVerified())
+        {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("The user account is not verified!"));
+        }
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken = jsonWebTokenUtility.generateJwtToken(authentication);
 
@@ -141,7 +151,18 @@ public class AuthenticationController
     @GetMapping("/verification")
     public ResponseEntity<?> verifyUserAccount(@RequestParam("token") String token)
     {
-        return ResponseEntity.badRequest().body("Not implemented!");
+        if(verificationService.isVerificationTokenValid(token))
+        {
+            Optional<VerificationToken> verificationTokenOptional = verificationTokenRepository.findByToken(token);
+            if(verificationTokenOptional.isPresent())
+            {
+                User user = verificationTokenOptional.get().getUser();
+                user.setVerified(true);
+                userRepository.save(user);
+                return ResponseEntity.ok("The user account has been verified!");
+            }
+        }
+        return ResponseEntity.badRequest().body("The user account cannot be verified! Please check validity of a token.");
     }
 
 }
