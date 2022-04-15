@@ -55,12 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         return new RestTemplate();
     }
 
-    @Bean
-    public TemplateEngine templateEngine()
-    {
-        return  new TemplateEngine();
-    }
-
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception
     {

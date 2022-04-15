@@ -2,11 +2,12 @@ package com.web.security.verification;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.ITemplateEngine;
+import org.thymeleaf.TemplateEngine;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import org.thymeleaf.ITemplateEngine;
 
 @Service
 public class EmailService

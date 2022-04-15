@@ -73,7 +73,6 @@ public class AuthenticationController
         this.verificationService = verificationService;
         this.verificationTokenRepository = verificationTokenRepository;
         this.emailService = emailService;
-        this.fromEmail = fromEmail;
     }
 
     @PostMapping("/register")
@@ -107,9 +106,9 @@ public class AuthenticationController
         EmailContext emailContext = new EmailContext();
         emailContext.setFrom(fromEmail);
         emailContext.setTo(savedUser.getUsername());
-        emailContext.setTemplateLocation("resources/email/templates/verification.html");
+        emailContext.setTemplateLocation("verification");
         Context context = new Context();
-        context.setVariable("link", "http://localhost:8081/api/auth/verification?token=" + verificationToken.getToken());
+        context.setVariable("link", "http://localhost:8080/api/auth/verification?token=" + verificationToken.getToken());
         emailContext.setContext(context);
         emailContext.setSubject("Dear user, Please activate your account.");
         emailService.sendEmail(emailContext);
