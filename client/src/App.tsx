@@ -27,10 +27,11 @@ class App extends Component<AppProps, User>
         < Router history={history} >
           <div className="navigation-page" >
             <Switch>
+              <PrivateRoute exact path={["/"]} component={FileHandlerPage} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Login} />
-              <Route exact path="/crypto" component={Crypto} />
+              <PrivateRoute exact path="/crypto" component={Crypto} />
               <PrivateRoute exact path="/files" component={FileHandlerPage} />
             </Switch>
           </div>
