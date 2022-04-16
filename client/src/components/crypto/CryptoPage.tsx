@@ -3,7 +3,6 @@ import aesjs from "aes-js";
 import { useHistory } from 'react-router-dom';
 import HelperBox from "../navigation/HelperBox";
 import copyIcon from '../../styles/copy_icon.svg';
-import Navbar from "../navigation/Navbar";
 
 const Crypto = () =>{
     const history = useHistory();
