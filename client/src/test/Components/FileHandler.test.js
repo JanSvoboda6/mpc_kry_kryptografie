@@ -5,7 +5,7 @@ import FileService from "../../components/file/FileService";
 import FileHandler from "../../components/file/FileHandler";
 import FileUtility from "../../components/file/FileUtility";
 
-describe('Rendering files/foldes', () => {
+describe('Rendering files/folders', () => {
     test('When FileHandler is rendered then files are shown', async () => {
         jest.spyOn(FileService, 'getFiles').mockResolvedValue({
             'data': [
@@ -57,133 +57,6 @@ describe('Creating files', () => {
         expect(uniqueAddedFiles).not.toMatch(/aaa.txt/i);
         expect(uniqueAddedFiles).toMatch(/bbb.txt/i);
     })
-});
-
-describe('Renaming files and folders', () => {
-    test('When file is renamed then name of the file is changed', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            },
-            {
-                'key': 'AAA/bbb.txt',
-            }
-        ];
-        const oldKey = 'AAA/aaa.txt';
-        const newKey = 'AAA/ccc.txt';
-
-        const remainingFiles = JSON.stringify(FileUtility.moveFile(existingFiles, oldKey, newKey));
-        expect(remainingFiles).toMatch('AAA/ccc.txt');
-        expect(remainingFiles).not.toMatch('AAA/aaa.txt');
-    })
-
-    test('When file is renamed then modified time is changed', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            }
-        ];
-        const oldKey = 'AAA/aaa.txt';
-        const newKey = 'AAA/bbb.txt';
-
-        const remainingFiles = FileUtility.moveFile(existingFiles, oldKey, newKey);
-        expect(remainingFiles[0].modified).not.toBe(undefined);
-    })
-
-    test('When file is renamed then new key has to be unique in the directory', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            },
-            {
-                'key': 'AAA/bbb.txt',
-            },
-            {
-                'key': 'AAA/ccc.txt'
-            }
-        ];
-        const oldKey = 'AAA/aaa.txt';
-        const newKey = 'AAA/ccc.txt';
-
-        const remainingFiles = JSON.stringify(FileUtility.moveFile(existingFiles, oldKey, newKey));
-        expect(remainingFiles).toMatch('AAA/aaa.txt');
-        expect(remainingFiles).toMatch('AAA/bbb.txt');
-        expect(remainingFiles).toMatch('AAA/ccc.txt');
-    })
-
-    test('When folder is renamed then folder name is changed', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            }
-        ];
-        const oldKey = 'AAA/';
-        const newKey = 'BBB/';
-
-        const remainingFiles = JSON.stringify(FileUtility.moveFolder(existingFiles, oldKey, newKey));
-        expect(remainingFiles).toMatch('BBB/aaa.txt');
-    })
-
-    test('When folder is renamed then all child files and folders keys are updated', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            },
-            {
-                'key': 'AAA/bbb.txt',
-            },
-            {
-                'key': 'AAA/ccc.txt'
-            },
-            {
-                'key': 'AAA/BBB/ddd.txt'
-            }
-        ];
-        const oldKey = 'AAA/';
-        const newKey = 'CCC/';
-
-        const remainingFiles = JSON.stringify(FileUtility.moveFolder(existingFiles, oldKey, newKey));
-        expect(remainingFiles).toMatch('CCC/aaa.txt');
-        expect(remainingFiles).toMatch('CCC/bbb.txt');
-        expect(remainingFiles).toMatch('CCC/ccc.txt');
-        expect(remainingFiles).toMatch('CCC/BBB/ddd.txt');
-
-    })
-
-    test('When folder is renamed then new name has to be unique in the hierarchy', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            },
-            {
-                'key': 'BBB/bbb.txt',
-            }
-        ];
-        const oldKey = 'AAA/';
-        const newKey = 'BBB/';
-
-        const remainingFiles = JSON.stringify(FileUtility.moveFolder(existingFiles, oldKey, newKey));
-        expect(remainingFiles).toMatch('AAA/aaa.txt');
-        expect(remainingFiles).toMatch('BBB/bbb.txt');
-    })
-
-    test('When folder is renamed then modified time of the child files is changed', () => {
-        const existingFiles = [
-            {
-                'key': 'AAA/aaa.txt',
-            },
-            {
-                'key': 'CCC/ccc.txt'
-            }
-        ];
-        const oldKey = 'AAA/';
-        const newKey = 'BBB/';
-
-        const remainingFiles = FileUtility.moveFolder(existingFiles, oldKey, newKey);
-        expect(remainingFiles[0].modified).not.toBe(undefined);
-        expect(remainingFiles[1].modified).toBe(undefined);
-    })
-
 });
 
 describe("Deleting files and folders", () => {
@@ -305,7 +178,7 @@ describe("Deleting files and folders", () => {
         expect(remainingFiles).toEqual([{'key': 'AAA/'}]);
     });
 
-    test("When deleting non exiting folders then all existing files remain", () => {
+    test("When deleting non existing folders then all existing files remain", () => {
         const existingFiles = [
             {
                 'key': 'AAA/aaa.txt',
@@ -351,9 +224,147 @@ describe("Deleting files and folders", () => {
         const remainingFiles = FileUtility.deleteSelectedFiles(existingFiles, keyOfFileTobeDeleted);
         expect(remainingFiles).toEqual([{'key': 'AAA/aaa.txt'}]);
     });
-
 });
 
-describe("Downloading files and folders", () => {
+describe("Listing content of folders", () => {
+    test("When getting a content of single folder then all content is returned", () => {
+        const existingFiles = [
+            {
+                'key': 'AAA/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/aaa.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/bbb.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/ccc.txt',
+                'size': undefined,
+                'data': undefined
+            },
+        ];
+
+        const folderKey = 'AAA/';
+
+        const content = FileUtility.getContentOfFolders(existingFiles, [folderKey]);
+        expect(content).toEqual(['AAA/aaa.txt', 'AAA/bbb.txt', 'AAA/BBB/', 'AAA/BBB/ccc.txt']);
+
+    });
+
+    test("When getting a content of multiple folders then all content is returned", () => {
+        const existingFiles = [
+            {
+                'key': 'AAA/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/aaa.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'BBB/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'BBB/bbb.txt',
+                'size': undefined,
+                'data': undefined
+            },
+        ];
+
+        const folderKeys = ['AAA/', 'BBB/'];
+
+        const content = FileUtility.getContentOfFolders(existingFiles, folderKeys);
+        expect(content).toEqual(['AAA/aaa.txt','BBB/bbb.txt']);
+
+    });
+
+    test("When getting a content of multiple folders then no duplicate content is returned", () => {
+        const existingFiles = [
+            {
+                'key': 'AAA/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/aaa.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/bbb.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/ccc.txt',
+                'size': undefined,
+                'data': undefined
+            },
+        ];
+
+        const folderKeys = ['AAA/', 'AAA/BBB/'];
+
+        const content = FileUtility.getContentOfFolders(existingFiles, folderKeys);
+        expect(content).toEqual(['AAA/aaa.txt', 'AAA/bbb.txt', 'AAA/BBB/', 'AAA/BBB/ccc.txt']);
+
+    });
+
+
+    test("When getting a content of child folders then no content specific to parent is returned", () => {
+        const existingFiles = [
+            {
+                'key': 'AAA/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/aaa.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/bbb.txt',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/',
+                'size': undefined,
+                'data': undefined
+            },
+            {
+                'key': 'AAA/BBB/ccc.txt',
+                'size': undefined,
+                'data': undefined
+            },
+        ];
+
+        const folderKey = 'AAA/BBB/';
+
+        const content = FileUtility.getContentOfFolders(existingFiles, [folderKey]);
+        expect(content).toEqual(['AAA/BBB/ccc.txt']);
+
+    });
 });
 

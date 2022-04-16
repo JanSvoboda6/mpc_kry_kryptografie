@@ -97,22 +97,17 @@ function FileHandler(props)
         setLoaded(true);
     }
 
-    const getContentOFFolder = (folderKey: string): string[] => {
-        return files.filter(file => file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey).map(file => file.key);
-    }
-
     const handleDeleteFolders = (folderKeys: string[]) =>
     {
-        const keysOfFilesAndFoldersToBeDeleted: string[] = [];
+        const keysOfFilesAndFoldersToBeDeleted = FileUtility.getContentOfFolders(files, folderKeys);
+
         folderKeys.forEach(folderKey => {
-            keysOfFilesAndFoldersToBeDeleted.push(folderKey);
-            getContentOFFolder(folderKey).forEach(fileKey => {
-                if(!keysOfFilesAndFoldersToBeDeleted.includes(fileKey))
-                {
-                    keysOfFilesAndFoldersToBeDeleted.push(fileKey);
-                }
-            })
-        })
+            if(!keysOfFilesAndFoldersToBeDeleted.includes(folderKey))
+            {
+                keysOfFilesAndFoldersToBeDeleted.push(folderKey);
+            }
+        });
+
         FileService.deleteFiles(keysOfFilesAndFoldersToBeDeleted.map(fileKey => CryptoService.encrypt(aesjs.utils.utf8.toBytes(fileKey)))).then(() => {
             setFiles(FileUtility.deleteSelectedFolders(files, folderKeys));
         });
@@ -125,20 +120,6 @@ function FileHandler(props)
         });
     }
 
-    const handleMoveFile = (oldKey: string, newKey: string) =>
-    {
-       // DatasetService.moveFile(oldKey, newKey).then(() => {
-            setFiles(FileUtility.moveFile(files, oldKey, newKey));
-       // })
-    }
-
-    const handleMoveFolder = (oldKey: string, newKey: string) =>
-    {
-       // DatasetService.moveFolder(oldKey, newKey).then(() => {
-            setFiles(FileUtility.moveFolder(files, oldKey, newKey));
-        //})
-    }
-
     const handleDownloadFile = (keys: string[]) => {
         download(keys);
     }
@@ -147,37 +128,13 @@ function FileHandler(props)
         download(keys);
     }
 
-    const getAllFilesInFolder = (folderKey: string): string[] =>
-    {
-        let keysOfFilesToDownload: string[] = [];
-        files.forEach(file => {
-            if (file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey)
-            {
-                if(file.key.endsWith("/"))
-                {
-                    getAllFilesInFolder(file.key).forEach(fileKey => {
-                        if(!keysOfFilesToDownload.includes(fileKey))
-                        {
-                            keysOfFilesToDownload.push(fileKey);
-                        }
-                    });
-                }
-                else if (!keysOfFilesToDownload.includes(file.key))
-                {
-                    keysOfFilesToDownload.push(file.key);
-                }
-            }
-        });
-        return keysOfFilesToDownload;
-    }
-
     const download = (keys: string[]) => {
         let keysOfFilesToDownload: string[] = [];
 
         keys.forEach(key => {
             if (key.endsWith("/"))
             {
-                getAllFilesInFolder(key).forEach(fileKey => {
+                FileUtility.getAllFilesInFolder(files, key).forEach(fileKey => {
                     if(!keysOfFilesToDownload.includes(fileKey))
                     {
                         keysOfFilesToDownload.push(fileKey);
@@ -247,10 +204,6 @@ function FileHandler(props)
                         detailRenderer={() => null}
                         onCreateFolder={handleCreateFolder}
                         onCreateFiles={handleCreateFiles}
-                        //onMoveFolder={(oldKey, newKey) => handleMoveFolder(oldKey, newKey)}
-                        //onMoveFile={(oldKey, newKey) => handleMoveFile(oldKey, newKey)}
-                        //onRenameFolder={(oldKey, newKey) => handleMoveFolder(oldKey, newKey)}
-                        //onRenameFile={(oldKey, newKey) => handleMoveFile(oldKey, newKey)}
                         onDeleteFolder={handleDeleteFolders}
                         onDeleteFile={handleDeleteFiles}
                         onDownloadFile={handleDownloadFile}

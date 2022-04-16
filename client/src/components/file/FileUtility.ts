@@ -129,4 +129,47 @@ const shouldBeFileDeleted = (existingFileKey: string, keysOfFilesToBeDeleted: st
     return shouldDelete;
 }
 
-export default {getUniqueAddedFiles, deleteSelectedFolders, deleteSelectedFiles, moveFile, moveFolder};
+const getAllFilesInFolder = (allFiles: FileInformation[], folderKey: string): string[] =>
+{
+    let keysOfFilesToDownload: string[] = [];
+    allFiles.forEach(file => {
+        if (file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey)
+        {
+            if(file.key.endsWith("/"))
+            {
+                getAllFilesInFolder(allFiles, file.key).forEach(fileKey => {
+                    if(!keysOfFilesToDownload.includes(fileKey))
+                    {
+                        keysOfFilesToDownload.push(fileKey);
+                    }
+                });
+            }
+            else if (!keysOfFilesToDownload.includes(file.key))
+            {
+                keysOfFilesToDownload.push(file.key);
+            }
+        }
+    });
+    return keysOfFilesToDownload;
+}
+
+const getContentOfFolder = (allFiles: FileInformation[], folderKey: string): string[] =>
+{
+    return allFiles.filter(file => file.key !== folderKey && file.key.substr(0, folderKey.length) === folderKey).map(file => file.key);
+}
+
+const getContentOfFolders = (allFiles: FileInformation[], folderKeys: string[]) =>
+{
+    const keysOfFilesAndFolders: string[] = [];
+    folderKeys.forEach(folderKey => {
+        getContentOfFolder(allFiles, folderKey).forEach(fileKey => {
+            if (!keysOfFilesAndFolders.includes(fileKey))
+            {
+                keysOfFilesAndFolders.push(fileKey);
+            }
+        })
+    })
+    return keysOfFilesAndFolders;
+}
+
+export default {getUniqueAddedFiles, deleteSelectedFolders, deleteSelectedFiles, moveFile, moveFolder, getAllFilesInFolder, getContentOfFolders};
