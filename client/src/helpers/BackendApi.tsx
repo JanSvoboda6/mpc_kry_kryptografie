@@ -1,1 +1,1 @@
-export const API_URL=process.env.REACT_APP_API_URL
+export const API_URL="http://74.82.28.68:8088"

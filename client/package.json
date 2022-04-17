@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "REACT_APP_API_URL='http://localhost:8088' react-scripts start ",
-    "prod-win": "SET REACT_APP_API_URL=\"http://74.82.28.68:8088\" & react-scripts start",
+    "prod-win": "SET REACT_APP_API_URL=http://74.82.28.68:8088 & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject"
