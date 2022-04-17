@@ -49,11 +49,12 @@ const Crypto = () =>{
                         placeholder="Paste your key here or generate a new one"
                         value={cryptoKey}
                         onChange={onChangeCryptoKey}/>
-                    {cryptoKey &&
-                        <button onClick={() => navigator.clipboard.writeText(cryptoKey)} className="copy-button">
-                            <img className="copy-icon" src={copyIcon} alt="copyToClipboard" />
-                        </button>
-                    }
+                    {/*TODO: Jan uncomment when HTTPS is used*/}
+                    {/*{cryptoKey &&*/}
+                    {/*    <button onClick={() => navigator.clipboard.writeText(cryptoKey)} className="copy-button">*/}
+                    {/*        <img className="copy-icon" src={copyIcon} alt="copyToClipboard" />*/}
+                    {/*    </button>*/}
+                    {/*}*/}
                 </div>
             <button className="submit-button crypto-item" onClick={generateKey}>
                 <span>Generate Random Key</span>
