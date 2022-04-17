@@ -1,17 +1,17 @@
 import axios from "axios";
 import { FileInformation } from "../../types";
 import authorizationHeader from "../../services/AuthorizationHeader";
-const API_URL = "http://localhost:8080/api/dataset";
+import {API_URL} from "../../helpers/BackendApi";
 
 const getFiles = () =>
 {
-    return axios.get(API_URL, {headers: authorizationHeader()});
+    return axios.get(API_URL + '/api/dataset', {headers: authorizationHeader()});
 }
 
 const createDirectory = (directory: FileInformation) =>
 {
     return axios.post(
-        API_URL + '/createdirectory',
+        API_URL + '/api/dataset/createdirectory',
         directory,
         {
             headers: 
@@ -51,12 +51,12 @@ const uploadFiles = (files: File[]) =>
         }
     }
 
-    return axios.post(API_URL + '/uploadfiles', formData, { headers: authorizationHeader() }, );
+    return axios.post(API_URL + '/api/dataset/uploadfiles', formData, { headers: authorizationHeader() }, );
 }
 
 const deleteFolders = (keys: string[]) => {
     return axios.post(
-        API_URL + '/folders/delete',
+        API_URL + '/api/dataset/folders/delete',
         keys,
         {
             headers:
@@ -70,7 +70,7 @@ const deleteFolders = (keys: string[]) => {
 
 const deleteFiles = (keys: string[]) => {
     return axios.post(
-        API_URL + '/files/delete',
+        API_URL + '/api/dataset/files/delete',
         keys,
         {
             headers:
@@ -84,7 +84,7 @@ const deleteFiles = (keys: string[]) => {
 
 const moveFile = (oldKey: string, newKey: string) => {
     return axios.post(
-        API_URL + '/files/move',
+        API_URL + '/api/dataset/files/move',
         {oldKey, newKey},
         {
             headers:
@@ -98,7 +98,7 @@ const moveFile = (oldKey: string, newKey: string) => {
 
 const moveFolder = (oldKey: string, newKey: string) => {
     return axios.post(
-        API_URL + '/folders/move',
+        API_URL + '/api/dataset/folders/move',
         {oldKey, newKey},
         {
             headers:
@@ -112,7 +112,7 @@ const moveFolder = (oldKey: string, newKey: string) => {
 
 const download = (key: string) => {
     return axios.post<any>(
-        API_URL + '/download',
+        API_URL + '/api/dataset/download',
         key,
         {
             headers:

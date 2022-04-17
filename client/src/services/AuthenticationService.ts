@@ -1,14 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { User } from "../types";
-import aesjs from "aes-js";
-
-const API_URL = "http://localhost:8080/api/auth";
+import {API_URL} from "../helpers/BackendApi";
 
 class AuthenticationService
 {
   async login(username: string, password: string) 
   {
-    const response: AxiosResponse<User> = await axios.post(API_URL + "/login", { username, password });
+    const response: AxiosResponse<User> = await axios.post(API_URL + "/api/auth/login", { username, password });
 
     if (response.data.accessToken)
     {
@@ -26,7 +24,7 @@ class AuthenticationService
   register(username: string, password: string)
   {
     var message: string = "";
-    return axios.post(API_URL + "/register", { username, password, message })
+    return axios.post(API_URL + "/api/auth/register", { username, password, message })
   }
 }
 

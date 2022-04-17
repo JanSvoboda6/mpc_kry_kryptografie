@@ -25,7 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.context.IContext;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -50,7 +49,13 @@ public class AuthenticationController
     private final EmailService emailService;
 
     @Value("${spring.mail.username}")
-    private String fromEmail;
+    private String FROM_EMAIL;
+
+    @Value("${web.backend.api}")
+    private String BACKEND_API;
+
+    @Value("${server.port}")
+    private int PORT;
 
     @Autowired
     public AuthenticationController(
@@ -104,11 +109,11 @@ public class AuthenticationController
     {
         VerificationToken verificationToken = verificationService.createVerificationToken(savedUser);
         EmailContext emailContext = new EmailContext();
-        emailContext.setFrom(fromEmail);
+        emailContext.setFrom(FROM_EMAIL);
         emailContext.setTo(savedUser.getUsername());
         emailContext.setTemplateLocation("verification");
         Context context = new Context();
-        context.setVariable("link", "http://localhost:8080/api/auth/verification?token=" + verificationToken.getToken());
+        context.setVariable("link", BACKEND_API + ":" + PORT + "/api/auth/verification?token=" + verificationToken.getToken());
         emailContext.setContext(context);
         emailContext.setSubject("Dear user, Please activate your account.");
         emailService.sendEmail(emailContext);
