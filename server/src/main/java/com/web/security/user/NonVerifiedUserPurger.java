@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class NonVerifiedUserPurger
 {
-    public static final int TEN_MINUTES = 10 * 60 * 1000;
-
     private final UserRepository userRepository;
     private final VerificationTokenRepository tokenRepository;
     private final VerificationService verificationService;
@@ -28,7 +27,7 @@ public class NonVerifiedUserPurger
         this.verificationService = verificationService;
     }
 
-    @Scheduled(fixedDelay = TEN_MINUTES)
+    @Scheduled(fixedRate = 10, timeUnit = TimeUnit.MINUTES)
     @Transactional
     public void purge()
     {
