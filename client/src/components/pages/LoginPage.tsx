@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {Link, Redirect} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import logo from '../../styles/logo_but_text.png';
-import cube from '../../styles/cube_animation.gif';
 import LoginService from '../../services/LoginService';
 import HelperBox from "../navigation/HelperBox";
 import FadeIn from "react-fade-in";

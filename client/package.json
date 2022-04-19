@@ -21,6 +21,7 @@
     "axios": "^0.22.0",
     "chart.js": "^3.6.0",
     "font-awesome": "^4.7.0",
+    "http-server": "^14.1.0",
     "jest-environment-jsdom-sixteen": "^2.0.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
