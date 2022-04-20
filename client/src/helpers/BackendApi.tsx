@@ -1,1 +1,1 @@
-export const API_URL= process.env.NODE_ENV === 'production'? 'https://securestorage.website:8088' : 'http://localhost:8088';
+export const API_URL= process.env.NODE_ENV === 'production'? 'https://www.securestorage.website:8088' : 'http://localhost:8088';
