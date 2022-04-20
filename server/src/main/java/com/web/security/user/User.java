@@ -32,7 +32,6 @@ public class User
     @Size(max = 120)
     private String password;
 
-    @NotBlank
     @ColumnDefault("false")
     private boolean isVerified;
 

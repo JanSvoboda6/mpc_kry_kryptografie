@@ -1,9 +1,9 @@
 package com.web.security.authentication;
 
+import com.web.security.ValidationException;
 import com.web.security.request.LoginRequest;
 import com.web.security.request.SignupRequest;
 import com.web.security.response.JwtResponse;
-import com.web.security.response.MessageResponse;
 import com.web.security.role.Role;
 import com.web.security.role.RoleRepository;
 import com.web.security.role.RoleType;
@@ -15,6 +15,7 @@ import com.web.security.utility.JsonWebTokenUtility;
 import com.web.security.verification.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
@@ -85,16 +87,14 @@ public class AuthenticationController
     {
         if (userRepository.existsByUsername(signUpRequest.getUsername()))
         {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already taken!"));
+            throw new ValidationException("Email is already taken!");
         }
 
         User user = userCreator.createUser(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
         Set<Role> roles = new HashSet<>();
 
         Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                .orElseThrow(() -> new ValidationException("Error: Role is not found."));
         roles.add(userRole);
         user.setRoles(roles);
         user.setVerified(false);
@@ -102,7 +102,7 @@ public class AuthenticationController
         User savedUser = userRepository.save(user);
 
         sendVerificationEmailToUser(savedUser);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     private void sendVerificationEmailToUser(User savedUser)
@@ -128,17 +128,13 @@ public class AuthenticationController
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException exception) //TODO Jan: Test this case
         {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Bad credentials!"));
+            throw new ValidationException("Email or password is invalid!");
         }
 
         Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
         if(!user.get().isVerified())
         {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("The user account is not verified!"));
+            throw new ValidationException("The user account is not verified!");
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -167,6 +163,13 @@ public class AuthenticationController
             }
         }
         return ResponseEntity.badRequest().body("The user account cannot be verified! Please check validity of a token.");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException exception)
+    {
+        return ResponseEntity.badRequest().body(exception.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
 }

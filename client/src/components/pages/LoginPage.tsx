@@ -52,21 +52,7 @@ function Login()
                         setLoggedIn(false);
                         setIsLoading(false);
 
-                        var message = "";
-                        if (error && error.response && error.response.data.message)
-                        {
-                            message = error.response.data.message;
-                        }
-                        else if (error.message)
-                        {
-                            message = error.message;
-                        }
-                        else if (error.toString())
-                        {
-                            message = error.toString();
-                        }
-
-                        setMessage(message);
+                        setMessage(error.response.data);
                     });
         } else
         {
@@ -75,16 +61,11 @@ function Login()
     }
 
     const validateForm = ():boolean => {
-        if (!Validator.isEmail(username, {ignore_max_length: false})){
+        if (!Validator.isEmail(username, {ignore_max_length: false}))
+        {
             setMessage("Email format is not valid!");
             return false;
         }
-
-        if(!Validator.isLength(password, {min:8, max: 50}) || !Validator.isStrongPassword(password)){
-            setMessage("Password is not valid!");
-            return  false;
-        }
-
         return  true;
     }
 

@@ -40,22 +40,7 @@ function Register()
                 },
                 (error: any) =>
                 {
-                    var message = "";
-                    if (error && error.response && error.response.data.message)
-                    {
-                        message = error.response.data.message;
-                    }
-                    else if (error.message)
-                    {
-                        console.log(error.message)
-                        message = error.message;
-                    }
-                    else if (error.toString())
-                    {
-                        message = error.toString();
-                    }
-
-                    setMessage(message)
+                    setMessage(error.response.data);
                     setIsLoading(false);
                 });
         } else
@@ -71,7 +56,10 @@ function Register()
         }
 
         if(!Validator.isLength(password, {min:8, max: 50}) || !Validator.isStrongPassword(password)){
-            setMessage("Password is not valid!");
+            setMessage("Password is not strong enough. " +
+                "Minimum length is 8 character. " +
+                "It must include at least one lowercase character, one uppercase character " +
+                "and at least one special symbol @#$%^&-+=()_*.<>!:");
             return  false;
         }
 
