@@ -77,7 +77,7 @@ function Login()
     return (
             <>
             <div className="wrapper">
-                {showPopup == 't' && <HelperBox content="Thanks for registration. Now you can login!" />}
+                {showPopup == 't' && <HelperBox content="Thanks for the registration. We have sent you an activation email!" />}
             </div>
             <div className="landing-page-wrapper">
                     <FadeIn delay={250}>

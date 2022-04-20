@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&display=swap');
 
 :root {
-  font-size: 19px;
+  font-size: 14px;
   --text-primary: #fcf4f4;
   --bg-primary: #221c1c;
   --bg-secondary: #0e0d0d;
@@ -26,7 +26,7 @@ input:focus{
   font-weight: 400;
   margin: 0;
   padding: 0;
-} 
+}
 
 body {
   font-family: var(--font);
@@ -88,15 +88,15 @@ ul {
   border-width: 2px;
   height: 3vh;
   border-style: solid;
-  font-size: 19px;
+  font-size: 14px;
   padding: 0rem 0.5rem 0rem 0.5rem;
-  width: 15rem;
+  width: 17rem;
 }
 
 ::placeholder {
   color: var(--text-primary);
   opacity: 0.5;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .standard-button{
@@ -111,7 +111,7 @@ ul {
   transition: all 0.2s;
   display: block;
   margin: 0 auto;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .standard-button:hover{
@@ -176,7 +176,7 @@ ul {
   text-align: center;
   transition: all 0.2s;
   margin: auto;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .submit-button:hover {
@@ -196,7 +196,7 @@ ul {
   transition: all 0.2s;
   display: block;
   margin: 0 auto;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .upper-navbar-logout-button:hover {
@@ -239,13 +239,13 @@ ul {
   height: 3.1rem;
   width: 100%;
   padding: 0;
-  display: flex; 
+  display: flex;
   align-items: center;
   overflow: hidden;
   border-width: 0px 0px 2px 0px;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  -webkit-box-shadow: 0px 10px 13px -7px var(--bg-secondary), 0px 3px 3px 2px var(--bg-third); 
+  -webkit-box-shadow: 0px 10px 13px -7px var(--bg-secondary), 0px 3px 3px 2px var(--bg-third);
   box-shadow: 0px 10px 13px -7px var(--bg-secondary), 0px 0px 0px 1px var(--bg-third);
   z-index: 1;
 }
@@ -336,7 +336,7 @@ nav a:nth-child(5):hover~.upper-navbar-animation
   color: var(--confirm-color);
   height: 37px;
   padding-top: 3px;
-  font-size: 17px;
+  font-size: 14px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -360,57 +360,12 @@ nav a:nth-child(5):hover~.upper-navbar-animation
 }
 /* #endregion HELPER_BOX */
 
-/* #region PROJECT FORM */
-.project-form{
-  width: 83vh;
-  height: 50vh;
-  margin-top: 5rem;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex; 
-  flex-direction: column;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: var(--border-color);
-  background-color: var(--bg-secondary);
-}
-
-.project-form-block{
-  text-align: center;
-  width: 80%;
-  height: 10vh;
-  margin-top: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 10px;
-  border-color: var(--border-color);
-  background-color: var(--bg-secondary);
-  }
-
-.project-form-block-data{
-  display: flex;
-  flex-direction: row;
-}
-
-.project-form-block select{
-  margin-top: 10px;
-  background-color: var(--form-input-color);
-  color: var(--text-primary);
-  font-size: 17px;
-}
-
-.label-name{
-  color: var(--text-primary);
-  height: 2.5vh;
-  margin-left: 10%;
-}
-
 input[type="text"]
 {
   color: var(--text-primary);
   border-color: var(--border-color);
   background-color: var(--form-input-color);
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 input[type="password"]
@@ -418,7 +373,7 @@ input[type="password"]
   color: var(--text-primary);
   border-color: var(--border-color);
   background-color: var(--form-input-color);
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 input[type="file"]
@@ -426,7 +381,7 @@ input[type="file"]
   color: var(--text-primary);
   border-color: var(--border-color);
   background-color: var(--form-input-color);
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 .file-input {
@@ -465,8 +420,8 @@ input[type="file"]
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: 100;
-  font-size: 96px;
-  line-height: 98px;
+  font-size: 75px;
+  line-height: 83px;
   letter-spacing: 0.2em;
 
   color: rgba(255, 255, 255, 0.9);
@@ -474,25 +429,6 @@ input[type="file"]
 
 .landing-page-text-color{
   color: var(--accent);
-}
-
-.login-banner-text{
-  color: rgb(0, 0, 0);
-  font-size: 30px;
-  font-weight: bolder;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-}
-
-.cube-animation{
-  position: relative;
-  top: -30px;
-  left: -60px;
-  opacity: 0.9;
-  height: 260px;
-  mix-blend-mode:lighten;
-  image-rendering: -webkit-optimize-contrast;
 }
 
 .login-form {
@@ -513,12 +449,10 @@ input[type="file"]
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  margin: 1.1vh;
-  padding: auto;
 }
 
 .login-link{
-  font-size: 15px;
+  font-size: 12px;
   text-align: right;
 }
 
@@ -544,13 +478,21 @@ input[type="file"]
   padding: 10px
 }
 
-.register-item{
+.register-item {
   text-align: center;
   margin: 1.1vh;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: white;
+}
+
 .register-link{
-  font-size: 15px;
+  font-size: 12px;
   text-align: right;
 }
 
@@ -612,18 +554,18 @@ input[type="file"]
   border-width: 2px;
   height: 3vh;
   border-style: solid;
-  font-size: 19px;
+  font-size: 14px;
   padding: 0rem 0.5rem 0rem 0.5rem;
   width: 39rem;
 }
 
 .crypto-item{
-  margin: 15px;
+  margin: 14px;
 }
 
 .warning-test{
   color: mediumpurple;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .copy-button{
