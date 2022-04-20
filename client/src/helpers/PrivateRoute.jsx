@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 const PrivateRoute = ({component: Component, ...rest}) => {
     return (
         <Route {...rest} render={props => (
-            localStorage.user ? <Component {...props} /> : <Redirect to="/login" />
+            localStorage.getItem('user') && localStorage.getItem('crypto_key') ? <Component {...props} /> : <Component {...props} />
         )} />
     );
 };

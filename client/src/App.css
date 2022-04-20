@@ -143,7 +143,7 @@ ul {
 
 .logo-simple{
   image-rendering: -webkit-optimize-contrast;
-  width: 50px;
+  width: 37px;
   margin-top: 5px;
   margin-left: 4px;
   margin-right: 3.7rem;
@@ -446,9 +446,8 @@ input[type="file"]
 }
 
 .login-item{
-  margin-left: auto;
-  margin-right: auto;
   text-align: center;
+  margin: 1.1vh;
 }
 
 .login-link{
@@ -483,13 +482,13 @@ input[type="file"]
   margin: 1.1vh;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: white;
-}
+/*input:-webkit-autofill,*/
+/*input:-webkit-autofill:hover,*/
+/*input:-webkit-autofill:focus,*/
+/*input:-webkit-autofill:active{*/
+/*  transition: background-color 5000s ease-in-out 0s;*/
+/*  -webkit-text-fill-color: white;*/
+/*}*/
 
 .register-link{
   font-size: 12px;

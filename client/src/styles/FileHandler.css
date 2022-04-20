@@ -42,9 +42,9 @@ button.deleting:hover{
 input[type=search]{
   background-color: black;
   color: white;
-  opacity: 90%;
+  opacity: 0.9;
   font-size:'Roboto Mono', monospace;
-  font-size: 19px;
+  font-size: 14px;
 }
 
 div.rendered-react-keyed-file-browser div.files table th, div.rendered-react-keyed-file-browser div.files table td{

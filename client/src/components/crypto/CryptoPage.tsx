@@ -47,6 +47,7 @@ const Crypto = () =>{
                         className="input-text-wide crypto-item"
                         name="cryptoKey"
                         placeholder="Paste your key here or generate a new one"
+                        autoComplete="off"
                         value={cryptoKey}
                         onChange={onChangeCryptoKey}/>
                     {/*TODO: Jan uncomment when HTTPS is used*/}
