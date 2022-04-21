@@ -14,7 +14,7 @@ public class CSRWithPrivateKey extends CSR
 	    this.privateKey = privateKey;
 	}
 
-	public PrivateKey GetPrivateKey() {
+	public PrivateKey getPrivateKey() {
 	    return privateKey;
 	}
 }

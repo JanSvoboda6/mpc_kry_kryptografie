@@ -26,39 +26,39 @@ public class CertificateWithPrivKey extends Cert
 	static final String KEYSTORE_TYPE = "PKCS12";
 	private final PrivateKey privateKey;
 
-	CertificateWithPrivKey(final X509Certificate certificate, final PrivateKey privateKey)
+	public CertificateWithPrivKey(final X509Certificate certificate, final PrivateKey privateKey)
 	{
 		super(certificate);
 		this.privateKey = privateKey;
 	}
 
-	public KeyStore AddToKeystore(KeyStore keyStore, String alias) throws KeyStoreException
+	public KeyStore addToKeystore(KeyStore keyStore, String alias) throws KeyStoreException
 	{
-		final X509Certificate certificate = GetX509Certificate();
+		final X509Certificate certificate = getX509Certificate();
 		final Certificate[] chain = new Certificate[] { certificate };
 		keyStore.setKeyEntry(alias, privateKey, null, chain);
 
 		return keyStore;
 	}
 
-	public KeyStore SaveInPkcs12Keystore(final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
+	public KeyStore saveInPkcs12Keystore(final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		// init keystore
 		final KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
 		keyStore.load(null, null);
 
-		AddToKeystore(keyStore, alias);
+		addToKeystore(keyStore, alias);
 
 		return keyStore;
 	}
 
-	public void ExportPkcs12(final String keystorePath, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
+	public void exportPkcs12(final String keystorePath, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		final File file = new File(keystorePath);
-		ExportPkcs12(file, keystorePassword, alias);
+		exportPkcs12(file, keystorePassword, alias);
 	}
 
-	public void ExportPkcs12(final File keystoreFile, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
+	public void exportPkcs12(final File keystoreFile, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		final KeyStore keyStore;
 		if (keystoreFile.exists() && keystoreFile.isFile())
@@ -67,21 +67,21 @@ public class CertificateWithPrivKey extends Cert
 			keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
 			InputStream stream = new FileInputStream(keystoreFile);
 			keyStore.load(stream, keystorePassword);
-			AddToKeystore(keyStore, alias);
+			addToKeystore(keyStore, alias);
 		} else {
-			keyStore = SaveInPkcs12Keystore(alias);
+			keyStore = saveInPkcs12Keystore(alias);
 		}
       
 		OutputStream stream = new FileOutputStream(keystoreFile);
 		keyStore.store(stream, keystorePassword);
 	}
 
-	public PrivateKey GetPrivateKey()
+	public PrivateKey getPrivateKey()
 	{
 		return privateKey;
 	}
 
-	public String PrintKey() throws IOException
+	public String printKey() throws IOException
 	{
 		final StringWriter sw = new StringWriter();
 		JcaPEMWriter writer = new JcaPEMWriter(sw);
@@ -90,7 +90,7 @@ public class CertificateWithPrivKey extends Cert
 		return sw.toString();
 	}
 
-	public void SaveKey(File file) throws IOException
+	public void saveKey(File file) throws IOException
 	{
 		BufferedWriter fw = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8, StandardOpenOption.CREATE);
         JcaPEMWriter writer = new JcaPEMWriter(fw);
@@ -98,9 +98,9 @@ public class CertificateWithPrivKey extends Cert
         writer.flush();
 	}
 
-	public void SaveKey(String fileName) throws IOException
+	public void saveKey(String fileName) throws IOException
 	{
 		final File file = new File(fileName);
-		SaveKey(file);
+		saveKey(file);
 	}
 }

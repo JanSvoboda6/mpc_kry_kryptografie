@@ -8,84 +8,84 @@ import org.vut.kry.ca.entities.DistinguishedName;
 public class DistinguisedNameBuilder {
 	private final X500NameBuilder builder;
 
-	DistinguisedNameBuilder()
+	public DistinguisedNameBuilder()
 	{
 	    builder = new X500NameBuilder();
 	}
 
-	public DistinguisedNameBuilder SetCn(final String cn)
+	private DistinguisedNameBuilder setCn(final String cn)
 	{
 	    builder.addRDN(BCStyle.CN, cn);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetCommonName(final String cn)
+	public DistinguisedNameBuilder setCommonName(final String cn)
 	{
-	    return SetCn(cn);
+	    return setCn(cn);
 	}
 
-	public DistinguisedNameBuilder SetL(final String l)
+	private DistinguisedNameBuilder setL(final String l)
 	{
 	    builder.addRDN(BCStyle.L, l);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetLocalityName(final String l)
+	public DistinguisedNameBuilder setLocalityName(final String l)
 	{
-	    return SetL(l);
+	    return setL(l);
 	}
 
-	public DistinguisedNameBuilder SetSt(final String st)
+	private DistinguisedNameBuilder setSt(final String st)
 	{
 	    builder.addRDN(BCStyle.ST, st);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetStateOrProvinceName(final String st)
+	public DistinguisedNameBuilder setStateOrProvinceName(final String st)
 	{
-	    return SetSt(st);
+	    return setSt(st);
 	}
 
-	public DistinguisedNameBuilder SetO(final String o)
+	private DistinguisedNameBuilder setO(final String o)
 	{
 	    builder.addRDN(BCStyle.O, o);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetOrganizationName(final String o)
+	public DistinguisedNameBuilder setOrganizationName(final String o)
 	{
-	    return SetO(o);
+	    return setO(o);
 	}
 
-	public DistinguisedNameBuilder SetOu(final String ou)
+	private DistinguisedNameBuilder setOu(final String ou)
 	{
 	    builder.addRDN(BCStyle.OU, ou);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetOrganizationalUnitName(final String ou)
+	public DistinguisedNameBuilder setOrganizationalUnitName(final String ou)
 	{
-	    return SetOu(ou);
+	    return setOu(ou);
 	}
 
-	public DistinguisedNameBuilder SetC(final String c)
+	private DistinguisedNameBuilder setC(final String c)
 	{
 	    builder.addRDN(BCStyle.C, c);
 	    return this;
 	}
 
-	public DistinguisedNameBuilder SetCountryName(final String c)
+	public DistinguisedNameBuilder setCountryName(final String c)
 	{
-	    return SetC(c);
+	    return setC(c);
 	}
 
-	public DistinguisedNameBuilder SetStreet(final String street)
+	public DistinguisedNameBuilder setStreet(final String street)
 	{
 	    builder.addRDN(BCStyle.STREET, street);
 	    return this;
 	}
 
-	public DistinguishedName Build()
+	public DistinguishedName build()
 	{
 	    final X500Name name = builder.build();
 	    return new DistinguishedName(name);

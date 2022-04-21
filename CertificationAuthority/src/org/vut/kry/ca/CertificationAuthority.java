@@ -36,12 +36,12 @@ public class CertificationAuthority {
 		try
 		{
 			caCert = new RootCertBuilder(root)
-			    .ValidDuringYears(10)
-			    .Build(subjectAlternativeName);
+			    .validDuringYears(10)
+			    .build(subjectAlternativeName);
 			
 			// the certificate and private keys are saved to the selected destination
-			caCert.Save(certificateFilePath);
-			caCert.SaveKey(keyFilePath);
+			caCert.save(certificateFilePath);
+			caCert.saveKey(keyFilePath);
 		}
 		catch (InvalidKeyException | OperatorCreationException | NoSuchAlgorithmException | CertificateException | NoSuchProviderException | SignatureException | IOException e)
 		{
@@ -67,13 +67,13 @@ public class CertificationAuthority {
 		
 		try {
 			// create a Certificate Signing Request (CSR)
-			csr = new CSRBuilder().GenerateRequest(new DistinguisedNameBuilder()
-			        .SetCn(commonName)
-			        .SetO(organization)
-			        .SetOu(department)
-			        .SetSt(province)
-			        .SetC(state)
-			        .Build());
+			csr = new CSRBuilder().generateRequest(new DistinguisedNameBuilder()
+			        .setCommonName(commonName)
+			        .setOrganizationName(organization)
+			        .setOrganizationalUnitName(department)
+			        .setStateOrProvinceName(province)
+			        .setCountryName(state)
+			        .build());
 		} catch (NoSuchAlgorithmException | OperatorCreationException | PEMException e) {
 			e.printStackTrace();
 		}
@@ -98,10 +98,10 @@ public class CertificationAuthority {
 		Cert clientCert = null;
 		try
 		{
-			clientCert = caCertificate.SignCsr(csr)
-			        .SetRandomSerialNumber()
-			        .ValidDuringYears(2)
-			        .Sign(subjectAlternativeName);
+			clientCert = caCertificate.signCSR(csr)
+			        .setRandomSerialNumber()
+			        .validDuringYears(2)
+			        .sign(subjectAlternativeName);
 		}
 		catch (InvalidKeyException | OperatorCreationException | NoSuchAlgorithmException | CertIOException | CertificateException | NoSuchProviderException | SignatureException e)
 		{
@@ -110,9 +110,9 @@ public class CertificationAuthority {
         
 		// generate files
         try {
-			clientCert.Save(certificateFilePath);
-			CertificateWithPrivKey priv = clientCert.AttachPrivateKey(csr.GetPrivateKey());
-	        priv.SaveKey(keyFilePath);
+			clientCert.save(certificateFilePath);
+			CertificateWithPrivKey priv = clientCert.attachPrivateKey(csr.getPrivateKey());
+	        priv.saveKey(keyFilePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -131,10 +131,10 @@ public class CertificationAuthority {
 		try
 		{
             // check the validity of the client's certificate - time
-            clientCertificate.GetX509Certificate().checkValidity();
+            clientCertificate.getX509Certificate().checkValidity();
 
             // check the validity of the client's certificate - signature
-            clientCertificate.GetX509Certificate().verify(caCertificate.GetX509Certificate().getPublicKey());
+            clientCertificate.getX509Certificate().verify(caCertificate.getX509Certificate().getPublicKey());
 
             return true;
         }

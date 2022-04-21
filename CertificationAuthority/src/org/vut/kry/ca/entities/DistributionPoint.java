@@ -9,7 +9,7 @@ import org.vut.kry.ca.misc.NameType;
 
 public class DistributionPoint extends CertificateExtension
 {
-	DistributionPoint(final org.bouncycastle.asn1.x509.DistributionPoint... points)
+	public DistributionPoint(final org.bouncycastle.asn1.x509.DistributionPoint... points)
 	{
 	    super(Extension.cRLDistributionPoints, false, new org.bouncycastle.asn1.x509.CRLDistPoint(points));
 	}
@@ -18,21 +18,21 @@ public class DistributionPoint extends CertificateExtension
 	 * Creates a {@link CrlDistPointExtension} with only a {@code distributionPoint} URI (no {@code reasons}, no
 	 * {@code cRLIssuer} specified).
 	 */
-	public static DistributionPoint Create(final String uri)
+	public static DistributionPoint create(final String uri)
 	{
-	    return Create(NameType.URI, uri);
+	    return create(NameType.URI, uri);
 	}
 
 	/**
 	 * Creates a {@link CrlDistPointExtension} with only a {@code distributionPoint} {@link GeneralName} (no
 	 * {@code reasons}, no {@code cRLIssuer} specified).
 	 */
-	public static DistributionPoint Create(final NameType type, final String name)
+	public static DistributionPoint create(final NameType type, final String name)
 	{
-		return Create(type, name, null, null, null);
+		return create(type, name, null, null, null);
 	}
 
-	public static DistributionPoint Create(final NameType distribPointNameType, final String distribPointName, final NameType crlIssuerNameType, final String crlIssuer, final ReasonFlags reasons)
+	public static DistributionPoint create(final NameType distribPointNameType, final String distribPointName, final NameType crlIssuerNameType, final String crlIssuer, final ReasonFlags reasons)
 	{
 	    final DistributionPointName dp = new DistributionPointName(distribPointNameType.generalNames(distribPointName));
 	    final GeneralNames crl;
@@ -46,16 +46,16 @@ public class DistributionPoint extends CertificateExtension
 	    	crl = null;
 	    }
 	    
-	    return Create(dp, reasons, crl);
+	    return create(dp, reasons, crl);
 	  }
 
-	  public static DistributionPoint Create(final DistributionPointName distributionPoint, final ReasonFlags reasons, final GeneralNames cRLIssuer)
+	  public static DistributionPoint create(final DistributionPointName distributionPoint, final ReasonFlags reasons, final GeneralNames cRLIssuer)
 	  {
 		  final org.bouncycastle.asn1.x509.DistributionPoint p = new org.bouncycastle.asn1.x509.DistributionPoint(distributionPoint, reasons, cRLIssuer);
-		  return Create(p);
+		  return create(p);
 	  }
 
-	  public static DistributionPoint Create(final org.bouncycastle.asn1.x509.DistributionPoint... points)
+	  public static DistributionPoint create(final org.bouncycastle.asn1.x509.DistributionPoint... points)
 	  {
 		  return new DistributionPoint(points);
 	  }

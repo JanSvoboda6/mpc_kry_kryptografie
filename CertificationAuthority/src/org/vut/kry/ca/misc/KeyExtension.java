@@ -5,22 +5,22 @@ import org.vut.kry.ca.entities.CertificateExtension;
 
 public class KeyExtension extends CertificateExtension
 {
-	KeyExtension(final int keyUsages)
+	public KeyExtension(final int keyUsages)
 	{
 	    super(Extension.keyUsage, false, new org.bouncycastle.asn1.x509.KeyUsage(keyUsages));
 	}
 
-	KeyExtension(final KeyUsage... usages)
+	public KeyExtension(final KeyUsage... usages)
 	{
-	    this(GetUsages(usages));
+	    this(getUsages(usages));
 	}
 
-	public static KeyExtension Create(final KeyUsage... usages)
+	public static KeyExtension create(final KeyUsage... usages)
 	{
 	    return new KeyExtension(usages);
 	}
 
-	private static int GetUsages(final KeyUsage[] usages)
+	private static int getUsages(final KeyUsage[] usages)
 	{
 	    int u = 0;
 	    for (final KeyUsage ku : usages)

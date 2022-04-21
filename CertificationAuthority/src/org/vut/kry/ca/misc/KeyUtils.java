@@ -8,12 +8,12 @@ public class KeyUtils
 	private static final String ALGORITHM = "RSA";
 	private static final int DEFAULT_KEY_SIZE = 2048;
 
-	public static KeyPair GenerateKeyPair() throws NoSuchAlgorithmException
+	public static KeyPair generateKeyPair() throws NoSuchAlgorithmException
 	{
-	    return GenerateKeyPair(DEFAULT_KEY_SIZE);
+	    return generateKeyPair(DEFAULT_KEY_SIZE);
 	}
 
-	public static KeyPair GenerateKeyPair(final int keySize) throws NoSuchAlgorithmException
+	public static KeyPair generateKeyPair(final int keySize) throws NoSuchAlgorithmException
 	{
 	    final KeyPairGenerator gen = KeyPairGenerator.getInstance(ALGORITHM);
 	    gen.initialize(keySize);

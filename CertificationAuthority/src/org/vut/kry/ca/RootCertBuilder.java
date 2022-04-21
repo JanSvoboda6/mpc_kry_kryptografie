@@ -26,54 +26,54 @@ public class RootCertBuilder
 	private KeyPair pair;
 	private Signer signer;
 
-	RootCertBuilder(final DistinguishedName subject)
+	public RootCertBuilder(final DistinguishedName subject)
 	{
 		try {
-			pair = KeyUtils.GenerateKeyPair();
-			signer = new Signer(pair, subject, pair.getPublic(), subject).SetRandomSerialNumber();
+			pair = KeyUtils.generateKeyPair();
+			signer = new Signer(pair, subject, pair.getPublic(), subject).setRandomSerialNumber();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public RootCertBuilder SetNotBefore(final ZonedDateTime notBefore)
+	public RootCertBuilder setNotBefore(final ZonedDateTime notBefore)
 	{
-		signer.SetNotBefore(notBefore);
+		signer.setNotBefore(notBefore);
 		return this;
 	}
 
-	public RootCertBuilder SetNotAfter(final ZonedDateTime notAfter)
+	public RootCertBuilder setNotAfter(final ZonedDateTime notAfter)
 	{
-		signer.SetNotAfter(notAfter);
+		signer.setNotAfter(notAfter);
 		return this;
 	}
 
-	public RootCertBuilder ValidDuringYears(final int years)
+	public RootCertBuilder validDuringYears(final int years)
 	{
-		signer.ValidDuringYears(years);
+		signer.validDuringYears(years);
 		return this;
 	}
 
-	public RootCertBuilder SetCrlUri(final String crlUri)
+	public RootCertBuilder setCrlUri(final String crlUri)
 	{
 		this.crlUri = crlUri;
 		return this;
 	}
 
-	public RootCertificate Build(final String subjectAlternativeName) throws InvalidKeyException, OperatorCreationException, NoSuchAlgorithmException, CertificateException, NoSuchProviderException, SignatureException, IOException
+	public RootCertificate build(final String subjectAlternativeName) throws InvalidKeyException, OperatorCreationException, NoSuchAlgorithmException, CertificateException, NoSuchProviderException, SignatureException, IOException
 	{
-		signer.AddExtension(KeyExtension.Create(
+		signer.addExtension(KeyExtension.create(
 				KeyExtension.KeyUsage.KEY_CERT_SIGN,
 				KeyExtension.KeyUsage.CRL_SIGN));
 
 	    if (crlUri != null) {
-	    	signer.AddExtension(DistributionPoint.Create(crlUri));
+	    	signer.addExtension(DistributionPoint.create(crlUri));
 	    }
 
 	    // This is a CA
-	    signer.AddExtension(Extension.basicConstraints, false, new BasicConstraints(true));
+	    signer.addExtension(Extension.basicConstraints, false, new BasicConstraints(true));
 
-	    final X509Certificate rootCertificate = signer.Sign(subjectAlternativeName).GetX509Certificate();
+	    final X509Certificate rootCertificate = signer.sign(subjectAlternativeName).getX509Certificate();
 
 	    return new RootCertificate(rootCertificate, pair.getPrivate());
 	  }

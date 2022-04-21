@@ -21,12 +21,12 @@ public class CSRBuilder
 {
 	private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
 
-	public CSRWithPrivateKey GenerateRequest(final DistinguishedName dn) throws NoSuchAlgorithmException, OperatorCreationException, PEMException
+	public CSRWithPrivateKey generateRequest(final DistinguishedName dn) throws NoSuchAlgorithmException, OperatorCreationException, PEMException
 	{
-	    final KeyPair pair = KeyUtils.GenerateKeyPair();
+	    final KeyPair pair = KeyUtils.generateKeyPair();
         final PrivateKey privateKey = pair.getPrivate();
 	    final PublicKey publicKey = pair.getPublic();
-	    final X500Name x500Name = dn.GetX500Name();
+	    final X500Name x500Name = dn.getX500Name();
 	    final ContentSigner signGen = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM).build(privateKey);
 	    final PKCS10CertificationRequestBuilder builder = new JcaPKCS10CertificationRequestBuilder(x500Name, publicKey);
 	    final PKCS10CertificationRequest csr = builder.build(signGen);

@@ -59,59 +59,59 @@ public class Signer
 		this.dn = dn;
 	}
 	
-	public Signer SetSerialNumber(final BigInteger serialNumber)
+	public Signer setSerialNumber(final BigInteger serialNumber)
 	{
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
 	
-	public Signer SetRandomSerialNumber()
+	public Signer setRandomSerialNumber()
 	{
 	    this.serialNumber = new BigInteger(DEFAULT_SERIAL_LENGTH, new SecureRandom());
 	    return this;
 	}
 	
-	public Signer SetNotBefore(final ZonedDateTime notBefore)
+	public Signer setNotBefore(final ZonedDateTime notBefore)
 	{
 	    this.notBefore = notBefore;
 	    return this;
 	}
 	
-	public Signer SetNotAfter(final ZonedDateTime notAfter)
+	public Signer setNotAfter(final ZonedDateTime notAfter)
 	{
 	    this.notAfter = notAfter;
 	    return this;
 	}
 	
-	public Signer ValidDuringYears(final int years)
+	public Signer validDuringYears(final int years)
 	{
 	    notAfter = notBefore.plusYears(years);
 	    return this;
 	}
 	
-	public Signer AddExtension(final CertificateExtension extension) {
+	public Signer addExtension(final CertificateExtension extension) {
 	    extensions.add(extension);
 	    return this;
 	}
 	
-	public Signer AddExtension(final ASN1ObjectIdentifier oid, final boolean isCritical, final ASN1Encodable value)
+	public Signer addExtension(final ASN1ObjectIdentifier oid, final boolean isCritical, final ASN1Encodable value)
 	{
 		extensions.add(new CertificateExtension(oid, isCritical, value));
 		return this;
 	}
 	
-	public Cert Sign(final String subjectAlternativeName) throws OperatorCreationException, NoSuchAlgorithmException, CertIOException, CertificateException, InvalidKeyException, NoSuchProviderException, SignatureException {
+	public Cert sign(final String subjectAlternativeName) throws OperatorCreationException, NoSuchAlgorithmException, CertIOException, CertificateException, InvalidKeyException, NoSuchProviderException, SignatureException {
 		final ContentSigner sigGen = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM).build(signerKeyPair.getPrivate());
 
 	    final SubjectPublicKeyInfo subPubKeyInfo = SubjectPublicKeyInfo.getInstance(publicKey.getEncoded());
 
 	    final JcaX509ExtensionUtils extUtils = new JcaX509ExtensionUtils();
 	    final X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(
-	        signerDn.GetX500Name(),
+	        signerDn.getX500Name(),
 	        serialNumber,
 	        Date.from(notBefore.toInstant()),
 	        Date.from(notAfter.toInstant()),
-	        dn.GetX500Name(),
+	        dn.getX500Name(),
 	        subPubKeyInfo)
 	            .addExtension(Extension.authorityKeyIdentifier, false, extUtils.createAuthorityKeyIdentifier(signerKeyPair.getPublic()))
 	            .addExtension(Extension.subjectKeyIdentifier, false, extUtils.createSubjectKeyIdentifier(publicKey));

@@ -21,10 +21,10 @@ public class RootCertificate extends CertificateWithPrivKey
 	    this.caCertificateHolder = new X509CertificateHolder(caCertificate.getEncoded());
 	}
 
-	public Signer SignCsr(final CSR request)
+	public Signer signCSR(final CSR request)
 	{
-	    final KeyPair pair = new KeyPair(GetX509Certificate().getPublicKey(), GetPrivateKey());
+	    final KeyPair pair = new KeyPair(getX509Certificate().getPublicKey(), getPrivateKey());
 	    final DistinguishedName signerSubject = new DistinguishedName(caCertificateHolder.getSubject());
-	    return new Signer(pair, signerSubject, request.GetPublicKey(), request.GetSubject());
+	    return new Signer(pair, signerSubject, request.getPublicKey(), request.getSubject());
 	}
 }

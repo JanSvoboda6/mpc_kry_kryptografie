@@ -15,12 +15,12 @@ public class CSR {
 	    publicKey = new JcaPEMKeyConverter().getPublicKey(request.getSubjectPublicKeyInfo());
 	}
 
-	public DistinguishedName GetSubject()
+	public DistinguishedName getSubject()
 	{
 	    return dn;
 	}
 
-	public PublicKey GetPublicKey()
+	public PublicKey getPublicKey()
 	{
 	    return publicKey;
 	}

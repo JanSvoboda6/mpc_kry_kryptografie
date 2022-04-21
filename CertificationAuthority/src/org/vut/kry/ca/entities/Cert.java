@@ -20,12 +20,12 @@ public class Cert {
 	    this.certificate = certificate;
 	}
 
-	public X509Certificate GetX509Certificate()
+	public X509Certificate getX509Certificate()
 	{
 		return certificate;
 	}
 
-	public String Print() throws IOException
+	public String print() throws IOException
 	{
 	    final StringWriter sw = new StringWriter();
 	    JcaPEMWriter writer = new JcaPEMWriter(sw);
@@ -34,7 +34,7 @@ public class Cert {
 	    return sw.toString();
 	}
 
-	public void Save(final File file) throws IOException
+	public void save(final File file) throws IOException
 	{
 		BufferedWriter fw = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8, StandardOpenOption.CREATE);
 	    JcaPEMWriter writer = new JcaPEMWriter(fw);
@@ -42,13 +42,13 @@ public class Cert {
 	    writer.flush();
 	}
 
-	public void Save(final String fileName) throws IOException
+	public void save(final String fileName) throws IOException
 	{
 	    final File file = new File(fileName);
-	    Save(file);
+	    save(file);
 	}
 
-	public CertificateWithPrivKey AttachPrivateKey(PrivateKey privateKey)
+	public CertificateWithPrivKey attachPrivateKey(PrivateKey privateKey)
 	{
 	    return new CertificateWithPrivKey(certificate, privateKey);
 	}

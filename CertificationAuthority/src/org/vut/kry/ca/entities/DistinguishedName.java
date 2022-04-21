@@ -23,22 +23,22 @@ public class DistinguishedName
 	    this.x500Name = X500Name.getInstance(principal.getEncoded());
 	}
 	
-	public X500Name GetX500Name()
+	public X500Name getX500Name()
 	{
 	    return x500Name;
 	}
 	
-	public X500Principal GetX500Principal() throws IOException
+	public X500Principal getX500Principal() throws IOException
 	{
 	    return new X500Principal(x500Name.getEncoded());
 	}
 	
-	public byte[] GetEncoded() throws Exception
+	public byte[] getEncoded() throws Exception
 	{
 	      return x500Name.getEncoded();
 	}
 	
-	public String GetName()
+	public String getName()
 	{
 	    return x500Name.toString();
 	}
@@ -46,6 +46,6 @@ public class DistinguishedName
 	@Override
 	public String toString()
 	{
-		return GetName();
+		return getName();
 	}
 }
