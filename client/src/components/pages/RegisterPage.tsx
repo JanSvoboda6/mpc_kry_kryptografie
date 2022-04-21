@@ -40,16 +40,22 @@ function Register()
                 },
                 (error: any) =>
                 {
-                    setMessage(error.response.data);
                     setIsLoading(false);
+                    setMessage(error.response.data);
                 });
-        } else
+        }
+        else
         {
          setIsLoading(false);
         }
     }
 
     const validateForm = ():boolean => {
+        if(username.length > 128)
+        {
+            setMessage("Email cannot have more than 128 characters!");
+            return false;
+        }
         if (!Validator.isEmail(username, {ignore_max_length: false})){
             setMessage("Email format is not valid!");
             return false;

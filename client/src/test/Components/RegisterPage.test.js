@@ -47,7 +47,7 @@ describe('Submitting', () => {
             password: 'Thisisarandompassword_999'
         };
 
-        jest.spyOn(RegisterService, 'register').mockRejectedValue("An error occurred!");
+        jest.spyOn(RegisterService, 'register').mockRejectedValue({response: {data: 'An error occurred!'}});
         history.replace = jest.fn();
 
         await act(async () => {
@@ -78,10 +78,8 @@ describe('Submitting', () => {
             password: 'Thisisarandompassword_999'
         };
 
-        let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
-
-        jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
+        const errorMessage = 'An error occurred!';
+        jest.spyOn(RegisterService, 'register').mockRejectedValue({response: {data: errorMessage}});
         history.replace = jest.fn();
 
         await act(async () => {
@@ -101,8 +99,7 @@ describe('Submitting', () => {
             fireEvent.click(signUpButton);
         });
 
-        const errorMessage = screen.getByText(message);
-        expect(errorMessage).toBeInTheDocument();
+        expect(screen.getByText(errorMessage)).toBeInTheDocument();
     });
 
     test('When form has been submitted and there is an error then submit button becomes enabled', async() => {
@@ -113,10 +110,8 @@ describe('Submitting', () => {
             password: 'Thisisarandompassword_999'
         };
 
-        let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
-
-        jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
+        const errorMessage = 'An error occurred!';
+        jest.spyOn(RegisterService, 'register').mockRejectedValue({response: {data: errorMessage}});
         history.replace = jest.fn();
 
         await act(async () => {
@@ -154,10 +149,7 @@ describe('Validation', () =>
             password: 'Thisisarandompassword_999'
         };
 
-        let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
-
-        jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
+        jest.spyOn(RegisterService, 'register').mockRejectedValue({response: {data: 'A problem occurred'}});
         history.replace = jest.fn();
 
         await act(async () => {
@@ -194,10 +186,7 @@ describe('Validation', () =>
             password: 'Thisisarandompassword_999'
         };
 
-        let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
-
-        jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
+        jest.spyOn(RegisterService, 'register').mockRejectedValue( {response: {data: 'A problem occurred'}});
         history.replace = jest.fn();
 
         await act(async () => {
@@ -234,7 +223,7 @@ describe('Validation', () =>
         };
 
         let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
+        const error = {response: {data: message}}
 
         jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
         history.replace = jest.fn();
@@ -256,7 +245,7 @@ describe('Validation', () =>
             fireEvent.click(signUpButton);
         });
 
-        const errorMessage = screen.getByText("Password is not valid!");
+        const errorMessage = screen.getByText('Password is not strong enough.', {exact: false});
         expect(errorMessage).toBeInTheDocument();
     });
 
@@ -273,7 +262,7 @@ describe('Validation', () =>
         };
 
         let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
+        const error = {response: {data: message}}
 
         jest.spyOn(RegisterService, 'register').mockRejectedValue(error);
         history.replace = jest.fn();
@@ -295,7 +284,7 @@ describe('Validation', () =>
             fireEvent.click(signUpButton);
         });
 
-        const errorMessage = screen.getByText("Password is not valid!");
+        const errorMessage = screen.getByText('Password is not strong enough.', {exact: false});
         expect(errorMessage).toBeInTheDocument();
     });
 });

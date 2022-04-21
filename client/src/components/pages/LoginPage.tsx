@@ -17,7 +17,7 @@ function Login()
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const showPopup = params.get('popup');
+    const showPopup = params.get("popup");
 
     const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ function Login()
 
         if (validateForm())
         {
-            var user = { username: username, password: password, accessToken: "" };
+            const user = { username: username, password: password, accessToken: "" };
 
             LoginService.login(dispatch, user)
                 .then(
@@ -61,9 +61,27 @@ function Login()
     }
 
     const validateForm = ():boolean => {
+        if(username.length > 128)
+        {
+            setMessage("Email cannot have more than 128 characters!");
+            return false;
+        }
+
         if (!Validator.isEmail(username, {ignore_max_length: false}))
         {
             setMessage("Email format is not valid!");
+            return false;
+        }
+
+        if(password.length === 0)
+        {
+            setMessage("Password cannot be empty!");
+            return false;
+        }
+
+        if(password.length > 50)
+        {
+            setMessage("Password cannot have more than 50 character!");
             return false;
         }
         return  true;
@@ -77,7 +95,7 @@ function Login()
     return (
             <>
             <div className="wrapper">
-                {showPopup == 't' && <HelperBox content="Thanks for the registration. We have sent you an activation email!" />}
+                {showPopup === 't' && <HelperBox content="Thanks for the registration. We have sent you an activation email!" />}
             </div>
             <div className="landing-page-wrapper">
                     <FadeIn delay={250}>
@@ -109,7 +127,7 @@ function Login()
                                             </div>
                                             <div className="login-item">
                                                 <button className="submit-button" disabled={isLoading}>
-                                                    <span>Login</span>
+                                                    Login
                                                 </button>
                                             </div>
                                             {message && (

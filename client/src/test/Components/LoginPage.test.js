@@ -9,28 +9,32 @@ import Login from "../../components/pages/LoginPage";
 import {act} from 'react-dom/test-utils';
 
 describe('Rendering', () => {
-    test('When form is rendered then submit button is enabled', () => {
+    test('When form is rendered then submit button is enabled', async() => {
         jest.spyOn(redux, 'useDispatch').mockReturnValue(jest.fn());
+        await act(async () => {
         render(<Router history={createMemoryHistory()}><LoginPage/></Router>);
+        });
         const loginButton = screen.getByText(/login/i);
         expect(loginButton).toBeEnabled();
     });
 
-    test('When there is a login popup parameter then pop window with successful registration is displayed', () => {
+    test('When there is a login popup parameter then pop window with successful registration is displayed', async() => {
         jest.spyOn(redux, 'useDispatch').mockReturnValue(jest.fn());
-        const url = "http://random-url.com/?popup=t";
-        Object.defineProperty(window, "location", {
+        const url = 'http://random-url.com/?popup=t';
+        Object.defineProperty(window, 'location', {
             value: new URL(url)
         });
 
+        await act(async () => {
         render(<Router history={createMemoryHistory()}><LoginPage/></Router>);
-        const popupMessage = screen.getByText("Thanks for registration. Now you can login!");
+        });
+        const popupMessage = screen.getByText('Thanks for the registration. We have sent you an activation email!');
         expect(popupMessage).toBeInTheDocument();
     })
 });
 
 describe('Login', () => {
-    test('When form is successfully submitted then user is redirected to the main page', async () => {
+    test('When form is successfully submitted then user is redirected to the crypto key generating page', async () => {
         jest.spyOn(redux, 'useDispatch').mockReturnValue(jest.fn());
         const history = createMemoryHistory();
         const user = {
@@ -47,7 +51,7 @@ describe('Login', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: user.username}});
@@ -58,7 +62,7 @@ describe('Login', () => {
             fireEvent.click(loginButton);
         });
 
-        expect(history.replace).toHaveBeenCalledWith(expect.objectContaining({"pathname": "/preparing"}));
+        expect(history.replace).toHaveBeenCalledWith(expect.objectContaining({'pathname': '/crypto'}));
     });
 
     test('When form is not successfully submitted then user is not redirected to the main page', async () => {
@@ -66,7 +70,7 @@ describe('Login', () => {
         const history = createMemoryHistory();
 
         let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
+        const error = {response: {data: message}};
 
         jest.spyOn(LoginService, 'login').mockRejectedValue(error);
         history.replace = jest.fn();
@@ -77,7 +81,7 @@ describe('Login', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: 'user@user.com'}});
@@ -93,7 +97,7 @@ describe('Login', () => {
         const history = createMemoryHistory();
 
         let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
+        const error = {response: {data: message}};
 
         jest.spyOn(LoginService, 'login').mockRejectedValue(error);
         history.replace = jest.fn();
@@ -104,7 +108,7 @@ describe('Login', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: 'user@user.com'}});
@@ -125,7 +129,7 @@ describe('Login', () => {
         const history = createMemoryHistory();
 
         let message = 'A problem occurred';
-        const error = {response: {data: {message: message}}}
+        const error = {response: {data: message}};
 
         jest.spyOn(LoginService, 'login').mockRejectedValue(error);
         history.replace = jest.fn();
@@ -136,7 +140,7 @@ describe('Login', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: 'user@user.com'}});
@@ -163,7 +167,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: ''}});
@@ -171,7 +175,7 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.getByText("Email format is not valid!");
+        const errorMessage = screen.getByText('Email format is not valid!');
         expect(errorMessage).toBeInTheDocument();
     });
 
@@ -187,7 +191,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: 'an invalid email@ format'}});
@@ -195,7 +199,7 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.getByText("Email format is not valid!");
+        const errorMessage = screen.getByText('Email format is not valid!');
         expect(errorMessage).toBeInTheDocument();
     });
 
@@ -211,7 +215,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: 'user@user.com'}});
@@ -222,13 +226,14 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.getByText("Password is not valid!");
+        const errorMessage = screen.getByText('Password cannot be empty!');
         expect(errorMessage).toBeInTheDocument();
     });
 
     test('When email has maximum length of 128 characters then validation is successful', async () => {
         jest.spyOn(redux, 'useDispatch').mockReturnValue(jest.fn());
         const history = createMemoryHistory();
+        jest.spyOn(LoginService, 'login').mockResolvedValue('Login successful.')
 
         history.replace = jest.fn();
 
@@ -237,15 +242,15 @@ describe('Validation', () => {
         });
 
         let name = 'n'.repeat(64);
-        let domain = 'd'.repeat(63);
-        let emailAddressWithNameAndDomainLengthOf127 = name + '@' + domain + '.com';
+        let domain = 'd'.repeat(59);
+        let emailAddressWithNameAndDomainLengthOf128 = name + '@' + domain + '.com';
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
-            fireEvent.change(email, {target: {value: emailAddressWithNameAndDomainLengthOf127}});
+            fireEvent.change(email, {target: {value: emailAddressWithNameAndDomainLengthOf128}});
             fireEvent.change(password, {target: {value: 'Thisisarandompassword_999'}});
         });
 
@@ -253,7 +258,7 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.queryByText("Email format is not valid!");
+        const errorMessage = screen.queryByText('Email cannot have more than 128 characters!');
         expect(errorMessage).not.toBeInTheDocument();
 
     });
@@ -274,7 +279,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         await act(async () => {
             fireEvent.change(email, {target: {value: emailAddressWithNameAndDomainLengthOf128}});
@@ -285,9 +290,8 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.getByText("Email format is not valid!");
+        const errorMessage = screen.getByText('Email cannot have more than 128 characters!');
         expect(errorMessage).toBeInTheDocument();
-
     });
 
     test('When password is shorter or equal to maximum password length of 50 characters then validation is successful', async() =>{
@@ -302,7 +306,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         let strongPasswordOfLength10 = 'Strong_999'
         let passwordWithMaximalLength = strongPasswordOfLength10.repeat(5);
@@ -316,7 +320,7 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.queryByText("Password is not valid!");
+        const errorMessage = screen.queryByText('Password cannot have more than 50 character!');
         expect(errorMessage).not.toBeInTheDocument()
     });
 
@@ -332,7 +336,7 @@ describe('Validation', () => {
 
         const email = screen.getByPlaceholderText(/email/i);
         const password = screen.getByPlaceholderText(/password/i);
-        const loginButton = screen.getByText("Login");
+        const loginButton = screen.getByText('Login');
 
         let tooLongPassword = 'p'.repeat(51);
         await act(async () => {
@@ -344,7 +348,7 @@ describe('Validation', () => {
             fireEvent.click(loginButton);
         });
 
-        const errorMessage = screen.getByText("Password is not valid!");
+        const errorMessage = screen.getByText('Password cannot have more than 50 character!');
         expect(errorMessage).toBeInTheDocument()
     });
 });
