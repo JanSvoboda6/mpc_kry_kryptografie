@@ -17,8 +17,7 @@ class AuthenticationService
 
   logout()
   {
-    localStorage.removeItem("user");
-    localStorage.removeItem("key");
+    localStorage.clear();
   }
 
   register(username: string, password: string)
