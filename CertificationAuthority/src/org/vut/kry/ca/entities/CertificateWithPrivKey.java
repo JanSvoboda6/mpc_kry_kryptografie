@@ -21,12 +21,12 @@ import java.security.cert.X509Certificate;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 
-public class CertWithPrivKey extends Cert
+public class CertificateWithPrivKey extends Cert
 {
 	static final String KEYSTORE_TYPE = "PKCS12";
 	private final PrivateKey privateKey;
 
-	CertWithPrivKey(final X509Certificate certificate, final PrivateKey privateKey)
+	CertificateWithPrivKey(final X509Certificate certificate, final PrivateKey privateKey)
 	{
 		super(certificate);
 		this.privateKey = privateKey;

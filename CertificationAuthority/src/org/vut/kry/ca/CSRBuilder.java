@@ -12,7 +12,7 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
-import org.vut.kry.ca.entities.CSRWithPrivKey;
+import org.vut.kry.ca.entities.CSRWithPrivateKey;
 import org.vut.kry.ca.entities.DistinguishedName;
 import org.vut.kry.ca.misc.KeyUtils;
 
@@ -21,7 +21,7 @@ public class CSRBuilder
 {
 	private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
 
-	public CSRWithPrivKey GenerateRequest(final DistinguishedName dn) throws NoSuchAlgorithmException, OperatorCreationException, PEMException
+	public CSRWithPrivateKey GenerateRequest(final DistinguishedName dn) throws NoSuchAlgorithmException, OperatorCreationException, PEMException
 	{
 	    final KeyPair pair = KeyUtils.GenerateKeyPair();
         final PrivateKey privateKey = pair.getPrivate();
@@ -30,6 +30,6 @@ public class CSRBuilder
 	    final ContentSigner signGen = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM).build(privateKey);
 	    final PKCS10CertificationRequestBuilder builder = new JcaPKCS10CertificationRequestBuilder(x500Name, publicKey);
 	    final PKCS10CertificationRequest csr = builder.build(signGen);
-	    return new CSRWithPrivKey(csr, privateKey);
+	    return new CSRWithPrivateKey(csr, privateKey);
 	}
 }

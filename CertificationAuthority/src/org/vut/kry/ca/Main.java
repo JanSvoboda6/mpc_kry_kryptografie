@@ -1,7 +1,7 @@
 package org.vut.kry.ca;
-import org.vut.kry.ca.entities.CSRWithPrivKey;
+import org.vut.kry.ca.entities.CSRWithPrivateKey;
 import org.vut.kry.ca.entities.Cert;
-import org.vut.kry.ca.entities.RootCert;
+import org.vut.kry.ca.entities.RootCertificate;
 
 
 public class Main
@@ -18,10 +18,10 @@ public class Main
     public static void main(String[] args)
     {
     	// Create a new Certification Authority
-    	CA certificationAuthority = new CA();
+    	CertificationAuthority certificationAuthority = new CertificationAuthority();
     	
     	// Create a certificate for the Certification Authority
-    	RootCert certificationAuthorityCertificate = certificationAuthority.createSelfSignedCACertificate(
+    	RootCertificate certificationAuthorityCertificate = certificationAuthority.createSelfSignedCACertificate(
     			"*.customca.org",
     			"CN=Root-CustomCA, O=CustomCA",
     			10,
@@ -29,7 +29,7 @@ public class Main
     			"GeneratedCertificates/CertificationAuthorityPK.key");
     	
         // Register a new client with the Certification Authority
-    	CSRWithPrivKey certificateSigningRequest = certificationAuthority.registerClient(
+    	CSRWithPrivateKey certificateSigningRequest = certificationAuthority.registerClient(
     			"*.securestorage.website",
     			"SecureStorage",
     			"undefined dept.",

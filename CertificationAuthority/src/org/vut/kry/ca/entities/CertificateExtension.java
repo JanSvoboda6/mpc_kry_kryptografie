@@ -3,12 +3,12 @@ import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 
 
-public class CrtExtension {
+public class CertificateExtension {
 	private final ASN1ObjectIdentifier oid;
 	private final boolean isCritical;
 	private final ASN1Encodable value;
 
-	public CrtExtension(final ASN1ObjectIdentifier oid, final boolean isCritical, final ASN1Encodable value) {
+	public CertificateExtension(final ASN1ObjectIdentifier oid, final boolean isCritical, final ASN1Encodable value) {
 		this.oid = oid;
 	    this.isCritical = isCritical;
 	    this.value = value;

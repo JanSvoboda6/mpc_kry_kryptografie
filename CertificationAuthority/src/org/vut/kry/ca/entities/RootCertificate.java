@@ -9,13 +9,13 @@ import org.bouncycastle.cert.X509CertificateHolder;
 import org.vut.kry.ca.Signer;
 
 
-public class RootCert extends CertWithPrivKey
+public class RootCertificate extends CertificateWithPrivKey
 {
 	static final String KEYSTORE_TYPE = "PKCS12";
 
 	private final X509CertificateHolder caCertificateHolder;
 
-	public RootCert(final X509Certificate caCertificate, final PrivateKey caPrivateKey) throws CertificateEncodingException, IOException
+	public RootCertificate(final X509Certificate caCertificate, final PrivateKey caPrivateKey) throws CertificateEncodingException, IOException
 	{
 		super(caCertificate, caPrivateKey);
 	    this.caCertificateHolder = new X509CertificateHolder(caCertificate.getEncoded());

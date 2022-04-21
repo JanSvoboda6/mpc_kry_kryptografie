@@ -7,7 +7,7 @@ import org.bouncycastle.asn1.x509.ReasonFlags;
 import org.vut.kry.ca.misc.NameType;
 
 
-public class DistributionPoint extends CrtExtension
+public class DistributionPoint extends CertificateExtension
 {
 	DistributionPoint(final org.bouncycastle.asn1.x509.DistributionPoint... points)
 	{

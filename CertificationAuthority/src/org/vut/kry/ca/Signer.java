@@ -30,7 +30,7 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.vut.kry.ca.entities.Cert;
-import org.vut.kry.ca.entities.CrtExtension;
+import org.vut.kry.ca.entities.CertificateExtension;
 import org.vut.kry.ca.entities.DistinguishedName;
 
 
@@ -46,7 +46,7 @@ public class Signer
 	private final PublicKey publicKey;
 	private final DistinguishedName dn;
 	  
-	private final List<CrtExtension> extensions = new ArrayList<>();
+	private final List<CertificateExtension> extensions = new ArrayList<>();
 	
 	private ZonedDateTime notBefore = ZonedDateTime.now();
 	private ZonedDateTime notAfter = notBefore.plusYears(1);
@@ -89,14 +89,14 @@ public class Signer
 	    return this;
 	}
 	
-	public Signer AddExtension(final CrtExtension extension) {
+	public Signer AddExtension(final CertificateExtension extension) {
 	    extensions.add(extension);
 	    return this;
 	}
 	
 	public Signer AddExtension(final ASN1ObjectIdentifier oid, final boolean isCritical, final ASN1Encodable value)
 	{
-		extensions.add(new CrtExtension(oid, isCritical, value));
+		extensions.add(new CertificateExtension(oid, isCritical, value));
 		return this;
 	}
 	
@@ -116,7 +116,7 @@ public class Signer
 	            .addExtension(Extension.authorityKeyIdentifier, false, extUtils.createAuthorityKeyIdentifier(signerKeyPair.getPublic()))
 	            .addExtension(Extension.subjectKeyIdentifier, false, extUtils.createSubjectKeyIdentifier(publicKey));
 
-	    for (final CrtExtension e : extensions) {
+	    for (final CertificateExtension e : extensions) {
 	    	certBuilder.addExtension(e.getOid(), e.isCritical(), e.getValue());
 	    }
 	    

@@ -48,8 +48,8 @@ public class Cert {
 	    Save(file);
 	}
 
-	public CertWithPrivKey AttachPrivateKey(PrivateKey privateKey)
+	public CertificateWithPrivKey AttachPrivateKey(PrivateKey privateKey)
 	{
-	    return new CertWithPrivKey(certificate, privateKey);
+	    return new CertificateWithPrivKey(certificate, privateKey);
 	}
 }

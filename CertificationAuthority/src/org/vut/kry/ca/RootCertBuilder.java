@@ -14,7 +14,7 @@ import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.vut.kry.ca.entities.DistinguishedName;
 import org.vut.kry.ca.entities.DistributionPoint;
-import org.vut.kry.ca.entities.RootCert;
+import org.vut.kry.ca.entities.RootCertificate;
 import org.vut.kry.ca.misc.KeyExtension;
 import org.vut.kry.ca.misc.KeyUtils;
 
@@ -60,7 +60,7 @@ public class RootCertBuilder
 		return this;
 	}
 
-	public RootCert Build(final String subjectAlternativeName) throws InvalidKeyException, OperatorCreationException, NoSuchAlgorithmException, CertificateException, NoSuchProviderException, SignatureException, IOException
+	public RootCertificate Build(final String subjectAlternativeName) throws InvalidKeyException, OperatorCreationException, NoSuchAlgorithmException, CertificateException, NoSuchProviderException, SignatureException, IOException
 	{
 		signer.AddExtension(KeyExtension.Create(
 				KeyExtension.KeyUsage.KEY_CERT_SIGN,
@@ -75,6 +75,6 @@ public class RootCertBuilder
 
 	    final X509Certificate rootCertificate = signer.Sign(subjectAlternativeName).GetX509Certificate();
 
-	    return new RootCert(rootCertificate, pair.getPrivate());
+	    return new RootCertificate(rootCertificate, pair.getPrivate());
 	  }
 }

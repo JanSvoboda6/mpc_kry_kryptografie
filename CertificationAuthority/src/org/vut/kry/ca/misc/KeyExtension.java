@@ -1,9 +1,9 @@
 package org.vut.kry.ca.misc;
 import org.bouncycastle.asn1.x509.Extension;
-import org.vut.kry.ca.entities.CrtExtension;
+import org.vut.kry.ca.entities.CertificateExtension;
 
 
-public class KeyExtension extends CrtExtension
+public class KeyExtension extends CertificateExtension
 {
 	KeyExtension(final int keyUsages)
 	{
