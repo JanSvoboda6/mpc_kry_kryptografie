@@ -21,11 +21,11 @@ public class Main
     	CA ca = new CA();
     	
     	// Create a certificate for the Certification Authority
-    	RootCert caCert = ca.createSelfSignedCACertificate("*.customca.org", "CN=Root-CustomCA, O=CustomCA", 10, "CACert.crt", "CACert.key");
+    	RootCert caCert = ca.createSelfSignedCACertificate("*.customca.org", "CN=Root-CustomCA, O=CustomCA", 10, "GeneratedCertificates/CertificationAuthorityCertificate.crt", "GeneratedCertificates/CertificationAuthorityPK.key");
         // Register a new client with the Certification Authority
     	CSRWithPrivKey csr = ca.registerClient("*.securestorage.website", "SecureStorage", "undefined dept.", "Moravsky", "CZ");
         // Generate a certificate for the client signed by the Certification Authority
-    	Cert clientCert = ca.createClientCertificate("*.securestorage.website", caCert, csr, "ServerCert.crt", "ServerCertPriv.key");
+    	Cert clientCert = ca.createClientCertificate("*.securestorage.website", caCert, csr, "GeneratedCertificates/ClientCertificate.crt", "GeneratedCertificates/ClientPK.key");
         
     	// Validate the client certificate just in case something in the process went wrong
     	boolean isCertValid = ca.validate(clientCert, caCert);
