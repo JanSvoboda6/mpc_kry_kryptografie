@@ -1,25 +1,20 @@
 package com.web.file;
 
-import com.google.common.primitives.Bytes;
 import com.web.security.user.User;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/dataset")
+@RequestMapping("/api")
 public class FileController
 {
     private final FileService fileService;
@@ -45,38 +40,22 @@ public class FileController
         return Collections.emptyList();
     }
 
-    @PostMapping(value = "createdirectory") //TODO Jan: rename to folder
-    public ResponseEntity<?> createDirectory(@RequestHeader(name="Authorization") String token, @RequestBody Key directoryKey) //TODO Jan: is Key needed?
+    @PostMapping(value = "/folder/create")
+    public ResponseEntity<?> createFolder(@RequestHeader(name="Authorization") String token, @RequestBody Key folderKey)
     {
-        //TODO Jan: Filter keys with parent directory symbols . / ..
-
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
-            fileService.createFolder(directoryKey.getKey(), user.get().getId());
+            fileService.createFolder(folderKey.getKey(), user.get().getId());
             return ResponseEntity.ok("OK.");
         }
         return ResponseEntity.badRequest().body("User was not found!");
     }
 
-    @PostMapping(value = "/upload")
-    public ResponseEntity<?> uploadFiles(@RequestHeader(name="Authorization") String token, @RequestBody FileRequest request)
-    {
-
-        Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
-        if(user.isPresent())
-        {
-            fileService.uploadFiles(request.getKeys(), request.getFiles().stream().map(String::getBytes).collect(Collectors.toList()), user.get().getId());
-            return ResponseEntity.ok("OK.");
-        }
-        return ResponseEntity.badRequest().body("User was not found!");
-    }
-
-
-    @PostMapping(value = "/uploadfiles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadFilesSecond(
+    @PostMapping(value = "/file/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadFiles(
             @RequestHeader(name="Authorization") String token,
-            @RequestPart("keys") Keys keys, //TODO Jan: Are Keys needed?
+            @RequestPart("keys") Keys keys,
             @RequestPart("files") List<MultipartFile> files)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
@@ -96,7 +75,6 @@ public class FileController
                         user.get().getId());
             } catch (Exception e)
             {
-                e.printStackTrace();
                 return ResponseEntity.badRequest().body("Exception occurred when uploading files!");
             }
             return ResponseEntity.ok("OK.");
@@ -104,56 +82,31 @@ public class FileController
         return ResponseEntity.badRequest().body("User was not found!");
     }
 
-    @PostMapping(value = "/folders/delete")
+    @PostMapping(value = "/folder/delete")
     public ResponseEntity<?> batchDeleteFolders(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
-            fileService.deleteFolders(keys, user.get().getId());
+            fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
         return ResponseEntity.badRequest().body("User was not found!");
     }
 
-    @PostMapping(value = "/files/delete")
+    @PostMapping(value = "/file/delete")
     public ResponseEntity<?> batchDeleteFiles(@RequestHeader(name="Authorization") String token, @RequestBody List<String> keys)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
-            fileService.deleteFiles(keys, user.get().getId());
+            fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
         return ResponseEntity.badRequest().body("User was not found!");
     }
 
-    @PostMapping(value = "/files/move")
-    public ResponseEntity<?> moveFile(@RequestHeader(name="Authorization") String token, @RequestBody MoveRequest request)
-    {
-        Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
-        if(user.isPresent())
-        {
-            fileService.moveFile(request.getOldKey(), request.getNewKey(), user.get().getId());
-            return ResponseEntity.ok("OK.");
-        }
-        return ResponseEntity.badRequest().body("User was not found!");
-    }
-
-    @PostMapping(value = "/folders/move")
-    public ResponseEntity<?> moveFolder(@RequestHeader(name="Authorization") String token, @RequestBody MoveRequest request)
-    {
-        Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
-        if(user.isPresent())
-        {
-            fileService.moveFolder(request.getOldKey(), request.getNewKey(), user.get().getId());
-            return ResponseEntity.ok("OK.");
-        }
-        return ResponseEntity.badRequest().body("User was not found!");
-
-    }
-
-    @PostMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(value = "file/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> download(@RequestHeader(name="Authorization") String token, @RequestBody String key)
     {
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));

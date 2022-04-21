@@ -1,5 +1,6 @@
 package com.web.security.authentication;
 
+import com.web.security.ValidationException;
 import com.web.security.request.LoginRequest;
 import com.web.security.request.SignupRequest;
 import com.web.security.role.Role;
@@ -119,9 +120,9 @@ public class AuthenticationControllerTest
         Mockito.when(userRepository.existsByUsername(Mockito.anyString())).thenReturn(true);
 
         SignupRequest request = createArtificialSignupRequest();
-        ResponseEntity<?> responseEntity = authenticationController.registerUser(request);
-
-        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThatThrownBy(() -> authenticationController.registerUser(request))
+                .isInstanceOf(ValidationException.class)
+                .hasMessage("Email is already taken!");
     }
 
     @Test
@@ -197,9 +198,9 @@ public class AuthenticationControllerTest
     {
         Mockito.when(authenticationManager.authenticate(Mockito.any())).thenThrow(new BadCredentialsException("Bad Credentials Exception"));
         LoginRequest request = Mockito.mock(LoginRequest.class);
-        ResponseEntity<?> responseEntity = authenticationController.authenticateUser(request);
-        int BAD_REQUEST_CODE = 400;
-        Assertions.assertThat(responseEntity.getStatusCodeValue()).isEqualTo(BAD_REQUEST_CODE);
+        Assertions.assertThatThrownBy(() -> authenticationController.authenticateUser(request))
+                .isInstanceOf(ValidationException.class)
+                .hasMessage("Email or password is invalid!");
     }
 
     @Test
@@ -287,7 +288,9 @@ public class AuthenticationControllerTest
         LoginRequest request = Mockito.mock(LoginRequest.class);
         UserDetailsImpl userDetails = Mockito.mock(UserDetailsImpl.class);
         Mockito.when(authentication.getPrincipal()).thenReturn(userDetails);
-        authenticationController.authenticateUser(request);
+        Assertions.assertThatThrownBy(() -> authenticationController.authenticateUser(request))
+                .isInstanceOf(ValidationException.class)
+                .hasMessage("The user account is not verified!");
 
         Mockito.verify(jsonWebTokenUtility, Mockito.times(0)).generateJwtToken(authentication);
     }

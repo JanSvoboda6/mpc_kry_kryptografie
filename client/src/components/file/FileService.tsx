@@ -5,14 +5,14 @@ import {API_URL} from "../../helpers/BackendApi";
 
 const getFiles = () =>
 {
-    return axios.get(API_URL + '/api/dataset', {headers: authorizationHeader()});
+    return axios.get(API_URL + '/api', {headers: authorizationHeader()});
 }
 
-const createDirectory = (directory: FileInformation) =>
+const createFolder = (folder: FileInformation) =>
 {
     return axios.post(
-        API_URL + '/api/dataset/createdirectory',
-        directory,
+        API_URL + '/api/folder/create',
+        folder,
         {
             headers: 
             {
@@ -51,12 +51,12 @@ const uploadFiles = (files: File[]) =>
         }
     }
 
-    return axios.post(API_URL + '/api/dataset/uploadfiles', formData, { headers: authorizationHeader() }, );
+    return axios.post(API_URL + '/api/file/upload', formData, { headers: authorizationHeader() }, );
 }
 
 const deleteFolders = (keys: string[]) => {
     return axios.post(
-        API_URL + '/api/dataset/folders/delete',
+        API_URL + '/api/folder/delete',
         keys,
         {
             headers:
@@ -70,7 +70,7 @@ const deleteFolders = (keys: string[]) => {
 
 const deleteFiles = (keys: string[]) => {
     return axios.post(
-        API_URL + '/api/dataset/files/delete',
+        API_URL + '/api/file/delete',
         keys,
         {
             headers:
@@ -82,37 +82,9 @@ const deleteFiles = (keys: string[]) => {
     );
 }
 
-const moveFile = (oldKey: string, newKey: string) => {
-    return axios.post(
-        API_URL + '/api/dataset/files/move',
-        {oldKey, newKey},
-        {
-            headers:
-                {
-                    'Authorization': authorizationHeader()['Authorization'],
-                    'Content-type': 'application/json; charset=utf-8'
-                }
-        }
-    );
-}
-
-const moveFolder = (oldKey: string, newKey: string) => {
-    return axios.post(
-        API_URL + '/api/dataset/folders/move',
-        {oldKey, newKey},
-        {
-            headers:
-                {
-                    'Authorization': authorizationHeader()['Authorization'],
-                    'Content-type': 'application/json; charset=utf-8'
-                }
-        }
-    );
-}
-
-const download = (key: string) => {
+const downloadFile = (key: string) => {
     return axios.post<any>(
-        API_URL + '/api/dataset/download',
+        API_URL + '/api/file/download',
         key,
         {
             headers:
@@ -125,4 +97,4 @@ const download = (key: string) => {
     );
 }
 
-export default { getFiles, createDirectory, uploadFiles, deleteFolders, deleteFiles, moveFile, moveFolder, download }
+export default { getFiles, createFolder, uploadFiles, deleteFolders, deleteFiles, downloadFile }

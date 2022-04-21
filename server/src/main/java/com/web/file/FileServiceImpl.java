@@ -59,35 +59,13 @@ public class FileServiceImpl implements FileService
     }
 
     @Override
-    public void deleteFolders(List<String> keys, long userId)
+    public void delete(List<String> keys, long userId)
     {
         for (String key: keys)
         {
             Optional<File> file = fileRepository.findByNameAndUserId(key, userId);
             file.ifPresent(fileRepository::delete);
         }
-
-    }
-
-    @Override
-    public void deleteFiles(List<String> keys, long userId)
-    {
-        for (String key: keys)
-        {
-            Optional<File> file = fileRepository.findByNameAndUserId(key, userId);
-            file.ifPresent(fileRepository::delete);
-        }
-    }
-
-    @Override
-    public void moveFile(String oldKey, String newKey, long userId)
-    {
-
-    }
-
-    @Override
-    public void moveFolder(String oldKey, String newKey, long userId)
-    {
 
     }
 

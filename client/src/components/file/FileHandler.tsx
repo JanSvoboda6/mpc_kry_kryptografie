@@ -65,7 +65,7 @@ function FileHandler(props)
         const folder: FileInformation = {key: key};
         setFiles(folders => [...folders, folder]);
         const folderEncrypted: FileInformation = {key: CryptoService.encrypt(aesjs.utils.utf8.toBytes(key))};
-        FileService.createDirectory(folderEncrypted);
+        FileService.createFolder(folderEncrypted);
     }
 
     const handleCreateFiles = (addedFiles: File[], prefix: string) =>
@@ -155,7 +155,7 @@ function FileHandler(props)
         })
 
         namesMap.forEach((encryptedKey, key) => {
-            FileService.download(encryptedKey).then(response => {
+            FileService.downloadFile(encryptedKey).then(response => {
                 let fileReader = new FileReader();
                 fileReader.onload = function(event) {
                     // @ts-ignore
