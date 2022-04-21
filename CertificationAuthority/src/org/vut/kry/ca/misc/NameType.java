@@ -1,5 +1,7 @@
+package org.vut.kry.ca.misc;
 import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
+
 
 public enum NameType
 {

@@ -1,23 +1,24 @@
+package org.vut.kry.ca.entities;
 import java.io.IOException;
-
 import javax.security.auth.x500.X500Principal;
 import org.bouncycastle.asn1.x500.X500Name;
 
-class DistinguishedName
+
+public class DistinguishedName
 {
 	private final X500Name x500Name;
 	
-	DistinguishedName(final X500Name name)
+	public DistinguishedName(final X500Name name)
 	{
 	    this.x500Name = name;
 	}
 	
-	DistinguishedName(final String name)
+	public DistinguishedName(final String name)
 	{
 	    this.x500Name = new X500Name(name);
 	}
 	  
-	DistinguishedName(final X500Principal principal)
+	public DistinguishedName(final X500Principal principal)
 	{
 	    this.x500Name = X500Name.getInstance(principal.getEncoded());
 	}

@@ -1,9 +1,9 @@
+package org.vut.kry.ca;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.asn1.x509.GeneralName;
-import org.bouncycastle.asn1.x509.GeneralNames;
-import org.bouncycastle.asn1.x509.X509Extensions;
+import org.vut.kry.ca.entities.DistinguishedName;
+
 
 public class DistinguisedNameBuilder {
 	private final X500NameBuilder builder;

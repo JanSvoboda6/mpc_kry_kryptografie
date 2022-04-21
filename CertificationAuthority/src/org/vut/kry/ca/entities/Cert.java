@@ -1,3 +1,4 @@
+package org.vut.kry.ca.entities;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 public class Cert {
 	private final X509Certificate certificate;
 
-	Cert(final X509Certificate certificate)
+	public Cert(final X509Certificate certificate)
 	{
 	    this.certificate = certificate;
 	}

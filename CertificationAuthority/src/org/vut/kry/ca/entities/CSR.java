@@ -1,8 +1,9 @@
+package org.vut.kry.ca.entities;
 import java.security.PublicKey;
-
 import org.bouncycastle.openssl.PEMException;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
+
 
 public class CSR {
 	private final DistinguishedName dn;

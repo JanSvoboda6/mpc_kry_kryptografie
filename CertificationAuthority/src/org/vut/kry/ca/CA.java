@@ -1,3 +1,4 @@
+package org.vut.kry.ca;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -8,6 +9,11 @@ import java.security.cert.CertificateException;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.openssl.PEMException;
 import org.bouncycastle.operator.OperatorCreationException;
+import org.vut.kry.ca.entities.CSRWithPrivKey;
+import org.vut.kry.ca.entities.Cert;
+import org.vut.kry.ca.entities.CertWithPrivKey;
+import org.vut.kry.ca.entities.DistinguishedName;
+import org.vut.kry.ca.entities.RootCert;
 
 public class CA {
 	/**

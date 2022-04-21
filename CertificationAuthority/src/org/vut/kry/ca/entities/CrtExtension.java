@@ -1,5 +1,7 @@
+package org.vut.kry.ca.entities;
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
 
 public class CrtExtension {
 	private final ASN1ObjectIdentifier oid;

@@ -1,4 +1,10 @@
-public class CryptoCAMain
+package org.vut.kry.ca;
+import org.vut.kry.ca.entities.CSRWithPrivKey;
+import org.vut.kry.ca.entities.Cert;
+import org.vut.kry.ca.entities.RootCert;
+
+
+public class Main
 {
 	/**
 	 * The entry method of the Certificate Generator.

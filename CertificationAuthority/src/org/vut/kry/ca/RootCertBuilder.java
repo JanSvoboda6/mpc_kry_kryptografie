@@ -1,3 +1,4 @@
+package org.vut.kry.ca;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -10,8 +11,13 @@ import java.time.ZonedDateTime;
 
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.Extension;
-import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.operator.OperatorCreationException;
+import org.vut.kry.ca.entities.DistinguishedName;
+import org.vut.kry.ca.entities.DistributionPoint;
+import org.vut.kry.ca.entities.RootCert;
+import org.vut.kry.ca.misc.KeyExtension;
+import org.vut.kry.ca.misc.KeyUtils;
+
 
 public class RootCertBuilder
 {

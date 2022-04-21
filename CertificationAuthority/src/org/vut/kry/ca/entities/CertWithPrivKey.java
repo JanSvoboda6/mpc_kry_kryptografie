@@ -1,3 +1,4 @@
+package org.vut.kry.ca.entities;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +21,7 @@ import java.security.cert.X509Certificate;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 
-class CertWithPrivKey extends Cert
+public class CertWithPrivKey extends Cert
 {
 	static final String KEYSTORE_TYPE = "PKCS12";
 	private final PrivateKey privateKey;

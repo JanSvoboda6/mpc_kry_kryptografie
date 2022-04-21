@@ -1,4 +1,7 @@
+package org.vut.kry.ca.misc;
 import org.bouncycastle.asn1.x509.Extension;
+import org.vut.kry.ca.entities.CrtExtension;
+
 
 public class KeyExtension extends CrtExtension
 {

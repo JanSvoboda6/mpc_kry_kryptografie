@@ -1,3 +1,4 @@
+package org.vut.kry.ca;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -28,6 +29,10 @@ import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.vut.kry.ca.entities.Cert;
+import org.vut.kry.ca.entities.CrtExtension;
+import org.vut.kry.ca.entities.DistinguishedName;
+
 
 public class Signer
 {
@@ -46,7 +51,7 @@ public class Signer
 	private ZonedDateTime notBefore = ZonedDateTime.now();
 	private ZonedDateTime notAfter = notBefore.plusYears(1);
 	
-	Signer(final KeyPair signerKeyPair, final DistinguishedName signerDn, final PublicKey publicKey, final DistinguishedName dn)
+	public Signer(final KeyPair signerKeyPair, final DistinguishedName signerDn, final PublicKey publicKey, final DistinguishedName dn)
 	{
 		this.signerKeyPair = signerKeyPair;
 		this.signerDn = signerDn;

@@ -1,3 +1,4 @@
+package org.vut.kry.ca;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -11,6 +12,10 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
+import org.vut.kry.ca.entities.CSRWithPrivKey;
+import org.vut.kry.ca.entities.DistinguishedName;
+import org.vut.kry.ca.misc.KeyUtils;
+
 
 public class CSRBuilder
 {

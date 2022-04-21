@@ -1,9 +1,10 @@
-import org.bouncycastle.asn1.ASN1Encodable;
+package org.vut.kry.ca.entities;
 import org.bouncycastle.asn1.x509.DistributionPointName;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.ReasonFlags;
+import org.vut.kry.ca.misc.NameType;
 
 
 public class DistributionPoint extends CrtExtension
