@@ -18,18 +18,38 @@ public class Main
     public static void main(String[] args)
     {
     	// Create a new Certification Authority
-    	CA ca = new CA();
+    	CA certificationAuthority = new CA();
     	
     	// Create a certificate for the Certification Authority
-    	RootCert caCert = ca.createSelfSignedCACertificate("*.customca.org", "CN=Root-CustomCA, O=CustomCA", 10, "GeneratedCertificates/CertificationAuthorityCertificate.crt", "GeneratedCertificates/CertificationAuthorityPK.key");
+    	RootCert certificationAuthorityCertificate = certificationAuthority.createSelfSignedCACertificate(
+    			"*.customca.org",
+    			"CN=Root-CustomCA, O=CustomCA",
+    			10,
+    			"GeneratedCertificates/CertificationAuthorityCertificate.crt",
+    			"GeneratedCertificates/CertificationAuthorityPK.key");
+    	
         // Register a new client with the Certification Authority
-    	CSRWithPrivKey csr = ca.registerClient("*.securestorage.website", "SecureStorage", "undefined dept.", "Moravsky", "CZ");
+    	CSRWithPrivKey certificateSigningRequest = certificationAuthority.registerClient(
+    			"*.securestorage.website",
+    			"SecureStorage",
+    			"undefined dept.",
+    			"Moravsky",
+    			"CZ");
+    	
         // Generate a certificate for the client signed by the Certification Authority
-    	Cert clientCert = ca.createClientCertificate("*.securestorage.website", caCert, csr, "GeneratedCertificates/ClientCertificate.crt", "GeneratedCertificates/ClientPK.key");
+    	Cert clientCertificate = certificationAuthority.createClientCertificate(
+    			"*.securestorage.website",
+    			certificationAuthorityCertificate,
+    			certificateSigningRequest,
+    			"GeneratedCertificates/ClientCertificate.crt",
+    			"GeneratedCertificates/ClientPK.key");
         
     	// Validate the client certificate just in case something in the process went wrong
-    	boolean isCertValid = ca.validate(clientCert, caCert);
-        if (isCertValid)
+    	boolean isCertificateValid = certificationAuthority.validate(
+    			clientCertificate,
+    			certificationAuthorityCertificate);
+    	
+        if (isCertificateValid)
         	System.out.println("Generated certificate is valid.");
         else
         	System.out.println("Generated certificate is not valid.");
