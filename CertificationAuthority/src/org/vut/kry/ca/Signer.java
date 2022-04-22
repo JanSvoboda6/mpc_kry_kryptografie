@@ -34,11 +34,16 @@ import org.vut.kry.ca.entities.CertificateExtension;
 import org.vut.kry.ca.entities.DistinguishedName;
 
 
+/**
+ * The class for signing certificates.
+ */
 public class Signer
 {
+	// Constants defining the certificate.
 	private static final int DEFAULT_SERIAL_LENGTH = 128;
 	private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
 	
+	// Basic properties of the certificate:
 	private BigInteger serialNumber;
 
 	private final KeyPair signerKeyPair;
@@ -100,33 +105,62 @@ public class Signer
 		return this;
 	}
 	
+	/**
+	 * Method used for signing the client's certificate.
+	 * @param subjectAlternativeName - list of domains the certificate can be used for
+	 * @return Signed certificate
+	 * @throws OperatorCreationException
+	 * @throws NoSuchAlgorithmException
+	 * @throws CertIOException
+	 * @throws CertificateException
+	 * @throws InvalidKeyException
+	 * @throws NoSuchProviderException
+	 * @throws SignatureException
+	 */
 	public Cert sign(final String subjectAlternativeName) throws OperatorCreationException, NoSuchAlgorithmException, CertIOException, CertificateException, InvalidKeyException, NoSuchProviderException, SignatureException {
 		final ContentSigner sigGen = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM).build(signerKeyPair.getPrivate());
 
 	    final SubjectPublicKeyInfo subPubKeyInfo = SubjectPublicKeyInfo.getInstance(publicKey.getEncoded());
 
+	    // Helper
 	    final JcaX509ExtensionUtils extUtils = new JcaX509ExtensionUtils();
+	    
+	    // The actual certificate generator (using the BouncyCastle library).
 	    final X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(
+	        // Add the info about the CA.
 	        signerDn.getX500Name(),
+	        // Assign a generated serial number to the certificate.
 	        serialNumber,
+	        // Set up the validity timeframe.
 	        Date.from(notBefore.toInstant()),
 	        Date.from(notAfter.toInstant()),
+	        // Add the info about the client.
 	        dn.getX500Name(),
 	        subPubKeyInfo)
+	    		// Add the V3 extensions "authorityKeyIdentifier" and "subjectKeyIdentifier" to the certificate
 	            .addExtension(Extension.authorityKeyIdentifier, false, extUtils.createAuthorityKeyIdentifier(signerKeyPair.getPublic()))
 	            .addExtension(Extension.subjectKeyIdentifier, false, extUtils.createSubjectKeyIdentifier(publicKey));
 
+	    // Add all of the other extensions (CertificationAuthority.java), code:
+	    //.setCommonName(commonName)
+        //.setOrganizationName(organization)
+        //.setOrganizationalUnitName(department)
+        //.setStateOrProvinceName(province)
+        //.setCountryName(state)
 	    for (final CertificateExtension e : extensions) {
 	    	certBuilder.addExtension(e.getOid(), e.isCritical(), e.getValue());
 	    }
 	    
+	    // Add a new V3 extension - Subject Alternative Name - required by the Chromium based browsers - it is used for defining MULTIPLE domains for which the certificate is valid
 	    GeneralName altName = new GeneralName(GeneralName.dNSName, subjectAlternativeName);
 	    GeneralNames subjectAltName = new GeneralNames(altName);
 	    certBuilder.addExtension(X509Extensions.SubjectAlternativeName, false, subjectAltName);
 
+	    // Build the actual certificate, it needs to be converted as well.
 	    final X509CertificateHolder holder = certBuilder.build(sigGen);
 	    final X509Certificate cert = new JcaX509CertificateConverter().getCertificate(holder);
-
+	    
+	    // Finally, check the validity of the created certificate.
 	    cert.checkValidity();
 	    cert.verify(signerKeyPair.getPublic());
 

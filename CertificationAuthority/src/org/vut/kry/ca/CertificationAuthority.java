@@ -30,11 +30,13 @@ public class CertificationAuthority {
 	*/
 	public RootCertificate createSelfSignedCACertificate(String subjectAlternativeName, String caParameters, int lifeTime, String certificateFilePath, String keyFilePath)
 	{
+		// create a container that holds the information about the Certification Authority
 		final DistinguishedName root = new DistinguishedName(caParameters);
 		
         RootCertificate caCert = null;
 		try
 		{
+			// Create the CA certificate
 			caCert = new RootCertBuilder(root)
 			    .validDuringYears(10)
 			    .build(subjectAlternativeName);
@@ -108,8 +110,8 @@ public class CertificationAuthority {
 			e.printStackTrace();
 		}
         
-		// generate files
         try {
+        	// generate the certificate + key files
 			clientCert.save(certificateFilePath);
 			CertificateWithPrivKey priv = clientCert.attachPrivateKey(csr.getPrivateKey());
 	        priv.saveKey(keyFilePath);

@@ -29,6 +29,7 @@ public class RootCertBuilder
 	public RootCertBuilder(final DistinguishedName subject)
 	{
 		try {
+			// generate private + public keys
 			pair = KeyUtils.generateKeyPair();
 			signer = new Signer(pair, subject, pair.getPublic(), subject).setRandomSerialNumber();
 		} catch (NoSuchAlgorithmException e) {
