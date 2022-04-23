@@ -9,6 +9,8 @@ Dále aplikace generuje také certifikát a privátní klíč pro server, na kte
 Webový prohlížeč nakonec načte certifikát, který byl postutnut webovým serverem a ověří jej s pomocí nainstalovaném certifikátu certifikační autority manuálně nainstalovaném v OS.
 
 Tento program při každém spuštění vygeneruje úplně nové certifikáty pro certifikační autoritu i klientský server.
+![Vygenerované certifikáty](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/generated-certificates.png?raw=true)
+
 
 ## Popis spuštění programu
 Následuje podrobný popis toho, jakým způsobem lze program zkompilovat a spustit.
@@ -21,7 +23,7 @@ Pro stažení zdrovojého kódu je nutné přejít na Github server našeho proj
 ![Stažení zdrojového kódu projektu z Github serveru](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/github-download-source.png?raw=true)
 Nakonec je už jen potřeba rozbalit tyto soubory z archivu na disk (umístění je potřeba si zapamatovat a následně jej vyhledat v dalším kroku).
 
-### Spuštění eclipse a načtení projektu
+### Spuštění Eclipse a načtení projektu
 Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do nově vytvořené složky libovolně umístěné na disku.
 
 Uvítací obrazovku, která se automaticky zobrazila, je potřeba zavřít. Následně je na kartě "Package Explorer" potřeba kliknout na "Import projects..." (v případě, že by nebyla karta automaticky otevřena, je potřeba ji otevřít přes nabídku "Window" -> "Show view" -> "Package explorer").
@@ -32,8 +34,11 @@ Následně z dialogového okna vybrat "Maven" -> "Existing Maven Projects".
 V otevřeném dialogovém okně přejdeme do složky "CertificationAuthority" (nacházející se ve stažené složce zdrojových kódu z Githubu). Po nalezení složky potvrdíme výběr pomocí tlačítka "Select Folder" a následně "Finish".
 ![Výběr složky pro import](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-browse.png?raw=true)
 
+### Spuštění projektu
 Nakonec je možné projekt spustit. Je potřeba otevřít soubor "Main.java" a spustit jej viz. obr.
 ![Spuštění projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-project-run.png?raw=true)
 
-Pokud projekt nepůjde spustit, je potřeba aktualizovat a naimportovat závislosti. Toho lze dosáhnout kliknutím pravého tlačítka na projekt a z kontextového menu vybrat "Maven" -> "Update project...". V otevřeném okně potvrdit kliknutím na tlačítko "OK". Poté by již měl projekt nastartovat.
-![Spuštění projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/maven-update-project.png?raw=true)
+Pokud projekt nepůjde spustit, je potřeba aktualizovat a naimportovat závislosti (knihovna BouncyCastle). Toho lze dosáhnout kliknutím pravého tlačítka na projekt a z kontextového menu vybrat "Maven" -> "Update project...". V otevřeném okně potvrdit kliknutím na tlačítko "OK". Poté by již měl projekt nastartovat.
+![Případná aktualizace závislostí](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/maven-update-project.png?raw=true)
+
+Pozor! certifikáty se vytvoří ve složce se staženým a extrahovaným zdrojovým kódem, ne ve složce workspace Eclipse, která byla vytvořena v rámci sekce "Spuštění Eclipse a vytvoření projektu".
