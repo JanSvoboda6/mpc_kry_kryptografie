@@ -22,6 +22,6 @@ public class AuthenticationEntryPointJwtTest
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         AuthenticationException authException = Mockito.mock(AuthenticationException.class);
         entryPointJwt.commence(request, response, authException);
-        Mockito.verify(response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+        Mockito.verify(response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized!");
     }
 }
