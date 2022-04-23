@@ -1,7 +1,11 @@
 # CertificationAuthority
 
-Nástroj slouží pro generování páru certifikát + soukromý klíč pro vlastní server (ServerCert.crt, ServerCertPriv.key).
+Nástroj slouží pro generování páru certifikát + soukromý klíč pro klientský server (ClientCertificate.crt, ClientPK.key) a Certifikační Autoritu (CertificationAuthorityCertificate.crt, CertificationAuthorityPK.key). Tyto soubory jsou uloženy v adresáři /mpc_kry_kryptografie/GeneratedCertificates/ po spuštění programu.
 
-Tento certifikát je potom ověřitelný pomocí certifikátu Cert. autority, který se rovněž generuje v tomto programu (CACert.crt).
+Certifikát certifikační autority se poté musí manuálně naimportovat do počítačů klientů snažící se přistoupit na internetové stránky. Toto je nutné především proto, že námi vytvořená Cert. autorita se nenachází mezi předinstalovanými důvěryhodnými společnostmi v OS. V reálném provozu se certifikáty instalovat nemusí - jsou už předinstalované v operačních systémech vývojaři, kteří OS vyvíjí. Tímto se pro koncové uživatele proces značně zjednodušuje a import díky tomuto není nutný.
 
-Certifikáty se vytváří v adresáři \mpc_kry_kryptografie\CertificationAuthority\ po spuštění programu.
+Dále aplikace generuje také certifikát a privátní klíč pro server, na kterém naše stránky běží. Soubor certifikátu a klíče se jednoduše zkopíruje do speciálního adresáře serveru (Apache, Nginx atp.) vyhrazeného právě pro tyto účely. Tento klientský certifikát je podepsaný certifikační autoritou.
+
+Webový prohlížeč nakonec načte certifikát, který byl postutnut webovým serverem a ověří jej s pomocí nainstalovaném certifikátu certifikační autority manuálně nainstalovaném v OS.
+
+Tento program při každém spuštění vygeneruje úplně nové certifikáty pro certifikační autoritu i klientský server.
