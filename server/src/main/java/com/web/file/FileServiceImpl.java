@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class implementing a methods for {@link File} creation.
+ */
 @Component
 public class FileServiceImpl implements FileService
 {
@@ -66,7 +69,6 @@ public class FileServiceImpl implements FileService
             Optional<File> file = fileRepository.findByNameAndUserId(key, userId);
             file.ifPresent(fileRepository::delete);
         }
-
     }
 
     @Override

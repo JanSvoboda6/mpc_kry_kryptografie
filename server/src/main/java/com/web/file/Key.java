@@ -1,5 +1,8 @@
 package com.web.file;
 
+/**
+ * Represents name (key) of {@link File}.
+ */
 public class Key
 {
     private String key;

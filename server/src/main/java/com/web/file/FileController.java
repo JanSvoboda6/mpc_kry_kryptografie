@@ -1,5 +1,6 @@
 package com.web.file;
 
+import com.web.security.ValidationException;
 import com.web.security.user.User;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
@@ -13,6 +14,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *  Controller class defining set of methods for creation and deletion of {@link File} owned by {@link User}.
+ */
 @RestController
 @RequestMapping("/api")
 public class FileController
@@ -49,7 +53,7 @@ public class FileController
             fileService.createFolder(folderKey.getKey(), user.get().getId());
             return ResponseEntity.ok("OK.");
         }
-        return ResponseEntity.badRequest().body("User was not found!");
+        throw new ValidationException("User was not found!");
     }
 
     @PostMapping(value = "/file/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -79,7 +83,7 @@ public class FileController
             }
             return ResponseEntity.ok("OK.");
         }
-        return ResponseEntity.badRequest().body("User was not found!");
+        throw new ValidationException("User was not found!");
     }
 
     @PostMapping(value = "/folder/delete")
@@ -91,7 +95,7 @@ public class FileController
             fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
-        return ResponseEntity.badRequest().body("User was not found!");
+        throw new ValidationException("User was not found!");
     }
 
     @PostMapping(value = "/file/delete")
@@ -103,7 +107,7 @@ public class FileController
             fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
-        return ResponseEntity.badRequest().body("User was not found!");
+        throw new ValidationException("User was not found!");
     }
 
     @PostMapping(value = "file/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -122,6 +126,6 @@ public class FileController
             headers.setContentDisposition(disposition);
             return new ResponseEntity<>(file.getFileContent(), headers, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+        throw new ValidationException("User was not found!");
     }
 }

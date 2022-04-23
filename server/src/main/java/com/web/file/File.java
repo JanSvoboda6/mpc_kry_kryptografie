@@ -4,6 +4,9 @@ import com.web.security.user.User;
 
 import javax.persistence.*;
 
+/**
+ * Class representing a File Entity.
+ */
 @Entity
 public class File
 {

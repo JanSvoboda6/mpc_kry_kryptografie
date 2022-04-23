@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository class providing methods for accessing {@link File} from the database.
+ */
 @Repository
 public interface FileRepository extends JpaRepository<File, Long>
 {
-    List<File> findAllByUserId(Long userId);
     Optional<File> findByNameAndUserId(String name, Long userId);
     List<NameAndSizeAndModified> findAllNameSizeModifiedByUserId(Long userId);
 
