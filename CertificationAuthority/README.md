@@ -27,7 +27,7 @@ Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby sm�
 Uvítací obrazovku, která se automaticky zobrazila, je potřeba zavřít. Následně je na kartě "Package Explorer" potřeba kliknout na "Import projects..." (v případě, že by nebyla karta automaticky otevřena, je potřeba ji otevřít přes nabídku "Window" -> "Show view" -> "Package explorer").
 ![Výběr adresáře projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-project.png?raw=true)
 
-Následně z dialogového okna vybereme "Maven" -> "Existing Maven Projects".
+Následně z dialogového okna vybrat "Maven" -> "Existing Maven Projects".
 
 V otevřeném dialogovém okně přejdeme do složky "CertificationAuthority" (nacházející se ve stažené složce zdrojových kódu z Githubu). Po nalezení složky potvrdíme výběr pomocí tlačítka "Select Folder" a následně "Finish".
 ![Výběr složky pro import](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-browse.png?raw=true)
