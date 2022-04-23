@@ -1,7 +1,6 @@
 package com.web.file;
 
 import com.web.security.user.User;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
