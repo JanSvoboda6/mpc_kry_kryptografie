@@ -24,6 +24,16 @@ Nakonec je už jen potřeba rozbalit tyto soubory z archivu na disk (umístění
 ### Spuštění eclipse a načtení projektu
 Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do nově vytvořené složky libovolně umístěné na disku.
 
-Uvítací obrazovku, která se automaticky zobrazila je potřaba zavřít. Následně je na kartě "Package Explorer" potřeba kliknout na "Import projects..." (v případě, že by nebyla karta automaticky otevřena, je potřeba ji otevřít přes nabídku "Window" -> "Show view" -> "Package explorer").
+Uvítací obrazovku, která se automaticky zobrazila, je potřeba zavřít. Následně je na kartě "Package Explorer" potřeba kliknout na "Import projects..." (v případě, že by nebyla karta automaticky otevřena, je potřeba ji otevřít přes nabídku "Window" -> "Show view" -> "Package explorer").
 ![Výběr adresáře projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-project.png?raw=true)
 
+Následně z dialogového okna vybereme "Maven" -> "Existing Maven Projects".
+
+V otevřeném dialogovém okně přejdeme do složky "CertificationAuthority" (nacházející se ve stažené složce zdrojových kódu z Githubu). Po nalezení složky potvrdíme výběr pomocí tlačítka "Select Folder" a následně "Finish".
+![Výběr složky pro import](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-browse.png?raw=true)
+
+Nakonec je možné projekt spustit. Je potřeba otevřít soubor "Main.java" a spustit jej viz. obr.
+![Spuštění projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-project-run.png?raw=true)
+
+Pokud projekt nepůjde spustit, je potřeba aktualizovat a naimportovat závislosti. Toho lze dosáhnout kliknutím pravého tlačítka na projekt a z kontextového menu vybrat "Maven" -> "Update project...". V otevřeném okně potvrdit kliknutím na tlačítko "OK". Poté by již měl projekt nastartovat.
+![Spuštění projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/maven-update-project.png?raw=true)
