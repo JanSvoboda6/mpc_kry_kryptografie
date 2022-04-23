@@ -68,7 +68,7 @@ public class CertificationAuthority {
 		CSRWithPrivateKey csr = null;
 		
 		try {
-			// create a Certificate Signing Request (CSR)
+			// Create a Certificate Signing Request (CSR) - this is the actual client registration to the CA.
 			csr = new CSRBuilder().generateRequest(new DistinguisedNameBuilder()
 			        .setCommonName(commonName)
 			        .setOrganizationName(organization)
@@ -100,6 +100,8 @@ public class CertificationAuthority {
 		Cert clientCert = null;
 		try
 		{
+			// Sign the client certificate this is donw with the Certification Authority certificate + Certificate Signing Request made by the client.
+			// The lifespan of this certificate is set to 2 years.
 			clientCert = caCertificate.signCSR(csr)
 			        .setRandomSerialNumber()
 			        .validDuringYears(2)
@@ -111,7 +113,7 @@ public class CertificationAuthority {
 		}
         
         try {
-        	// generate the certificate + key files
+        	// Generate the certificate + key files.
 			clientCert.save(certificateFilePath);
 			CertificateWithPrivKey priv = clientCert.attachPrivateKey(csr.getPrivateKey());
 	        priv.saveKey(keyFilePath);
