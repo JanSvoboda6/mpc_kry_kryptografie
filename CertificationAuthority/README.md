@@ -9,3 +9,13 @@ Dále aplikace generuje také certifikát a privátní klíč pro server, na kte
 Webový prohlížeč nakonec načte certifikát, který byl postutnut webovým serverem a ověří jej s pomocí nainstalovaném certifikátu certifikační autority manuálně nainstalovaném v OS.
 
 Tento program při každém spuštění vygeneruje úplně nové certifikáty pro certifikační autoritu i klientský server.
+
+## Popis spuštění programu
+Následuje podrobný popis toho, jakým způsobem lze program zkompilovat a spustit.
+
+### Stažení a instalace Eclipse
+Program je napsaný v Javě. Proto je nutné stáhnout a nainstalovat Eclipse ze stránek: [https://www.eclipse.org/downloads/](https://www.eclipse.org/downloads/).
+
+### Stažení zdrojového kódu nástroje Certifikační autority
+Pro stažení zdrovojého kódu je nutné přejít na Github server našeho projektu na adrese [https://github.com/JanSvoboda6/mpc_kry_kryptografie](https://github.com/JanSvoboda6/mpc_kry_kryptografie). Následně rozbalit zeleně označené tlačítko s popiskem "Code" a vybrat možnost "Download ZIP".
+![Stažení zdrojového kódu projektu z Github serveru](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/img/github-download-source.png?raw=true)
