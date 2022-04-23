@@ -25,7 +25,7 @@ Složka "**entities**" obsahuje třídy které slouží k uložení stavu progra
 Složka "**misc**" obsahuje pomocné třídy zajišťující např. generování veřejných a privátních klíčů.
 
 Rychlý přehled využití tříd pomocí disgramu tříd:
-![Diagram tříd](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/uml/ClassDiagram.png?raw=true)
+![Diagram tříd](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/uml/ClassDiagram.drawio.png?raw=true)
 
 
 ## Popis spuštění programu
