@@ -10,14 +10,15 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
     useEffect(() => {
         logoutUserIfAccessTokenIsExpired();
-    });
+    }, []);
 
     const logoutUserIfAccessTokenIsExpired = () => {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user)
         {
+            console.log(user);
             const {exp} = jwtDecode(user.accessToken);
-
+            console.log(exp);
             if (Date.now() > exp * 1000)
             {
                 LogoutService(dispatch);
@@ -26,7 +27,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     }
 
     const isUserLoggedInAndCryptoKeyIsNull = () => {
-        return localStorage.getItem("user") && !localStorage.getItem("key");
+        return localStorage.getItem("user") && !localStorage.getItem("crypto_key");
     }
 
     return (
