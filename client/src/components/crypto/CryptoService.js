@@ -1,5 +1,8 @@
 import aesjs from "aes-js";
 
+/**
+ * Service class for encrypting/decrypting.
+ */
 const encrypt = (bytes) => {
     const key = aesjs.utils.hex.toBytes(localStorage.getItem("crypto_key"));
     let aesCounter = new aesjs.ModeOfOperation.ctr(key);

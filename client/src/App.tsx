@@ -7,7 +7,7 @@ import { history } from "./helpers/History";
 import { User } from "./types";
 import FileHandlerPage from "./components/pages/FileHandlerPage";
 import PrivateRoute from "./helpers/PrivateRoute";
-import Crypto from "./components/crypto/CryptoPage";
+import CryptoPage from "./components/crypto/CryptoPage";
 
 function App()
 {
@@ -27,7 +27,7 @@ function App()
                   {isUserLoggedIn? <Redirect to="/crypto"/> : <Register/>}
               </Route>
               <Route exact path="/logout" component={Login} />
-              <PrivateRoute exact path="/crypto" component={Crypto} />
+              <PrivateRoute exact path="/crypto" component={CryptoPage} />
               <PrivateRoute exact path="/files" component={FileHandlerPage} />
             </Switch>
         </Router>

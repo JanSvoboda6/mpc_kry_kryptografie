@@ -2,6 +2,9 @@ import axios, { AxiosResponse } from "axios";
 import { User } from "../types";
 import {API_URL} from "../helpers/BackendApi";
 
+/**
+ * Service for sending login/logout requests to the backend API.
+ */
 class AuthenticationService
 {
   async login(username: string, password: string) 

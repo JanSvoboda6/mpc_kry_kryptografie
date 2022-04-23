@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import aesjs from "aes-js";
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import HelperBox from "../navigation/HelperBox";
 import copyIcon from '../../styles/copy_icon.svg';
 
-const Crypto = () =>{
+/**
+ * Represent page where user can generate secret key.
+ */
+const CryptoPage = () =>{
     const history = useHistory();
     let [cryptoKey, setCryptoKey] = useState("");
     let [warningText, setWarningText] = useState("");
@@ -30,7 +33,7 @@ const Crypto = () =>{
         setCryptoKey(key);
     }
 
-    const redirectToFiles = () => {
+    const redirectToFileHandlerPage = () => {
         history.push('files');
     }
 
@@ -59,7 +62,7 @@ const Crypto = () =>{
             <button className="submit-button crypto-item" onClick={generateKey}>
                 <span>Generate Random Key</span>
             </button>
-            <button className="submit-button green crypto-item" onClick={redirectToFiles} disabled={cryptoKey.length !== 64}>
+            <button className="submit-button green crypto-item" onClick={redirectToFileHandlerPage} disabled={cryptoKey.length !== 64}>
                 <span>Go see my files!</span>
             </button>
             </div>
@@ -67,4 +70,4 @@ const Crypto = () =>{
     )
 }
 
-export default Crypto;
+export default CryptoPage;

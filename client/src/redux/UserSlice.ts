@@ -12,6 +12,10 @@ const initialUserLoginState = {
     isLoggedIn: false
 }
 
+/**
+ * Used for managing the React state.
+ * It defines set og reducers that are called when the appropriate action is dispatched.
+ */
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialUserLoginState,

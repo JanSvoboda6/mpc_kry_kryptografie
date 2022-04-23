@@ -3,6 +3,9 @@ import { FileInformation } from "../../types";
 import authorizationHeader from "../../services/AuthorizationHeader";
 import {API_URL} from "../../helpers/BackendApi";
 
+/**
+ * Class for sending file/folder based requests to the backend API.
+ */
 const getFiles = () =>
 {
     return axios.get(API_URL + '/api', {headers: authorizationHeader()});

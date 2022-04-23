@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from "react-redux";
+import React, {useState} from "react";
+import {Link, Redirect} from 'react-router-dom';
 import logo from '../../styles/logo_but_text.png';
-import dots from '../../styles/dots_logo_big.svg';
 import RegisterService from "../../services/RegisterService";
 import FadeIn from "react-fade-in";
 import Validator from "validator";
 
+/**
+ * Register page providing register form.
+ */
 function Register()
 {
     const [username, setUsername] = useState("");
@@ -91,6 +92,7 @@ function Register()
                                     name="email"
                                     placeholder="Email"
                                     value={username}
+                                    disabled={isLoading}
                                     onChange={onChangeUsername}
                                 />
                             </div>
@@ -101,11 +103,12 @@ function Register()
                                     name="password"
                                     placeholder="Password"
                                     value={password}
+                                    disabled={isLoading}
                                     onChange={onChangePassword}
                                 />
                             </div>
                             <div className="register-item">
-                            <button className="submit-button">Sign Up</button>
+                            <button className="submit-button" disabled={isLoading}>Sign Up</button>
                             </div>
                         </div>
                         {message !== "" && (

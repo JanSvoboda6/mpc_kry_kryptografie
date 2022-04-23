@@ -7,6 +7,9 @@ import HelperBox from "../navigation/HelperBox";
 import FadeIn from "react-fade-in";
 import Validator from 'validator';
 
+/**
+ * Login page providing login form.
+ */
 function Login()
 {
     const [username, setUsername] = useState("");

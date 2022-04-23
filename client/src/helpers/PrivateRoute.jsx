@@ -4,6 +4,10 @@ import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import LogoutService from "../services/LogoutService";
 
+/**
+ * Component for redirecting based on the state of user login.
+ * If route is a private one, the application will log out user if the JWT token is expired.
+ */
 const PrivateRoute = ({component: Component, ...rest}) => {
 
     const dispatch = useDispatch();
@@ -19,7 +23,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
             const {exp} = jwtDecode(user.accessToken);
             if (Date.now() > exp * 1000)
             {
-                LogoutService(dispatch);
+                LogoutService.logout(dispatch);
             }
         }
     }

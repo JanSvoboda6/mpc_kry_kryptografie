@@ -1,6 +1,9 @@
 import {FileInformation} from "../../types";
 import Moment from "moment";
 
+/**
+ * Utility class for manipulating with files/folders that are consumed by file browser.
+ */
 const getUniqueAddedFiles = (existingFiles: FileInformation[], addedFiles: File[], prefix: string): FileInformation[] => {
     const newFiles: Array<FileInformation> = addedFiles.map((file) =>
     {

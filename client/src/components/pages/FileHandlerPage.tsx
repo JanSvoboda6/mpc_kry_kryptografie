@@ -3,6 +3,9 @@ import FileHandler from "../file/FileHandler";
 import Navbar from "../navigation/Navbar";
 import HelperBox from "../navigation/HelperBox";
 
+/**
+ * File handler parent page. It constructs a page with helper box, navigation bar and file handler.
+ */
 function FileHandlerPage()
 {
     const [warning, setWarning] = useState("");

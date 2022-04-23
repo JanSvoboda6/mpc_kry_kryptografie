@@ -93,6 +93,10 @@ ul {
   width: 17rem;
 }
 
+.input-text:disabled{
+  opacity: 0.6;
+}
+
 ::placeholder {
   color: var(--text-primary);
   opacity: 0.5;
@@ -117,13 +121,6 @@ ul {
 .standard-button:hover{
   border-color: var(--text-primary);
   cursor:pointer;
-}
-
-/* ICONS AND LOGO*/
-.loading-icon{
-  margin-top: 50px;
-  width: 80px;
-  opacity: 1;
 }
 
 .alert-text{
@@ -152,19 +149,10 @@ ul {
   opacity: 0.9;
 }
 
-.logo-dots-bigger{
-  image-rendering: -webkit-optimize-contrast;
-  width: 71px;
-  margin-top: 10px;
-  filter: contrast(135%);
-  margin-right: 2vh;
-}
-
 .main-body{
   align-items: center;
 }
 
-/* #region BUTTONS */
 .submit-button{
   padding: 0.5em 1.7em;
   border: 0.16em solid rgba(255, 255, 255, 0);
@@ -230,9 +218,7 @@ ul {
   border-color: var(--text-primary);
   cursor:pointer;
 }
-/* #endregion */
 
-/* #region NAVBAR */
 .upper-navbar{
   position: sticky;
   top: 0;
@@ -302,7 +288,6 @@ nav a:nth-child(2):hover~.upper-navbar-animation
   opacity: 100;
 }
 
-
 nav a:nth-child(3):hover~.upper-navbar-animation
 {
   left: 17.35rem;
@@ -327,9 +312,7 @@ nav a:nth-child(5):hover~.upper-navbar-animation
   margin-left: auto;
   margin-right: 0.5rem;
 }
-/* #endregion NAVBAR */
 
-/* #region HELPER_BOX */
 .helper-box{
   text-align: center;
   background-color: var(--bg-third);
@@ -358,7 +341,6 @@ nav a:nth-child(5):hover~.upper-navbar-animation
 .helper-box-text-warning{
   color: var(--alert-color);
 }
-/* #endregion HELPER_BOX */
 
 input[type="text"]
 {
@@ -392,11 +374,6 @@ input[type="file"]
   text-align: center;
   margin-bottom: 10px;
 }
-/* #endregion PROJECT FORM */
-
-/* PAGES */
-
-/* #region LOGIN */
 
 .landing-page-wrapper{
   width: 1600px;
@@ -460,9 +437,6 @@ input[type="file"]
    color: var(--bg-accent);
 }
 
-/* #endregion LOGIN */
-
-/* #region REGISTER */
 .register-page {
   width: 500px;
   margin-top: 5rem;
@@ -482,13 +456,13 @@ input[type="file"]
   margin: 1.1vh;
 }
 
-/*input:-webkit-autofill,*/
-/*input:-webkit-autofill:hover,*/
-/*input:-webkit-autofill:focus,*/
-/*input:-webkit-autofill:active{*/
-/*  transition: background-color 5000s ease-in-out 0s;*/
-/*  -webkit-text-fill-color: white;*/
-/*}*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: white;
+}
 
 .register-link{
   font-size: 12px;
@@ -499,9 +473,7 @@ input[type="file"]
    text-decoration: underline;
    color: var(--bg-accent);
 }
-/* #endregion REGISTER */
 
-/* #region FILES */
 .file-editor-wrapper
 {
   width: 67%;
@@ -524,7 +496,6 @@ input[type="file"]
 .dataset-loading-animation{
   width: 250px;
 }
-/* #endregion FILES */
 
 .crypto-wrapper{
   margin: 10vh auto;

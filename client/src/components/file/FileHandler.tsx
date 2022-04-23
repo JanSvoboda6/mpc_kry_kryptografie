@@ -1,51 +1,43 @@
-import React, {useEffect, useState} from 'react'
-import FileBrowser, {Icons} from 'react-keyed-file-browser';
-import Moment from 'moment';
-import '../../styles/FileHandler.css';
-import 'font-awesome/css/font-awesome.min.css';
-import {AxiosResponse} from 'axios';
-import {FileInformation} from '../../types';
-import FileService from './FileService';
+import React, {useEffect, useState} from "react"
+import FileBrowser, {Icons} from "react-keyed-file-browser";
+import Moment from "moment";
+import "../../styles/FileHandler.css";
+import "font-awesome/css/font-awesome.min.css";
+import {AxiosResponse} from "axios";
+import {FileInformation} from "../../types";
+import FileService from "./FileService";
 import loadingAnimation from "../../styles/loading_graphics.gif";
-import FadeIn from 'react-fade-in';
+import FadeIn from "react-fade-in";
 import FileUtility from "./FileUtility";
 import CryptoService from "../crypto/CryptoService";
 import aesjs from "aes-js";
 
-function hexToAscii(hexadecimal)
-{
-    const hex = hexadecimal.toString();
-    let str = '';
-    for (let n = 0; n < hex.length; n += 2) {
-        str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
-    }
-    return str;
-}
-
+/**
+ *  Class for an interaction with files and folders.
+ */
 function FileHandler(props)
 {
     const [isLoaded, setLoaded] = useState(false);
     const [files, setFiles] = useState<FileInformation[]>([]);
-    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() =>
     {
         FileService.getFiles()
             .then(
-                (res: AxiosResponse<any>) =>
+                (response: AxiosResponse<any>) =>
                 {
                     const files: Array<FileInformation> = [];
-                    if (res.data)
+                    if (response.data)
                     {
-                        res.data.forEach(file =>
+                        response.data.forEach(file =>
                         {
                             const fileName = hexToAscii(CryptoService.decrypt(aesjs.utils.hex.toBytes(file.key)));
-                            if (fileName.endsWith('/'))
+                            if (fileName.endsWith("/"))
                             {
                                 files.push({key: fileName});
                                 return;
                             }
-                            file.key = fileName
+                            file.key = fileName;
                             files.push(file);
                         });
                     }
@@ -54,7 +46,6 @@ function FileHandler(props)
                 },
                 (error) =>
                 {
-                    setErrorMessage(error.message);
                     setLoaded(true);
                 }
             )
@@ -86,8 +77,8 @@ function FileHandler(props)
             // @ts-ignore
             await file.data?.arrayBuffer().then(buffer =>{
                 uniqueAddedFileEncrypted = {
-                    'key':  CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key)),
-                    'data': CryptoService.encryptBytesFormat(new Uint8Array(buffer))
+                    "key":  CryptoService.encrypt(aesjs.utils.utf8.toBytes(file.key)),
+                    "data": CryptoService.encryptBytesFormat(new Uint8Array(buffer))
                 };
                 const createdFile = new File([uniqueAddedFileEncrypted.data], uniqueAddedFileEncrypted.key);
                 FileService.uploadFiles([createdFile]);
@@ -128,14 +119,13 @@ function FileHandler(props)
         download(keys);
     }
 
-    const download = (keys: string[]) => {
-        let keysOfFilesToDownload: string[] = [];
-
+    function getKeysOfFilesToDownload(keys: string[]) {
+        let keysOfFilesToDownload: string[] = []
         keys.forEach(key => {
             if (key.endsWith("/"))
             {
                 FileUtility.getAllFilesInFolder(files, key).forEach(fileKey => {
-                    if(!keysOfFilesToDownload.includes(fileKey))
+                    if (!keysOfFilesToDownload.includes(fileKey))
                     {
                         keysOfFilesToDownload.push(fileKey);
                     }
@@ -147,6 +137,11 @@ function FileHandler(props)
                 }
             }
         });
+        return keysOfFilesToDownload;
+    }
+
+    const download = (keys: string[]) => {
+        const keysOfFilesToDownload = getKeysOfFilesToDownload(keys);
 
         let namesMap : Map<string, string> = new Map();
 
@@ -161,7 +156,7 @@ function FileHandler(props)
                     // @ts-ignore
                     let bytes = CryptoService.decryptBytesFormat(new Uint8Array(event.target.result));
                     const blob = new Blob([bytes], );
-                    const link = document.createElement('a');
+                    const link = document.createElement("a");
                     link.href = window.URL.createObjectURL(blob);
                     link.download = key.substr(key.lastIndexOf("/") + 1, key.length);
                     link.click();
@@ -174,8 +169,8 @@ function FileHandler(props)
     if (!isLoaded)
     {
         return <FadeIn>
-            <div className='loading-animation-wrapper'>
-                <img className='dataset-loading-animation' src={loadingAnimation} alt="loadingAnimation"/>
+            <div className="loading-animation-wrapper">
+                <img className="dataset-loading-animation" src={loadingAnimation} alt="loadingAnimation"/>
             </div>
         </FadeIn>
     }
@@ -213,6 +208,16 @@ function FileHandler(props)
             </FadeIn>
         </div>
     )
+}
+
+function hexToAscii(hexadecimal)
+{
+    const hex = hexadecimal.toString();
+    let str = "";
+    for (let n = 0; n < hex.length; n += 2) {
+        str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
 }
 
 export default FileHandler;

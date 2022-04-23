@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+/**
+ * Component displaying message in the box at the top of the screen.
+ */
 function HelperBox(props: any)
 {
     const [isHidden, setHidden] = useState(false);
