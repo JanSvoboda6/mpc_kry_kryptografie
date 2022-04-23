@@ -22,10 +22,8 @@ Pro stažení zdrovojého kódu je nutné přejít na Github server našeho proj
 Nakonec je už jen potřeba rozbalit tyto soubory z archivu na disk (umístění je potřeba si zapamatovat a následně jej vyhledat v dalším kroku).
 
 ### Spuštění eclipse a načtení projektu
-Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do námi rozbaleného adresáře do složky /CertificationAuthority/ viz. obrázek.
+Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do nově vytvořené složky libovolně umístěné na disku.
 
-![Výběr workspace v Eclipse](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-workspace.png?raw=true)
+Uvítací obrazovku, která se automaticky zobrazila je potřaba zavřít. Následně je na kartě "Package Explorer" potřeba kliknout na "Import projects..." (v případě, že by nebyla karta automaticky otevřena, je potřeba ji otevřít přes nabídku "Window" -> "Show view" -> "Package explorer").
+![Výběr adresáře projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-import-project.png?raw=true)
 
-Následně v otevřeném Eclipse přejdeme do nabídky "File" -> "Open projects from File System...".
-V nově otevřeném dialogovém okně klikneme na tlačítko "Directory...". Toto tlačítko nás přesune do výběru složky - defaultně by mělo směřovat do složky "CertificationAuthority" - potvrdíme kliknutím na OK.
-![Výběr adresáře projektu](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-folder-selection.png?raw=true)
