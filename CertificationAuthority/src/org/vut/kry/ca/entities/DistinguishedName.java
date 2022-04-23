@@ -4,6 +4,9 @@ import javax.security.auth.x500.X500Principal;
 import org.bouncycastle.asn1.x500.X500Name;
 
 
+/**
+ * Entity that contains the information about the subject (name, domains, ...). Nothing more to it.
+ */
 public class DistinguishedName
 {
 	private final X500Name x500Name;

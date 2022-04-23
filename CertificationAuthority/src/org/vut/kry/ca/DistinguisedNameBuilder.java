@@ -5,6 +5,11 @@ import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.vut.kry.ca.entities.DistinguishedName;
 
 
+/**
+ * A builder of the DistinguisedName objects. Basically creates a DistinguisedName objects based on the parameters passed to this builder.
+ * This builder needs t be set up with various method defined in here. These methods are in most cases self explanatory.
+ * In the end, the build() method is called and as a result DistinguisedName object is obtained.
+ */
 public class DistinguisedNameBuilder {
 	private final X500NameBuilder builder;
 

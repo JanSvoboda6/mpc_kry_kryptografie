@@ -3,6 +3,9 @@ import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 
 
+/**
+ * A class that holds the parameters of the certificate. These are contained in the certificate in a key-value format.
+ */
 public class CertificateExtension {
 	private final ASN1ObjectIdentifier oid;
 	private final boolean isCritical;

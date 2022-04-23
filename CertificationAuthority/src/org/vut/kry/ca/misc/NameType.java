@@ -3,6 +3,10 @@ import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
 
 
+/**
+ * Contains the possible types applications of the certificate. We are interested in the domains therefore the use of URI.
+ * Used as a parameter for the BouncyCastle library.
+ */
 public enum NameType
 {
 	OTHER_NAME(GeneralName.otherName),
@@ -12,7 +16,7 @@ public enum NameType
 	DIRECTORY_NAME(GeneralName.directoryName),
 	EDI_PARTY_NAME(GeneralName.ediPartyName),
 	/**
-	 * URI : Uniform Resource Identifier
+	 * URI : Uniform Resource Identifier, this is used by our application.
 	 */
 	URI(GeneralName.uniformResourceIdentifier),
 	IP_ADDRESS(GeneralName.iPAddress),

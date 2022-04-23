@@ -17,10 +17,19 @@ import org.vut.kry.ca.entities.DistinguishedName;
 import org.vut.kry.ca.misc.KeyUtils;
 
 
+/**
+ * Class for creating a Certificate Signing Request.
+ */
 public class CSRBuilder
 {
+	// The type of algorithm used for signing process.
 	private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
 
+	/**
+	 * 
+	 * @param dn  Information about the subject.
+	 * @return  Object with the complete Certificate Signing Request.
+	 */
 	public CSRWithPrivateKey generateRequest(final DistinguishedName dn) throws NoSuchAlgorithmException, OperatorCreationException, PEMException
 	{
 	    final KeyPair pair = KeyUtils.generateKeyPair();

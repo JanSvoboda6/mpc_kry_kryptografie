@@ -46,9 +46,13 @@ public class Signer
 	// Basic properties of the certificate:
 	private BigInteger serialNumber;
 
+	// Public + private key pair of the CA.
 	private final KeyPair signerKeyPair;
+	// The object holding information about the CA.
 	private final DistinguishedName signerDn;
+	// Public key of the Client.
 	private final PublicKey publicKey;
+	// The object holding information about the client.
 	private final DistinguishedName dn;
 	  
 	private final List<CertificateExtension> extensions = new ArrayList<>();
@@ -107,15 +111,8 @@ public class Signer
 	
 	/**
 	 * Method used for signing the client's certificate.
-	 * @param subjectAlternativeName - list of domains the certificate can be used for
-	 * @return Signed certificate
-	 * @throws OperatorCreationException
-	 * @throws NoSuchAlgorithmException
-	 * @throws CertIOException
-	 * @throws CertificateException
-	 * @throws InvalidKeyException
-	 * @throws NoSuchProviderException
-	 * @throws SignatureException
+	 * @param subjectAlternativeName  List of domains the certificate can be used for.
+	 * @return  Signed certificate
 	 */
 	public Cert sign(final String subjectAlternativeName) throws OperatorCreationException, NoSuchAlgorithmException, CertIOException, CertificateException, InvalidKeyException, NoSuchProviderException, SignatureException {
 		final ContentSigner sigGen = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM).build(signerKeyPair.getPrivate());

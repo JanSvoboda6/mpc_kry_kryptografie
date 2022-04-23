@@ -4,6 +4,9 @@ import org.bouncycastle.openssl.PEMException;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
 
+/**
+ * Only extends the CSR class with private keys.
+ */
 public class CSRWithPrivateKey extends CSR
 {
 	private final PrivateKey privateKey;

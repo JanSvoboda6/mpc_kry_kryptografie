@@ -21,6 +21,11 @@ import java.security.cert.X509Certificate;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 
+/**
+ * A class that handles the saving of the certificate in the PKCS12 format.
+ * PKCS12 is essentially a container that can contain a certificate and private keys. These files can be encrypted using a secret password.
+ * Only a extension of the Cert class, enabling to save the private keys as well.
+ */
 public class CertificateWithPrivKey extends Cert
 {
 	static final String KEYSTORE_TYPE = "PKCS12";
@@ -32,6 +37,12 @@ public class CertificateWithPrivKey extends Cert
 		this.privateKey = privateKey;
 	}
 
+	/**
+	 * Adds the certificate + private key to the PKCS12 container. No password is set.
+	 * @param keyStore  The keystore, that is used.
+	 * @param alias  For which entuty is this container generated for.
+	 * @return  Container with the certificate + priv. key.
+	 */
 	public KeyStore addToKeystore(KeyStore keyStore, String alias) throws KeyStoreException
 	{
 		final X509Certificate certificate = getX509Certificate();
@@ -43,7 +54,7 @@ public class CertificateWithPrivKey extends Cert
 
 	public KeyStore saveInPkcs12Keystore(final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
-		// init keystore
+		// Init the java keystore. A class that handles the Java key storage.
 		final KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
 		keyStore.load(null, null);
 
@@ -52,12 +63,24 @@ public class CertificateWithPrivKey extends Cert
 		return keyStore;
 	}
 
+	/**
+	 * Calls the exportPkcs12(final String keystorePath, final char[] keystorePassword, final String alias), the only difference is that this class creates a file if it doesn't exist in the first place.
+	 * @param keystorePath  A path to the file that contains the PKCS12 container.
+	 * @param keystorePassword  A possible password that is used to the keystore.
+	 * @param alias  A string that identifies the entity for which a certificate is stored.
+	 */
 	public void exportPkcs12(final String keystorePath, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		final File file = new File(keystorePath);
 		exportPkcs12(file, keystorePassword, alias);
 	}
 
+	/**
+	 * A method that exports the certificate into a PKCS12 container.
+	 * @param keystoreFile  A file with the PKCS12 container.
+	 * @param keystorePassword  A possible password that is used to the keystore.
+	 * @param alias  A string that identifies the entity for which a certificate is stored.
+	 */
 	public void exportPkcs12(final File keystoreFile, final char[] keystorePassword, final String alias) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		final KeyStore keyStore;

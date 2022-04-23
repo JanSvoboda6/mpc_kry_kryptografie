@@ -3,6 +3,11 @@ import org.bouncycastle.asn1.x509.Extension;
 import org.vut.kry.ca.entities.CertificateExtension;
 
 
+/**
+ * Contains namely the common usages a certificate can be used for. This is solely used as a parameter to the BouncyCastle library.
+ * @author Andy
+ *
+ */
 public class KeyExtension extends CertificateExtension
 {
 	public KeyExtension(final int keyUsages)

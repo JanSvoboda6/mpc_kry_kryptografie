@@ -7,6 +7,11 @@ import org.bouncycastle.asn1.x509.ReasonFlags;
 import org.vut.kry.ca.misc.NameType;
 
 
+/**
+ * Can contain basic information about the distribution point. It is not used by our app as it is not needed for a proper function.
+ * @author Andy
+ *
+ */
 public class DistributionPoint extends CertificateExtension
 {
 	public DistributionPoint(final org.bouncycastle.asn1.x509.DistributionPoint... points)

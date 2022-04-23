@@ -12,6 +12,10 @@ import java.security.cert.X509Certificate;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 
+/**
+ * Class that holds the parameters of the certificate. Has methods to print and save the certificate to the filesystem.
+ * Using a abbreviation because the BouncyCastle already has a class named Certificate - so they would be mistaken with each other.
+ */
 public class Cert {
 	private final X509Certificate certificate;
 

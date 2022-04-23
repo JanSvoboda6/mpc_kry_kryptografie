@@ -3,6 +3,10 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Utilities for key management. Primarily used for generating a public-private key pair.
+ * Uses rules defined in the constants.
+ */
 public class KeyUtils
 {
 	private static final String ALGORITHM = "RSA";

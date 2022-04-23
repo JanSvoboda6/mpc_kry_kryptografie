@@ -5,8 +5,13 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
 
+/**
+ * Class that holds information about the Client's Certificate Signing Request.
+ */
 public class CSR {
+	// The information about the client.
 	private final DistinguishedName dn;
+	
 	private final PublicKey publicKey;
 
 	public CSR(final PKCS10CertificationRequest request) throws PEMException

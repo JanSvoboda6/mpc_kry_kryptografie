@@ -9,6 +9,9 @@ import org.bouncycastle.cert.X509CertificateHolder;
 import org.vut.kry.ca.Signer;
 
 
+/**
+ * Special class that is used to manipulate with the Certification Authority certificate.
+ */
 public class RootCertificate extends CertificateWithPrivKey
 {
 	static final String KEYSTORE_TYPE = "PKCS12";
@@ -21,6 +24,11 @@ public class RootCertificate extends CertificateWithPrivKey
 	    this.caCertificateHolder = new X509CertificateHolder(caCertificate.getEncoded());
 	}
 
+	/**
+	 * A method used for signing the Certificate Signing Request.
+	 * @param request  CSR request.
+	 * @return  An instance of the Signer, that can be later used.
+	 */
 	public Signer signCSR(final CSR request)
 	{
 	    final KeyPair pair = new KeyPair(getX509Certificate().getPublicKey(), getPrivateKey());
