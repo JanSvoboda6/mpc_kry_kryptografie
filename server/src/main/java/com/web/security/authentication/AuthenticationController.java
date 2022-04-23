@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -35,6 +36,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class providing method for login/registration/validation  of {@link User}.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -91,7 +95,7 @@ public class AuthenticationController
         Set<Role> roles = new HashSet<>();
 
         Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
-                .orElseThrow(() -> new ValidationException("Error: Role is not found."));
+                .orElseThrow(() -> new ValidationException("Role cannot be found!"));
         roles.add(userRole);
         user.setRoles(roles);
         user.setVerified(false);
@@ -100,20 +104,6 @@ public class AuthenticationController
 
         sendVerificationEmailToUser(savedUser);
         return ResponseEntity.ok("User registered successfully!");
-    }
-
-    private void sendVerificationEmailToUser(User savedUser)
-    {
-        VerificationToken verificationToken = verificationService.createVerificationToken(savedUser);
-        EmailContext emailContext = new EmailContext();
-        emailContext.setFrom(FROM_EMAIL);
-        emailContext.setTo(savedUser.getUsername());
-        emailContext.setTemplateLocation("verification");
-        Context context = new Context();
-        context.setVariable("link", BACKEND_API + "/api/auth/verification?token=" + verificationToken.getToken());
-        emailContext.setContext(context);
-        emailContext.setSubject("Dear user, Please activate your account.");
-        emailService.sendEmail(emailContext);
     }
 
     @PostMapping("/login")
@@ -125,6 +115,10 @@ public class AuthenticationController
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException exception) //TODO Jan: Test this case
         {
+            if (exception instanceof DisabledException)
+            {
+                throw new ValidationException("The user account is not verified!");
+            }
             throw new ValidationException("Email or password is invalid!");
         }
 
@@ -169,4 +163,17 @@ public class AuthenticationController
         return ResponseEntity.badRequest().body(exception.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
+    private void sendVerificationEmailToUser(User savedUser)
+    {
+        VerificationToken verificationToken = verificationService.createVerificationToken(savedUser);
+        EmailContext emailContext = new EmailContext();
+        emailContext.setFrom(FROM_EMAIL);
+        emailContext.setTo(savedUser.getUsername());
+        emailContext.setTemplateLocation("verification");
+        Context context = new Context();
+        context.setVariable("link", BACKEND_API + "/api/auth/verification?token=" + verificationToken.getToken());
+        emailContext.setContext(context);
+        emailContext.setSubject("Dear user, please activate your account.");
+        emailService.sendEmail(emailContext);
+    }
 }

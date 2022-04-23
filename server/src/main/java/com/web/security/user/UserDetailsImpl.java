@@ -1,6 +1,5 @@
 package com.web.security.user;
 
-
 import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
@@ -26,13 +25,15 @@ public class UserDetailsImpl implements UserDetails
     private final String password;
 
     private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean isEnabled;
 
-    public UserDetailsImpl(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities)
+    public UserDetailsImpl(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities, boolean isEnabled)
     {
         this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.isEnabled = isEnabled;
     }
 
     public static UserDetailsImpl build(User user)
@@ -41,7 +42,7 @@ public class UserDetailsImpl implements UserDetails
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorities);
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorities, user.isVerified());
     }
 
     @Override
@@ -88,7 +89,7 @@ public class UserDetailsImpl implements UserDetails
     @Override
     public boolean isEnabled()
     {
-        return true;
+        return isEnabled;
     }
 
     @Override

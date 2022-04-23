@@ -20,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthorizationTokenFilter extends OncePerRequestFilter
 {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationTokenFilter.class);
     private final JsonWebTokenUtility jsonWebTokenUtility;
     private final UserDetailsService userDetailsService;
@@ -38,23 +37,21 @@ public class AuthorizationTokenFilter extends OncePerRequestFilter
     {
         try
         {
-            String jwt = jsonWebTokenUtility.parseJwt(request);
-            if (jwt != null && jsonWebTokenUtility.validateJwtToken(jwt))
+            String jwtToken = jsonWebTokenUtility.parseJwt(request);
+            if (jwtToken != null && jsonWebTokenUtility.validateJwtToken(jwtToken))
             {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(jwt));
+                UserDetails userDetails = userDetailsService.loadUserByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(jwtToken));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception e)
+        } catch (Exception exception)
         {
-            logger.error("Cannot set user authentication.", e);
+            logger.error("Cannot set user authentication.", exception);
         }
 
         filterChain.doFilter(request, response);
     }
-
-
 }

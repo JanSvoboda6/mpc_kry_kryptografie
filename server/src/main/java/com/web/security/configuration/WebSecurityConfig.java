@@ -1,10 +1,9 @@
 package com.web.security.configuration;
 
-import com.web.security.authentication.AuthorizationTokenFilter;
 import com.web.security.authentication.AuthenticationEntryPointJwt;
+import com.web.security.authentication.AuthorizationTokenFilter;
 import com.web.security.user.UserDetailsServiceImpl;
 import com.web.security.utility.JsonWebTokenUtility;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.client.RestTemplate;
-import org.thymeleaf.TemplateEngine;
 
 @Configuration
 @EnableWebSecurity
@@ -42,17 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     public AuthorizationTokenFilter authenticationJwtTokenFilter()
     {
         return new AuthorizationTokenFilter(jsonWebTokenUtility, userDetailsService);
-    }
-
-    @Bean
-    public ObjectMapper objectMapper()
-    {
-        return new ObjectMapper();
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
     }
 
     @Override
