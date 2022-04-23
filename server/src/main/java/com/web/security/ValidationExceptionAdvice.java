@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * ValidationControllerAdvice picks a thrown {@link ValidationException} and creates a response.
+ */
 @ControllerAdvice
 public class ValidationExceptionAdvice
 {

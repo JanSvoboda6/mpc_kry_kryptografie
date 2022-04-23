@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
+/**
+ * Thymeleaf is used as a tool for creating HTML based emails.
+ */
 @Configuration
 public class ThymeleafConfiguration {
 

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repository providing access to {@link VerificationToken}.
+ */
 @Repository
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long>
 {

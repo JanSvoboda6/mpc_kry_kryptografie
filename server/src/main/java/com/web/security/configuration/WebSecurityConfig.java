@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ *  Security configuration class for checking HTTP requests based on URI.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,19 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        //TODO Jan: These headers are just for accessing H2 console
+        //These headers are just for accessing H2 console (used just in DEV environment)
         http.authorizeRequests().antMatchers("/console/**").permitAll();
         http.csrf().ignoringAntMatchers("/console/**");
-        http.headers().frameOptions().sameOrigin();
 
-        http.authorizeRequests().antMatchers("/api/**").permitAll();
-        http.csrf().ignoringAntMatchers("/api/**");
-        
+        http.headers().frameOptions().sameOrigin();
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

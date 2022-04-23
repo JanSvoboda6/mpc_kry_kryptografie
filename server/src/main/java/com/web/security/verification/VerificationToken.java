@@ -5,6 +5,9 @@ import com.web.security.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Verification Token is used for validating the user account via an existing email address.
+ */
 @Entity
 public class VerificationToken
 {

@@ -12,6 +12,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * Entity class providing user information and mapping the Java object to the database.
+ */
 @Entity
 @Table(name = "users",
         uniqueConstraints = {

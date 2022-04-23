@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Scheduled task for deleting (purging) not verified {@link User}.
+ * If user account is not verified within 24 hours, then user account is deleted.
+ */
 @Service
 public class NonVerifiedUserPurger
 {

@@ -12,7 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * Used as a handler for unauthorized access in {@link com.web.security.configuration.WebSecurityConfig};
  */
 @Component
 public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint
@@ -25,5 +25,4 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint
         logger.error("Unauthorized error: {}", authException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized!");
     }
-
 }

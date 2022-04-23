@@ -2,8 +2,11 @@ package com.web.security.request;
 
 import javax.validation.constraints.*;
 
-public class SignupRequest {
-
+/**
+ * Mapping class from HTTP register (signup) request to Java object used in {@link com.web.security.authentication.AuthenticationController}.
+ */
+public class RegisterRequest
+{
     @Email(message = "Email is not in a valid format!")
     @Size(min = 5, max = 128, message = "Length of the email must be between 5 to 128 characters!")
     private String username;

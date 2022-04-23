@@ -2,6 +2,9 @@ package com.web.security.user;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Helper class for creating the user.
+ */
 @Service
 public class UserCreator
 {

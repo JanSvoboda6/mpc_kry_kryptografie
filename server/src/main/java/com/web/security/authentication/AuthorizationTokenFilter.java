@@ -18,6 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * Filter used in Spring Security filter chain for JWT based authentication.
+ * It checks validity of the JWT token and finds the user (owner of the JWT token).
+ */
 public class AuthorizationTokenFilter extends OncePerRequestFilter
 {
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationTokenFilter.class);

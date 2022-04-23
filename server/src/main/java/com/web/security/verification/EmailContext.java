@@ -2,12 +2,14 @@ package com.web.security.verification;
 
 import org.thymeleaf.context.IContext;
 
+/**
+ * Class providing the basic information when sending an email.
+ */
 public class EmailContext
 {
     private String from;
     private String to;
     private String subject;
-    private String displayName;
     private String templateLocation;
     private IContext context;
 

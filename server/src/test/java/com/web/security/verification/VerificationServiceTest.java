@@ -87,7 +87,7 @@ public class VerificationServiceTest
     public void whenVerificationTokenExpirationTimeIsBeforeCurrentTime_thenTokenIsInvalid()
     {
         VerificationTokenRepository verificationTokenRepository = Mockito.mock(VerificationTokenRepository.class);
-        VerificationToken token = new VerificationToken("random_token_value", LocalDateTime.now().minusDays(1).minusSeconds(1), user);
+        VerificationToken token = new VerificationToken("random_token_value", LocalDateTime.now().minusSeconds(1), user);
         Mockito.when(verificationTokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
         VerificationService verificationService = new VerificationService(verificationTokenRepository);
 

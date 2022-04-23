@@ -11,6 +11,9 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Class for creating {@link VerificationToken} with 24 hours expiration time set.
+ */
 @Service
 public class VerificationService
 {
@@ -28,7 +31,7 @@ public class VerificationService
     public VerificationToken createVerificationToken(User user)
     {
         String tokenValue = new String(Base64.encodeBase64URLSafe(DEFAULT_TOKEN_GENERATOR.generateKey()), US_ASCII);
-        VerificationToken token = new VerificationToken(tokenValue, LocalDateTime.now().plusHours(1), user);
+        VerificationToken token = new VerificationToken(tokenValue, LocalDateTime.now().plusDays(1), user);
         return repository.save(token);
     }
 

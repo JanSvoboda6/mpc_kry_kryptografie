@@ -2,6 +2,11 @@ package com.web.security.role;
 
 import javax.persistence.*;
 
+/**
+ * Entity class used for holding information about a role.
+ * Note: Roles are not particularly used in a project but could
+ * be utilized for more complicated resource access & feature management.
+ */
 @Entity
 public class Role
 {

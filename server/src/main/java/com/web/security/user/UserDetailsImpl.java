@@ -12,6 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Class implementing the Spring Security {@link UserDetails}.
+ * Holding information about {@link User} and providing it in {@link com.web.security.authentication.AuthorizationTokenFilter}.
+ */
 public class UserDetailsImpl implements UserDetails
 {
     @Serial

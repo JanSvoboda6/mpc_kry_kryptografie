@@ -2,6 +2,9 @@ package com.web.security.request;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Mapping class from HTTP login request to Java object used in {@link com.web.security.authentication.AuthenticationController}.
+ */
 public class LoginRequest
 {
     @NotBlank

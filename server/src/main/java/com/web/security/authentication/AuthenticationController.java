@@ -2,7 +2,7 @@ package com.web.security.authentication;
 
 import com.web.security.ValidationException;
 import com.web.security.request.LoginRequest;
-import com.web.security.request.SignupRequest;
+import com.web.security.request.RegisterRequest;
 import com.web.security.response.JwtResponse;
 import com.web.security.role.Role;
 import com.web.security.role.RoleRepository;
@@ -84,7 +84,7 @@ public class AuthenticationController
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest)
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest signUpRequest)
     {
         if (userRepository.existsByUsername(signUpRequest.getUsername()))
         {
@@ -98,11 +98,11 @@ public class AuthenticationController
                 .orElseThrow(() -> new ValidationException("Role cannot be found!"));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setVerified(false);
+        user.setVerified(true);
 
         User savedUser = userRepository.save(user);
 
-        sendVerificationEmailToUser(savedUser);
+        //sendVerificationEmailToUser(savedUser);
         return ResponseEntity.ok("User registered successfully!");
     }
 
@@ -113,7 +113,7 @@ public class AuthenticationController
         try
         {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        } catch (AuthenticationException exception) //TODO Jan: Test this case
+        } catch (AuthenticationException exception)
         {
             if (exception instanceof DisabledException)
             {

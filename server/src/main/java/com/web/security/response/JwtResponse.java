@@ -2,6 +2,9 @@ package com.web.security.response;
 
 import java.util.List;
 
+/**
+ * Class used for mapping from Java object to HTTP JSON response used in {@link com.web.security.authentication.AuthenticationController}.
+ */
 public class JwtResponse
 {
     private String token;

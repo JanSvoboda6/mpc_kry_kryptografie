@@ -13,6 +13,9 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Utility class for generating JWT token, validating and for parsing the JWT from HTTP header.
+ */
 @Component
 public class JsonWebTokenUtility
 {
