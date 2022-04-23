@@ -19,3 +19,9 @@ Program je napsaný v Javě. Proto je nutné stáhnout a nainstalovat Eclipse ze
 ### Stažení zdrojového kódu nástroje Certifikační autority
 Pro stažení zdrovojého kódu je nutné přejít na Github server našeho projektu na adrese [https://github.com/JanSvoboda6/mpc_kry_kryptografie](https://github.com/JanSvoboda6/mpc_kry_kryptografie). Následně rozbalit zeleně označené tlačítko s popiskem "Code" a vybrat možnost "Download ZIP".
 ![Stažení zdrojového kódu projektu z Github serveru](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/github-download-source.png?raw=true)
+Nakonec je už jen potřeba rozbalit tyto soubory z archivu na disk (umístění je potřeba si zapamatovat a následně jej vyhledat v dalším kroku).
+
+### Spuštění eclipse a načtení projektu
+Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do námi rozbaleného adresáře do složky /CertificationAuthority/ viz. obrázek.
+![Výběr workspace v Eclipse](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-workspace.png?raw=true)
+
