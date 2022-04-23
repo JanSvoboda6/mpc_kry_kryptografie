@@ -1,33 +1,5 @@
 import React from 'react';
-import {render, screen} from "@testing-library/react";
-import {act} from 'react-dom/test-utils';
-import FileService from "../../components/file/FileService";
-import FileHandler from "../../components/file/FileHandler";
 import FileUtility from "../../components/file/FileUtility";
-
-describe('Rendering files/folders', () => {
-    test('When FileHandler is rendered then files are shown', async () => {
-        jest.spyOn(FileService, 'getFiles').mockResolvedValue({
-            'data': [
-                {
-                    'key': 'aRandomFile.txt'
-                },
-                {
-                    'key': 'aRandomDirectory/'
-                }
-            ]
-        });
-
-        await act(async () => {
-            render(
-                <FileHandler/>
-            )
-        });
-
-        expect(screen.getByText('aRandomFile.txt')).toBeInTheDocument();
-        expect(screen.getByText('aRandomDirectory')).toBeInTheDocument();
-    });
-});
 
 describe('Creating files', () => {
     test('When creating new files then only unique new files are returned', () => {
