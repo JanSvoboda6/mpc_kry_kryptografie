@@ -13,7 +13,7 @@ Tento program při každém spuštění vygeneruje úplně nové certifikáty pr
 
 
 ## Základní popis struktury programu
-Detailní dokumentace programu je dostupná na této adrese: [https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/html/index.html?raw=true](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/html/index.html?raw=true).
+Detailní dokumentace programu je dostupná na této adrese: [https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html](https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html).
 
 ## Popis spuštění programu
 Následuje podrobný popis toho, jakým způsobem lze program zkompilovat a spustit.
