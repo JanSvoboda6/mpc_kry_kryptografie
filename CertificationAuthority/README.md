@@ -15,6 +15,19 @@ Tento program při každém spuštění vygeneruje úplně nové certifikáty pr
 ## Základní popis struktury programu
 Detailní dokumentace programu je dostupná na této adrese: [https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html](https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html).
 
+### Základní přehled tříd
+Program se skládá celkem ze tří složek: hlavní, entities, misc.
+
+Hlavní složka obsahuje třídy "CertificationAuthority.java", "CSRBuilder.java", "DistinguisedNameBuilder.java", "**Main.java**", "RootCertBuilder.java" a "Signer.java". Tyto třídy obsahují hlavní logiku programu - probíhají v něm procesy od vytvoření certifikátu CA, registrace klienta až po vytvoření klientského certifikátu a validace.
+
+Složka "**entities**" obsahuje třídy které slouží k uložení stavu programu - jednotlivé třídy vytváří objekty z těchto tříd a uchovávají v nich informace v průběhu vykonávání. Dále tyto třídy obsahují případné pomocné metody např. uložení certifáku na disk atd.
+
+Složka "**misc**" obsahuje pomocné třídy zajišťující např. generování veřejných a privátních klíčů.
+
+Rychlý přehled využití tříd pomocí disgramu tříd:
+![Diagram tříd](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/uml/ClassDiagram.png?raw=true)
+
+
 ## Popis spuštění programu
 Následuje podrobný popis toho, jakým způsobem lze program zkompilovat a spustit.
 
