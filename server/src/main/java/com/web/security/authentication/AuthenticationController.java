@@ -56,9 +56,6 @@ public class AuthenticationController
     @Value("${web.backend.api}")
     private String BACKEND_API;
 
-    @Value("${server.port}")
-    private int PORT;
-
     @Autowired
     public AuthenticationController(
             AuthenticationManager authenticationManager,
@@ -113,7 +110,7 @@ public class AuthenticationController
         emailContext.setTo(savedUser.getUsername());
         emailContext.setTemplateLocation("verification");
         Context context = new Context();
-        context.setVariable("link", BACKEND_API + ":" + PORT + "/api/auth/verification?token=" + verificationToken.getToken());
+        context.setVariable("link", BACKEND_API + "/api/auth/verification?token=" + verificationToken.getToken());
         emailContext.setContext(context);
         emailContext.setSubject("Dear user, Please activate your account.");
         emailService.sendEmail(emailContext);
