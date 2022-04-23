@@ -18,7 +18,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         {
             const {exp} = jwtDecode(user.accessToken);
 
-            if (Date.now() < exp * 1000)
+            if (Date.now() > exp * 1000)
             {
                 LogoutService(dispatch);
             }
