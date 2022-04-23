@@ -23,5 +23,7 @@ Nakonec je už jen potřeba rozbalit tyto soubory z archivu na disk (umístění
 
 ### Spuštění eclipse a načtení projektu
 Po spuštění eclipse vybereme náš pracovní prostor (workspace) tak, aby směřoval do námi rozbaleného adresáře do složky /CertificationAuthority/ viz. obrázek.
+
+
 ![Výběr workspace v Eclipse](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/eclipse-workspace.png?raw=true)
 
