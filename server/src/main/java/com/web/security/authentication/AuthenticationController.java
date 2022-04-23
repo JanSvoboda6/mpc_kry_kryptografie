@@ -94,11 +94,11 @@ public class AuthenticationController
                 .orElseThrow(() -> new ValidationException("Error: Role is not found."));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setVerified(true);
+        user.setVerified(false);
 
         User savedUser = userRepository.save(user);
 
-        //sendVerificationEmailToUser(savedUser);
+        sendVerificationEmailToUser(savedUser);
         return ResponseEntity.ok("User registered successfully!");
     }
 
