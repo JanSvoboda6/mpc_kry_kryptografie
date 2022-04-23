@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "REACT_APP_API_URL='http://localhost:8088' react-scripts start ",
-    "prod-win": "copy .\\build\\index.html .\\build\\404.html && http-server -p 443 ./build --ssl --cert \\Users\\paperspace\\Desktop\\Certificates\\server.crt --key \\Users\\paperspace\\Desktop\\Certificates\\server.key",
+    "prod-win": "copy .\\build\\index.html .\\build\\404.html && http-server -p 443 ./build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject"
