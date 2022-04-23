@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, Redirect} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import logo from '../../styles/logo_but_text.png';
@@ -95,7 +95,7 @@ function Login()
     return (
             <>
             <div className="wrapper">
-                {showPopup === 't' && <HelperBox content="Thanks for the registration. We have sent you an activation email!" />}
+                {showPopup === 't' && <HelperBox content="Thanks for the registration. We have sent you an activation email!" onClose={() => null}/>}
             </div>
             <div className="landing-page-wrapper">
                     <FadeIn delay={250}>

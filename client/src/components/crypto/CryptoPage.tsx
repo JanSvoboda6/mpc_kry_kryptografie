@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import aesjs from "aes-js";
-import { useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import HelperBox from "../navigation/HelperBox";
 import copyIcon from '../../styles/copy_icon.svg';
 
@@ -50,12 +50,11 @@ const Crypto = () =>{
                         autoComplete="off"
                         value={cryptoKey}
                         onChange={onChangeCryptoKey}/>
-                    {/*TODO: Jan uncomment when HTTPS is used*/}
-                    {/*{cryptoKey &&*/}
-                    {/*    <button onClick={() => navigator.clipboard.writeText(cryptoKey)} className="copy-button">*/}
-                    {/*        <img className="copy-icon" src={copyIcon} alt="copyToClipboard" />*/}
-                    {/*    </button>*/}
-                    {/*}*/}
+                    {cryptoKey &&
+                        <button onClick={() => navigator.clipboard.writeText(cryptoKey)} className="copy-button">
+                            <img className="copy-icon" src={copyIcon} alt="copyToClipboard" />
+                        </button>
+                    }
                 </div>
             <button className="submit-button crypto-item" onClick={generateKey}>
                 <span>Generate Random Key</span>

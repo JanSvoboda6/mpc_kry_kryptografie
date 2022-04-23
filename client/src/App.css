@@ -86,7 +86,7 @@ ul {
   border-radius: 7px;
   border-color: var(--border-color);
   border-width: 2px;
-  height: 3vh;
+  height: 33px;
   border-style: solid;
   font-size: 14px;
   padding: 0rem 0.5rem 0rem 0.5rem;
@@ -433,7 +433,7 @@ input[type="file"]
 
 .login-form {
   position: relative;
-  width: 50vh;
+  width: 500px;
   margin-top: 5rem;
   margin-right: auto;
   margin-left: auto;
@@ -464,7 +464,7 @@ input[type="file"]
 
 /* #region REGISTER */
 .register-page {
-  width: 50vh;
+  width: 500px;
   margin-top: 5rem;
   margin-left: auto;
   margin-right: auto;
@@ -532,7 +532,8 @@ input[type="file"]
   flex-direction: column;
   align-items: center;
   background-color: var(--bg-secondary);
-  width: 45rem;
+  width: 700px;
+  height: 250px;
   padding-top: 5px;
 }
 
@@ -572,7 +573,7 @@ input[type="file"]
   text-decoration: none;
   border: 10px;
   position: relative;
-  top: 5px;
+  top: 8px;
 }
 
 .copy-button:hover{

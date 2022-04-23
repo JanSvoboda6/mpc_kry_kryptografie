@@ -30,8 +30,8 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
     return (
         <Route {...rest} render={props => (
-            isUserLoggedInAndCryptoKeyIsNull() && window.location.pathname === "/files"? <Redirect to="/crypto"/> :
-            localStorage.getItem('user') ? <Component {...props} /> : <Redirect to="/login"/>
+            isUserLoggedInAndCryptoKeyIsNull() && (window.location.pathname === "/files" || window.location.pathname === "/") ? <Redirect to="/crypto"/> :
+            localStorage.getItem("user") ? <Component {...props} /> : <Redirect to="/login"/>
         )} />
     );
 };
