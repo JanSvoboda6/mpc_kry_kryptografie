@@ -1,0 +1,1 @@
+export const API_URL = process.env.NODE_ENV === 'production'? 'https://www.securestorage.website' : 'http://localhost:8088';
