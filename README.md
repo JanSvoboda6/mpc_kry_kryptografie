@@ -2,7 +2,7 @@
 
 **Demo ukázka**: [demo_05](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg) <br/>
 **Produkční prostředí**: https://www.securestorage.website.<br />
-**Upozornění**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače.[Certifikát](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg)
+**Upozornění**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače. Certikát je možné stáhnout na následující [adrese](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg).
 
 DOKUMENTACE
 ===
