@@ -4,9 +4,10 @@ import com.web.security.ValidationException;
 import com.web.security.user.User;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,8 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class FileController
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
+
     private final FileService fileService;
     private final JsonWebTokenUtility jsonWebTokenUtility;
     private final UserRepository userRepository;
@@ -40,6 +43,7 @@ public class FileController
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
+            LOGGER.info("Request for all files by user: {}", user.get().getUsername());
             return fileService.getAllFiles(user.get().getId());
         }
         return Collections.emptyList();
@@ -51,6 +55,7 @@ public class FileController
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
+            LOGGER.info("Folder creation request by user: {}, folder: {}", user.get().getUsername(), folderKey.getKey());
             fileService.createFolder(folderKey.getKey(), user.get().getId());
             return ResponseEntity.ok("OK.");
         }
@@ -68,6 +73,7 @@ public class FileController
         {
             try
             {
+                keys.getKeys().forEach(key -> LOGGER.info("File uploading request by user: {}, file: {}", user.get().getUsername(), key));
                 List<byte[]> list = new ArrayList<>();
                 for (MultipartFile file : files)
                 {
@@ -78,8 +84,9 @@ public class FileController
                         keys.getKeys(),
                         list,
                         user.get().getId());
-            } catch (Exception e)
+            } catch (Exception exception)
             {
+                LOGGER.info("File uploading request failed for user: {}, exception: {}", user.get().getUsername(), exception.getMessage());
                 return ResponseEntity.badRequest().body("Exception occurred when uploading files!");
             }
             return ResponseEntity.ok("OK.");
@@ -93,6 +100,7 @@ public class FileController
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
+            keys.forEach(key -> LOGGER.info("Folder deletion request for user: {}, folder: {}", user.get().getUsername(), key));
             fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
@@ -105,6 +113,8 @@ public class FileController
         Optional<User> user = userRepository.findByUsername(jsonWebTokenUtility.getUsernameFromJwtToken(token));
         if(user.isPresent())
         {
+            keys.forEach(key -> LOGGER.info("File deletion request for user: {}, file: {}", user.get().getUsername(), key));
+
             fileService.delete(keys, user.get().getId());
             return ResponseEntity.ok("OK.");
         }
@@ -125,6 +135,8 @@ public class FileController
                     .inline()
                     .build();
             headers.setContentDisposition(disposition);
+            LOGGER.info("File download request for user: {}, file: {}", user.get().getUsername(), file.getName());
+
             return new ResponseEntity<>(file.getFileContent(), headers, HttpStatus.OK);
         }
         throw new ValidationException("User was not found!");

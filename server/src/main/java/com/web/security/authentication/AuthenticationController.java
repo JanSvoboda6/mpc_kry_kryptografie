@@ -13,6 +13,8 @@ import com.web.security.user.UserDetailsImpl;
 import com.web.security.user.UserRepository;
 import com.web.security.utility.JsonWebTokenUtility;
 import com.web.security.verification.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthenticationController
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
+
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -86,6 +90,7 @@ public class AuthenticationController
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest signUpRequest)
     {
+        LOGGER.info("Register request: {}", signUpRequest.getUsername());
         if (userRepository.existsByUsername(signUpRequest.getUsername()))
         {
             throw new ValidationException("Email is already taken!");
@@ -98,17 +103,20 @@ public class AuthenticationController
                 .orElseThrow(() -> new ValidationException("Role cannot be found!"));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setVerified(true);
+        user.setVerified(false);
 
         User savedUser = userRepository.save(user);
 
-        //sendVerificationEmailToUser(savedUser);
+        sendVerificationEmailToUser(savedUser);
+
+        LOGGER.info("Successful registration: {}", signUpRequest.getUsername());
         return ResponseEntity.ok("User registered successfully!");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest)
     {
+        LOGGER.info("Authentication request: {}", loginRequest.getUsername());
         Authentication authentication;
         try
         {
@@ -136,12 +144,14 @@ public class AuthenticationController
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
+        LOGGER.info("Successful authentication: {}", loginRequest.getUsername());
         return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(), roles));
     }
 
     @GetMapping("/verification")
     public ResponseEntity<?> verifyUserAccount(@RequestParam("token") String token)
     {
+        LOGGER.info("Verification request: {}", token);
         if(verificationService.isVerificationTokenValid(token))
         {
             Optional<VerificationToken> verificationTokenOptional = verificationTokenRepository.findByToken(token);
@@ -150,6 +160,7 @@ public class AuthenticationController
                 User user = verificationTokenOptional.get().getUser();
                 user.setVerified(true);
                 userRepository.save(user);
+                LOGGER.info("Successful verification: {}, {}", user.getUsername(), token);
                 return ResponseEntity.ok("The user account has been verified!");
             }
         }
@@ -163,17 +174,18 @@ public class AuthenticationController
         return ResponseEntity.badRequest().body(exception.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
-    private void sendVerificationEmailToUser(User savedUser)
+    private void sendVerificationEmailToUser(User user)
     {
-        VerificationToken verificationToken = verificationService.createVerificationToken(savedUser);
+        VerificationToken verificationToken = verificationService.createVerificationToken(user);
         EmailContext emailContext = new EmailContext();
         emailContext.setFrom(FROM_EMAIL);
-        emailContext.setTo(savedUser.getUsername());
+        emailContext.setTo(user.getUsername());
         emailContext.setTemplateLocation("verification");
         Context context = new Context();
         context.setVariable("link", BACKEND_API + "/api/auth/verification?token=" + verificationToken.getToken());
         emailContext.setContext(context);
         emailContext.setSubject("Dear user, please activate your account.");
         emailService.sendEmail(emailContext);
+        LOGGER.info("Sending verification email: {}", user.getUsername());
     }
 }
