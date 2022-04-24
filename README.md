@@ -1,8 +1,9 @@
 # PROJEKT - ZABEZPEČENÉ ÚLOŽIŠTĚ
---------------------------------
+
 **DEMO UKÁZKA**: [demo_05](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg) <br/>
 **PRODUKČNÍ PROSTŘEDÍ**: https://www.securestorage.website.<br />
 **UPOZORNĚNÍ**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače.[Certifikát](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg)
+
 DOKUMENTACE
 ===
 Celý text dokumentace je dostupný [zde](https://docs.google.com/document/d/1-vZJSSBGAZJ8tjcOkN6NLF4O7KlfCc14oJ300SroZno/edit). <br />
@@ -39,7 +40,7 @@ Schémata
 <img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/jwt.png" width="790"/>
 
 **Proces manipulace se sobory** <br />
-<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/flow.png" width="800"/>
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/flow.png" width="790"/>
 
 Lokální konfigurace
 ===
