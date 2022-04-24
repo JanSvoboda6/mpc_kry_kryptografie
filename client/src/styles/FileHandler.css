@@ -4,10 +4,10 @@
 button[type=submit]
 { 
   border: 0.15em solid rgba(255, 255, 255, 0);
-  background-color: rgb(182, 94, 94);
+  background-color: rgb(15, 81, 224);
   border-radius: 0.3em;
   text-decoration: none;
-  color: #c40909;
+  color: rgba(255, 255, 255, 0.91);
   text-align: center;
   transition: all 0.2s;
   display: block;
@@ -16,17 +16,17 @@ button[type=submit]
 }
 
 button[type=submit]:hover{
-  outline: 0.11em solid #c40909;
+  outline: 0.11em solid rgba(255, 255, 255, 0.91);
   cursor:pointer;
 }
 
 button.deleting
 {
   border: 0.15em solid rgba(255, 255, 255, 0);
-  background-color: rgb(182, 94, 94);
+  background-color: rgb(15, 81, 224);
   border-radius: 0.3em;
   text-decoration: none;
-  color: #c40909;
+  color: rgba(255, 255, 255, 0.9);
   text-align: center;
   transition: all 0.2s;
   display: block;
@@ -35,7 +35,7 @@ button.deleting
 }
 
 button.deleting:hover{
-  outline: 0.11em solid #c40909;
+  outline: 0.11em solid rgba(255, 255, 255, 0.9);;
   cursor:pointer;
 }
 
@@ -57,7 +57,7 @@ div.rendered-react-keyed-file-browser div.files table tr.selected td {
 
 div.rendered-react-keyed-file-browser div.files table tr.selected td.name:after 
 {
-  background: rgb(82, 190, 136);
+  background-color: rgba(255, 255, 255, 0.89);
 }
 
 div.rendered-react-keyed-file-browser div.files table thead th {

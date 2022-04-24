@@ -43,7 +43,7 @@ const CryptoPage = () =>{
                 <HelperBox content={"Dear user, please paste your secret key below or if this is your first time here, generate a new one."} onClose={() => null}/>
             </div>
             <div className="crypto-wrapper">
-                {warningText && <div className="warning-test">{warningText}</div>}
+                {warningText && <div className="warning-text">{warningText}</div>}
                 <div className="crypto-item">
                     <input
                         type="text"
