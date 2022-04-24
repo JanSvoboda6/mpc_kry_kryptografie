@@ -20,8 +20,8 @@ Pokud se uživatel bude chtít vydat na stránky [https://www.securestorage.webs
 ### Postup instalace certifikátu certifikační autority
 Nejprve je potřeba stáhnout certifikát viz. odkaz výše.
 
-
 Poté certifikát v průzkumníku otevřít a zvolit "Install Certificate...".
+
 ![Instalace certifikátu 1](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation1.png?raw=true)
 
 V dalším dialogovém okně zvolit z nabídky "Store Location" možnost "Local Machine".
