@@ -11,6 +11,28 @@ Webový prohlížeč nakonec načte certifikát, který byl postutnut webovým s
 Tento program při každém spuštění vygeneruje úplně nové certifikáty pro certifikační autoritu i klientský server.
 ![Vygenerované certifikáty](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/generated-certificates.png?raw=true)
 
+## Import certifikátu cerifikační autority
+Celý proces komunikace mezi klientem a serverem a role certifikační autority je popsán obrázkem viz. níže:
+![Model komunikace Server-Klient a role CA](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/uml/CommunicationDiagram.drawio.png?raw=true)
+
+Pokud se uživatel bude chtít vydat na stránky [https://www.securestorage.website/](https://www.securestorage.website/) narazí na chybu ustanovení SSL bezpečného spojení. K úspěšnému ustanovení spojení je zapotřebí na klientský stroj nainstalovat certifikát certifikační autority. Ten slouží k ověření totožnosti cílového WWW serveru prohlížeči který dotaz inicioval. Certifikát lze najít na této adrese: [https://raw.githubusercontent.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/ProjectCertificates/Root-CustomCA.crt](https://raw.githubusercontent.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/ProjectCertificates/Root-CustomCA.crt). 
+
+### Postup instalace certifikátu certifikační autority
+Nejprve je potřeba stáhnout certifikát viz. odkaz výše.
+
+Poté certifikát v průzkumníku otevřít a zvolit "Install Certificate...".
+
+![Instalace certifikátu 1](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation1.png?raw=true)
+
+V dalším dialogovém okně zvolit z nabídky "Store Location" možnost "Local Machine".
+![Instalace certifikátu 2](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation2.png?raw=true)
+
+Následuje nastavení v dalším okně. Zde zvolíme úložiště certifikátů na "Trusted Root Certificate Authorities". Pokračujeme kliknutím na tlačítko Next.
+
+![Instalace certifikátu 3](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation3.png?raw=true)
+
+Poté už jen potvrdíme import kliknutím na tlačítko "Finish". Po tomto kroku by měl být certifikát certifikační autority úspěšně nainstalován na počítači a stránky projektu [https://www.securestorage.website/](https://www.securestorage.website/) by měly být dostupné bez chyb.
+
 
 ## Základní popis struktury programu
 Detailní dokumentace programu je dostupná na této adrese: [https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html](https://rawcdn.githack.com/JanSvoboda6/mpc_kry_kryptografie/34196e71ad39178c1a95993fb5ff8a49eb9853a5/CertificationAuthority/Documentation/html/index.html).
