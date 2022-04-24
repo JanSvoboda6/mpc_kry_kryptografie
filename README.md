@@ -3,7 +3,6 @@
 **DEMO UKÁZKA**: [demo_05](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg) <br/>
 **PRODUKČNÍ PROSTŘEDÍ**: https://www.securestorage.website.<br />
 **UPOZORNĚNÍ**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače.[Certifikát](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg)
-
 DOKUMENTACE
 ===
 Celý text dokumentace je dostupný [zde](https://docs.google.com/document/d/1-vZJSSBGAZJ8tjcOkN6NLF4O7KlfCc14oJ300SroZno/edit). <br />
@@ -31,8 +30,19 @@ Důležité třídy pro interakci s vnějším volajícím jsou: <br />
 
 Logy jsou ukládány do souboru `server/log_secure_storage.log` či `server/log_secure_storage_dev.log` v závislosti na konfiguraci (PROD či DEV).
 
-**Lokální konfigurace** <br />
+Schémata
+===
+**Architektura** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/architecture.png" width="790"/>
 
+**Autorizace pomocí JWT** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/jwt.png" width="790"/>
+
+**Proces manipulace se sobory** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/flow.png" width="800"/>
+
+Lokální konfigurace
+===
 Lokální konfiguraci je doporučeno použít pro vývoj, popřípadě pro kontrolu kódu projektu. Pro verifikaci funkcionality, prosím, použijte produkční prostředí dostupné na adrese https://www.securestorage.website.
 1. Stáhnutí VM na adrese: https://drive.google.com/drive/u/1/folders/1LVJd7Ku5segg078bTi1CUhJ__aTS2V5s
 2. Import do VirtualBox
