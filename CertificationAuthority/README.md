@@ -28,6 +28,7 @@ V dalším dialogovém okně zvolit z nabídky "Store Location" možnost "Local 
 ![Instalace certifikátu 2](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation2.png?raw=true)
 
 Následuje nastavení v dalším okně. Zde zvolíme úložiště certifikátů na "Trusted Root Certificate Authorities". Pokračujeme kliknutím na tlačítko Next.
+
 ![Instalace certifikátu 3](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/dev-hwired/CertificationAuthority/Documentation/img/certificate-installation3.png?raw=true)
 
 Poté už jen potvrdíme import kliknutím na tlačítko "Finish". Po tomto kroku by měl být certifikát certifikační autority úspěšně nainstalován na počítači a stránky projektu [https://www.securestorage.website/](https://www.securestorage.website/) by měly být dostupné bez chyb.
