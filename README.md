@@ -1,12 +1,13 @@
 # PROJEKT - ZABEZPEČENÉ ÚLOŽIŠTĚ
---------------------------------
-**DEMO UKÁZKA**: [demo_05](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg) <br/>
-**PRODUKČNÍ PROSTŘEDÍ**: https://www.securestorage.website.<br />
-**UPOZORNĚNÍ**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače.[Certifikát](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg)
+
+**Demo ukázka**: [demo_05](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg) <br/>
+**Produkční prostředí**: https://www.securestorage.website.<br />
+**Upozornění**: Je použit self-signed certifikát. Je proto nutné instalovat certifikát do lokálního počítače.[Certifikát](https://drive.google.com/drive/u/1/folders/1OWAeGiqHXlsqJpuPy8OdtXMclCjfLnNg)
+
 DOKUMENTACE
 ===
 Celý text dokumentace je dostupný [zde](https://docs.google.com/document/d/1-vZJSSBGAZJ8tjcOkN6NLF4O7KlfCc14oJ300SroZno/edit). <br />
-Aplikace je tvořena klienstkou částí za použití knihovny React. <br />
+Aplikace je tvořena klientskou částí za použití knihovny React. <br />
 V rámci webového serveru je aplikační kód postaven na aplikačním rámci Spring.
 
 Klienstká část - React
@@ -17,7 +18,7 @@ Po stanovení klíče je uživateli umožněno přistoupit na komponentu [`FileH
 
 Na úrovni klienstké aplikace je použito šifrování pomocí symetrické šifry AES (soubor [`CryptoService.js`](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/client/src/components/crypto/CryptoService.js)). Na server jsou tak zasílany jen soubory (pomocí [`FileService.tsx`](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/client/src/components/file/FileService.tsx)), které byly již 
 klientem zašifrovány. Server je tak pouhým úložištěm těchto šifrovaných souborů. Pokud uživatel potřebuje své již uložené soubory na serveru stáhnout,
-je mu zašifrovaný obsah ze serveru zaslán. V klienstké části je pak obsah souborů dešifrován a uložen na lokální počítač.
+je mu zašifrovaný obsah ze serveru zaslán. V klientské části aplikace je pak obsah souborů dešifrován a uložen na lokální počítač.
 
 Webový server - Spring
 ===
@@ -29,17 +30,6 @@ Důležité třídy pro interakci s vnějším volajícím jsou: <br />
 [`AuthenticationController.java`](https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/server/src/main/java/com/web/security/authentication/AuthenticationController.java) - umožňuje registraci uživatele, následnou verifikaci uživatelského účtu a přihlášení. <br />
 
 Logy jsou ukládány do souboru `server/log_secure_storage.log` či `server/log_secure_storage_dev.log` v závislosti na konfiguraci (PROD či DEV).
-
-Schémata
-===
-**Architektura** <br />
-<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/architecture.png" width="790"/>
-
-**Autorizace pomocí JWT** <br />
-<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/jwt.png" width="790"/>
-
-**Proces manipulace se sobory** <br />
-<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/flow.png" width="800"/>
 
 Lokální konfigurace
 ===
@@ -55,4 +45,15 @@ Lokální konfiguraci je doporučeno použít pro vývoj, popřípadě pro kontr
 10. `cd app/mpc_kry_kryptografie/server`
 11. `./gradlew run`
 12. Klientská aplikace je dostupná na portu 3000, API na portu 8088
+
+Schémata
+===
+**Architektura** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/architecture.png" width="790"/>
+
+**Autorizace pomocí JWT** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/jwt.png" width="790"/>
+
+**Proces manipulace se soubory** <br />
+<img src="https://github.com/JanSvoboda6/mpc_kry_kryptografie/blob/main/documentation/flow.png" width="800"/>
 
