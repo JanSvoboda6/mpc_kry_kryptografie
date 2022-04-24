@@ -11,6 +11,7 @@ describe('Logout handling', () =>
 {
     test('When logout button is clicked then user is redirected to the login page', async () => {
         jest.spyOn(redux, 'useDispatch').mockReturnValue(jest.fn());
+        jest.spyOn(window.location,'reload');
         LogoutService.logout = jest.fn();
         const history = createMemoryHistory();
         history.push = jest.fn();
@@ -23,5 +24,6 @@ describe('Logout handling', () =>
         });
 
         expect(LogoutService.logout).toBeCalled();
+        expect(window.location.reload).toBeCalled();
     });
 });

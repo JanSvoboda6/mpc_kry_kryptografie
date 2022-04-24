@@ -26,7 +26,7 @@ function App()
               <Route exact path="/register">
                   {isUserLoggedIn? <Redirect to="/crypto"/> : <Register/>}
               </Route>
-              <Route exact path="/logout" component={Login} />
+              <PrivateRoute exact path="/logout" component={Login} />
               <PrivateRoute exact path="/crypto" component={CryptoPage} />
               <PrivateRoute exact path="/files" component={FileHandlerPage} />
             </Switch>

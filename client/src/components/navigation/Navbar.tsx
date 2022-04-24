@@ -16,6 +16,7 @@ function Navbar()
         e.preventDefault();
 
         LogoutService.logout(dispatch);
+        window.location.reload();
     }
     return (
         <div>
